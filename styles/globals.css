@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,500&display=swap');
-
-
+:root {
+  --yellow: #ffc104;
+  --blue: #002d5b;
+}
 html,
 body {
   padding: 0;
@@ -17,7 +19,7 @@ a {
   box-sizing: border-box;
 }
 .index-header-wrapper::after {
-  content: "";
+  content: '';
   position: absolute;
   display: block;
   background: #343534;
@@ -31,6 +33,146 @@ a {
   z-index: -1;
 }
 
+.custom-radio {
+  position: absolute;
+  display: inline-block;
+  opacity: 0;
+}
+.custom-radio + label {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  white-space: nowrap;
+  line-height: 1rem;
+  padding: 0 0 0 1rem;
+  transition: all 0.5s ease-in-out;
+  color: var(--blue);
+}
+.custom-radio + label span {
+  margin-left: 0.5rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+.custom-radio + label::before,
+.custom-radio + label::after {
+  content: '';
+  position: absolute;
+  color: #f5f5f5;
+  text-align: center;
+  top: 0;
+  left: 0;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  transition: all 0.5s ease-in-out;
+}
+.custom-radio + label::before {
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1rem;
+  border-radius: 50%;
+
+  background-color: #fff;
+  color: #fff;
+}
+.custom-radio:checked + label::before {
+  content: '\2713';
+  color: var(--yellow);
+  background-color: #fff;
+  border: 1px solid var(--yellow);
+}
+.custom-radio + label::before {
+  border-radius: 50%;
+}
+.custom-radio:focus + label,
+.custom-radio:hover + label,
+.custom-radio:checked + label {
+  color: var(--yellow) !important;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: auto;
+  color: transparent;
+  background: transparent;
+}
+
+/* adjust increase/decrease button */
+input[type='date']::-webkit-inner-spin-button {
+  z-index: 1;
+}
+
+/* adjust clear button */
+input[type='date']::-webkit-clear-button {
+  z-index: 1;
+}
+
+.custom-radio.circle-fill {
+  position: absolute;
+  display: inline-block;
+  opacity: 0;
+}
+.custom-radio.circle-fill + label {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  white-space: nowrap;
+  line-height: 1rem;
+  padding: 0 0 0 1rem;
+  transition: all 0.5s ease-in-out;
+}
+.custom-radio.circle-fill + label span {
+  margin-left: 0.5rem;
+}
+.custom-radio.circle-fill + label::before,
+.custom-radio.circle-fill + label::after {
+  content: '';
+  position: absolute;
+  color: #f5f5f5;
+  text-align: center;
+  border-radius: 0;
+  top: 0;
+  left: 0;
+  width: 1rem;
+  height: 1rem;
+  transition: all 0.5s ease-in-out;
+}
+.custom-radio.circle-fill + label::after {
+  width: 0.5rem;
+  height: 0.5rem;
+  top: 0;
+  left: 0;
+}
+.custom-radio.circle-fill + label::before {
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1rem;
+  border-radius: 0;
+  background-color: #fff;
+  color: #fff;
+  box-shadow: inset 0 0 0 1px #9babc5, inset 0 0 0 1rem #fff;
+}
+.custom-radio.circle-fill:checked + label::before {
+  content: '';
+  background-color: #fff;
+  color: var(--yellow);
+  box-shadow: inset 0 0 0 0 #fff, inset 0 0 0 16px var(--yellow);
+}
+.custom-radio.circle-fill + label::before {
+  border-radius: 50%;
+}
+.custom-radio.circle-fill:focus + label,
+.custom-radio.circle-fill:hover + label,
+.custom-radio.circle-fill:checked + label {
+  color: var(--yellow) !important;
+}
 
 @tailwind base;
 @tailwind components;

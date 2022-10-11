@@ -1,13 +1,14 @@
 import Image from 'next/image';
+import myLoader from '../../loader';
 
 const Footer = () => {
   return (
     <footer className='w-full  bg-zinc-500 flex justify-center py-16 px-4'>
       <div className='w-full max-w-screen-xl flex flex-col items-center '>
         <div className='w-full flex flex-wrap justify-between items-center'>
-          <img src={'/images/logo.png'} alt={'avon'} width={120} height={50} />
+          <Image loader={myLoader} src={'/images/logo.png'} alt={'avon'} width={120} height={50} />
           <div className='flex items-center  my-4'>
-            <img src={'/images/iata.svg'} alt={'iata'} />
+            <Image loader={myLoader} src={'/images/iata.svg'} alt={'iata'} />
             <p className='text-white text-lg font-bold mt-4 ml-2'> WE ARE AN IATA CERTIFIED TRAVEL AGENCY</p>
           </div>
         </div>

@@ -1,4 +1,6 @@
+import Image from 'next/image';
 import { useRef, useState } from 'react';
+import myLoader from '../../loader';
 
 const CustomRadioButton = ({ name, type, label, value, isChecked, handleChange }) => {
   return (
@@ -50,7 +52,7 @@ const TravellerInput = ({ value, onChange, img }) => {
       onClick={(e) => (!showDropDown || e.target === wrapperRef.current) && setShowDropDown((prev) => !prev)}
       ref={wrapperRef}
     >
-      <img src={img} className={'w-6 h-6 lg:w-8 lg:h-8'} width={32} height={32} alt={'svg'} />
+      <Image loader={myLoader} src={img} className={'w-6 h-6 lg:w-8 lg:h-8'} width={32} height={32} alt={'svg'} />
       <span className='capitalize text-sm text-zinc-800 ml-2 text-center pointer-events-none '>
         {travellerCount} Traveller{travellerCount > 1 ? 's' : ''}, {value.type}
       </span>

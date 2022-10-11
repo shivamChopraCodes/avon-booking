@@ -1,8 +1,9 @@
-
+import Image from 'next/image';
 import FeaturedDeals from '../src/components/featuredDeals';
 import HeroInputs from '../src/components/inputs/inputsContainer';
 import Services from '../src/components/services';
 import TravelCards from '../src/components/travelCards';
+import myLoader from '../src/loader';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
@@ -23,7 +24,8 @@ export default function Home() {
         <div className='py-20 flex flex-col w-full justify-center items-center text-center'>
           <p className='text-2xl lg:text-3xl font-bold text-primary-blue'>About Us</p>
           <div className='w-full flex flex-wrap max-w-screen-xl p-4 my-6'>
-            <img
+            <Image
+              loader={myLoader}
               data-aos='fade-up'
               src='/images/avon-photo.jpeg'
               className='shadow-primary-yellow shadow-md rounded w-full h-auto lg:w-1/2'

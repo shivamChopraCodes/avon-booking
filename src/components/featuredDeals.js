@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import myLoader from '../loader';
 
 const deals = [
   {
@@ -41,7 +42,12 @@ const FeaturedDeals = () => {
           border-gray-100 shadow-xl '
         >
           <div className='max-h-[350px] lg:max-h-[240px] overflow-hidden'>
-            <img className='w-full  transition-all duration-500 hover:scale-125 ' src={deal.img} alt={'deal'} />
+            <Image
+              loader={myLoader}
+              className='w-full  transition-all duration-500 hover:scale-125 '
+              src={deal.img}
+              alt={'deal'}
+            />
           </div>
           <div className='flex flex-col px-2 py-4 color-transition card '>
             <p className='text-lg font-medium text-zinc-800'>{deal.text}</p>

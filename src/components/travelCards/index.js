@@ -1,3 +1,6 @@
+import Image from 'next/image';
+import myLoader from '../../loader';
+
 const cards = [
   {
     id: 1,
@@ -87,7 +90,14 @@ const TravelCards = () => {
           </div>
           <div className='flex w-full justify-between items-center'>
             <div className='flex'>
-              <img src={card.img} alt={'logo'} width={'32px'} height={'32px'} className='rounded h-8' />
+              <Image
+                loader={myLoader}
+                src={card.img}
+                alt={'logo'}
+                width={'32px'}
+                height={'32px'}
+                className='rounded h-8'
+              />
               <aside className='flex flex-col text-xs ml-1 font-medium text-left'>
                 <p>{card.flight}</p>
                 <p>{card.type}</p>

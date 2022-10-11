@@ -1,3 +1,6 @@
+import Image from 'next/image';
+import myLoader from '../loader';
+
 const services = [
   {
     img: '/images/services01.svg',
@@ -51,7 +54,12 @@ const Services = () => {
             <div className='absolute top-0 left-0 w-6 h-6 flex justify-center items-center'>
               <p className='font-lg'>{i + 1}</p>
             </div>
-            <img src={each.img} alt={'service'} className='group-hover:-translate-y-6 transition-all ' />
+            <Image
+              loader={myLoader}
+              src={each.img}
+              alt={'service'}
+              className='group-hover:-translate-y-6 transition-all '
+            />
             <p className='text-black font-semibold mt-6'>{each.text}</p>
             <p className='text-zinc-400 mt-2 text-center group-hover:text-white text-sm'>{each.subtext}</p>
           </div>

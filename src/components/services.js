@@ -44,7 +44,7 @@ const Services = () => {
             key={each.img}
             data-aos='fade-up'
             className={`
-              group w-full h-full relative services-card overflow-hidden flex flex-col items-center px-4 py-12 lg:col-span-2  rounded border border-gray-100 shadow-xl
+              group w-full md:h-full relative services-card overflow-hidden flex flex-col items-center px-4 py-12 lg:col-span-2  rounded border border-gray-100 shadow-xl
                ${i > 2 ? (i === 3 ? 'lg:col-start-2' : 'lg:col-start-4') : ''}
         `}
           >

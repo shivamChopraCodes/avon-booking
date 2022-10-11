@@ -1,5 +1,4 @@
-import Head from 'next/head';
-import Image from 'next/image';
+
 import FeaturedDeals from '../src/components/featuredDeals';
 import HeroInputs from '../src/components/inputs/inputsContainer';
 import Services from '../src/components/services';

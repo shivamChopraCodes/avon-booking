@@ -90,14 +90,16 @@ const TravelCards = () => {
           </div>
           <div className='flex w-full justify-between items-center'>
             <div className='flex'>
-              <Image
-                loader={myLoader}
-                src={card.img}
-                alt={'logo'}
-                width={'32px'}
-                height={'32px'}
-                className='rounded h-8'
-              />
+              <div className='rounded h-8 block'>
+                <Image
+                  loader={myLoader}
+                  src={card.img}
+                  alt={'logo'}
+                  width={'32px'}
+                  height={'32px'}
+                  layout={'responsive'}
+                />
+              </div>
               <aside className='flex flex-col text-xs ml-1 font-medium text-left'>
                 <p>{card.flight}</p>
                 <p>{card.type}</p>

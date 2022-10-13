@@ -10,31 +10,15 @@ const inputsData = {
   'one-way': [
     {
       input: TextSearchInput,
-      key: 'name',
-      placeholder: 'Name',
-      img: '/images/input-name.svg',
-      width: 'small',
-    },
-    {
-      input: TextSearchInput,
-      key: 'phone',
-      placeholder: 'Phone',
-      img: '/images/input-phone.svg',
-      width: 'small',
-    },
-    {
-      input: TextSearchInput,
       key: 'origin',
       placeholder: 'Origin',
       img: '/images/location.svg',
-      width: 'small',
     },
     {
       input: TextSearchInput,
       key: 'destination',
       placeholder: 'Destination',
       img: '/images/location.svg',
-      width: 'small',
     },
     {
       input: DatePicker,
@@ -51,31 +35,15 @@ const inputsData = {
   return: [
     {
       input: TextSearchInput,
-      key: 'name',
-      placeholder: 'Name',
-      img: '/images/location.svg',
-      width: 'small',
-    },
-    {
-      input: TextSearchInput,
-      key: 'phone',
-      placeholder: 'Phone',
-      img: '/images/location.svg',
-      width: 'small',
-    },
-    {
-      input: TextSearchInput,
       key: 'origin',
       placeholder: 'Origin',
       img: '/images/location.svg',
-      width: 'small',
     },
     {
       input: TextSearchInput,
       key: 'destination',
       placeholder: 'Destination',
       img: '/images/location.svg',
-      width: 'small',
     },
     {
       input: DatePicker,
@@ -95,8 +63,6 @@ const inputsData = {
 const HeroInputs = () => {
   const [selectedRadio, setSelectedRadio] = useState('one-way');
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
     origin: '',
     destination: '',
     departDate: '',
@@ -111,7 +77,7 @@ const HeroInputs = () => {
   });
   return (
     <div className='w-full bg-white bg-opacity-50 py-6' data-aos='fade-up' data-aos-anchor-placement='top-bottom'>
-      <form className='w-full max-w-screen-xl flex flex-col items-center mx-auto' method='post'>
+      <div className='w-full max-w-screen-xl flex flex-col items-center mx-auto'>
         <div className='flex items-center self-start ml-2 lg:ml-0 '>
           {radios.map((btn) => (
             <CheckRadioButton
@@ -125,11 +91,10 @@ const HeroInputs = () => {
             />
           ))}
         </div>
-        <div className='flex flex-col xl:flex-row lg:flex-wrap w-11/12 lg:w-full rounded bg-white px-2 py-4 my-4 mx-2'>
+        <div className='flex flex-col xl:flex-row lg:flex-wrap w-11/12 lg:w-full rounded bg-white p-2 my-4 mx-2'>
           {inputsData[selectedRadio].map((input) => (
             <input.input
               key={input.key}
-              width={input.width}
               placeholder={input.placeholder}
               value={formData[input.key]}
               img={input.img}
@@ -150,16 +115,11 @@ const HeroInputs = () => {
               })}
             />
           ))}
-          <div className='w-full lg:w-1/3  px-2 mb-2 lg:mb-0'>
-            <buton
-              type='submit'
-              className='color-transition button cursor-pointer text-white text-center flex justify-center items-center font-semibold rounded py-3'
-            >
-              Search
-            </buton>
-          </div>
+          <buton className='color-transition button cursor-pointer text-white w-full lg:w-56 text-center flex justify-center items-center font-semibold rounded py-2'>
+            Search
+          </buton>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

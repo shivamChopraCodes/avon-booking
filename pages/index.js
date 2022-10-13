@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Carousel from '../src/components/carousel';
 import FeaturedDeals from '../src/components/featuredDeals';
 import HeroInputs from '../src/components/inputs/inputsContainer';
 import Services from '../src/components/services';
@@ -24,13 +25,17 @@ export default function Home() {
         <div className='py-20 flex flex-col w-full justify-center items-center text-center'>
           <p className='text-2xl lg:text-3xl font-bold text-primary-blue'>About Us</p>
           <div className='w-full flex flex-wrap max-w-screen-xl p-4 my-6'>
-            <Image
-              loader={myLoader}
-              data-aos='fade-up'
-              src='/images/avon-photo.jpeg'
-              className='shadow-primary-yellow shadow-md rounded w-full h-auto lg:w-1/2'
-              alt={'avon-photo'}
-            />
+            <div className='block shadow-primary-yellow shadow-md rounded w-full md:w-3/4 lg:w-1/2 mx-auto'>
+              <Image
+                loader={myLoader}
+                data-aos='fade-up'
+                src='/images/avon-photo.jpeg'
+                alt={'avon-photo'}
+                width={600}
+                height={620}
+                layout={'responsive'}
+              />
+            </div>
             <p
               data-aos='fade-down'
               className='text-base lg:text-lg text-justify lg:text-left py-4 px-0 w-full lg:w-1/2 text-zinc-500 lg:px-4 lg:py-0 '
@@ -47,10 +52,11 @@ export default function Home() {
             </p>
           </div>
         </div>
-        <div className='py-20 flex flex-col w-full justify-center items-center text-center'>
-          <p className='text-2xl lg:text-3xl font-bold text-primary-blue'>Featured Flight Deals</p>
-          <p className='text-zinc-500 text-base my-4 '>Everything You Want & More</p>
-          <FeaturedDeals />
+        <div className='py-20 flex flex-col w-full justify-center items-center text-center overflow-hidden'>
+          <p className='text-2xl lg:text-3xl font-bold text-primary-blue'>Our Partners</p>
+          <div class Name='w-11/12 my-8'>
+            <Carousel />
+          </div>
         </div>
         <div className='py-20 w-full'>
           <Services />

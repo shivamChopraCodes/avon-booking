@@ -8,8 +8,13 @@ const Footer = () => {
         <div className='w-full flex flex-wrap justify-between items-center'>
           <Image loader={myLoader} src={'/images/logo.png'} alt={'avon'} width={120} height={50} />
           <div className='flex items-center  my-4'>
-            <Image loader={myLoader} src={'/images/iata.svg'} alt={'iata'} />
-            <p className='text-white text-lg font-bold mt-4 ml-2'> WE ARE AN IATA CERTIFIED TRAVEL AGENCY</p>
+            <div className='block'>
+              <Image loader={myLoader} src={'/images/iata.svg'} alt={'iata'} width={82} height={50} />
+            </div>
+            <p className='text-white text-base lg:text-lg font-bold mt-4 ml-2'>
+              {' '}
+              WE ARE AN IATA CERTIFIED TRAVEL AGENCY
+            </p>
           </div>
         </div>
         <div className='flex flex-wrap w-full my-12'>

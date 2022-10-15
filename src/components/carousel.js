@@ -154,7 +154,7 @@ const data = [
   '/images/brands/brand-3.jpg',
 ];
 
-export default () => (
+const CarouselSection = () => (
   <Carousel
     infiniteLoop
     transitionTime={5000}
@@ -175,3 +175,5 @@ export default () => (
     ))}
   </Carousel>
 );
+
+export default CarouselSection

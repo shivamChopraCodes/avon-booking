@@ -53,14 +53,14 @@ const inputsData = {
       input: TextSearchInput,
       key: 'name',
       placeholder: 'Name',
-      img: '/images/location.svg',
+      img: '/images/input-name.svg',
       width: 'small',
     },
     {
       input: TextSearchInput,
       key: 'phone',
       placeholder: 'Phone',
-      img: '/images/location.svg',
+      img: '/images/input-phone.svg',
       width: 'small',
     },
     {

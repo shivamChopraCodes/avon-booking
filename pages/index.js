@@ -54,7 +54,7 @@ export default function Home() {
         </div>
         <div className='py-20 flex flex-col w-full justify-center items-center text-center overflow-hidden'>
           <p className='text-2xl lg:text-3xl font-bold text-primary-blue'>Our Partners</p>
-          <div class Name='w-11/12 my-8'>
+          <div className='w-11/12 my-8'>
             <Carousel />
           </div>
         </div>

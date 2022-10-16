@@ -125,7 +125,7 @@ const HeroInputs = () => {
             />
           ))}
         </div>
-        <div className='flex flex-col xl:flex-row lg:flex-wrap w-11/12 lg:w-full rounded bg-white px-2 py-4 my-4 mx-2'>
+        <div className='flex flex-col lg:flex-row lg:flex-wrap w-11/12 lg:w-full rounded bg-white px-2 py-4 my-4 mx-2'>
           {inputsData[selectedRadio].map((input) => (
             <input.input
               key={input.key}

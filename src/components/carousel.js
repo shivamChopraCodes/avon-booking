@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import { Carousel } from 'react-responsive-carousel';
 import myLoader from '../loader';
 const data = [
@@ -154,26 +155,35 @@ const data = [
   '/images/brands/brand-3.jpg',
 ];
 
-const CarouselSection = () => (
-  <Carousel
-    infiniteLoop
-    transitionTime={5000}
-    interval={100}
-    centerMode={true}
-    showIndicators={false}
-    centerSlidePercentage={25}
-    showStatus={false}
-    autoPlay
-    swipeable={false}
-    selectedItem={3}
-    stopOnHover={true}
-  >
-    {data.map((item, i) => (
-      <div className='block px-4 py-2' key={`${item}${i % 2 ? 'old' : 'new'}`}>
-        <Image loader={myLoader} alt='partner' width={220} height={130} layout={'responsive'} src={item} />
-      </div>
-    ))}
-  </Carousel>
-);
+const CarouselSection = () => {
+  const [sliderPercentage, setSliderPercentage] = useState(50);
+  useEffect(() => {
+    setSliderPercentage(window.screen.width >= 1440 ? 25 : 50);
+  }, []);
+  return (
+    <Carousel
+      infiniteLoop
+      transitionTime={6000}
+      interval={100}
+      centerMode={true}
+      showIndicators={false}
+      centerSlidePercentage={sliderPercentage}
+      showStatus={false}
+      autoPlay
+      swipeable={false}
+      selectedItem={2}
+      showThumbs={false}
+      stopOnHover={true}
+    >
+      {data.map((item, i) => (
+        <div className='px-2 py-1 lg:px-4 lg:py-2' key={`${item}${i % 2 ? 'old' : 'new'}`}>
+          <div className='block bottom-shadow rounded-lg overflow-hidden '>
+            <Image loader={myLoader} alt='partner' width={220} height={130} layout={'responsive'} src={item} />
+          </div>
+        </div>
+      ))}
+    </Carousel>
+  );
+};
 
-export default CarouselSection
+export default CarouselSection;

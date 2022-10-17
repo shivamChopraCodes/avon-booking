@@ -60,7 +60,7 @@ const inputsData = {
   ],
 };
 
-const HeroInputs = () => {
+const SearchFlights = () => {
   const [selectedRadio, setSelectedRadio] = useState('one-way');
   const [formData, setFormData] = useState({
     origin: '',
@@ -76,7 +76,7 @@ const HeroInputs = () => {
     },
   });
   return (
-    <div className='w-full bg-white bg-opacity-50 py-6' data-aos='fade-up' data-aos-anchor-placement='top-bottom'>
+    <div className='w-full bg-slate-400 bg-opacity-50 py-6' data-aos='fade-up' data-aos-anchor-placement='top-bottom'>
       <div className='w-full max-w-screen-xl flex flex-col items-center mx-auto'>
         <div className='flex items-center self-start ml-2 lg:ml-0 '>
           {radios.map((btn) => (
@@ -115,13 +115,18 @@ const HeroInputs = () => {
               })}
             />
           ))}
-          <buton className='color-transition button cursor-pointer text-white w-full lg:w-56 text-center flex justify-center items-center font-semibold rounded py-2'>
-            Search
-          </buton>
+          <div className='w-full lg:w-1/6  px-2  lg:mb-0'>
+            <buton
+              type='submit'
+              className='color-transition button cursor-pointer text-white text-center flex justify-center items-center font-semibold rounded py-3'
+            >
+              Search
+            </buton>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default HeroInputs;
+export default SearchFlights;

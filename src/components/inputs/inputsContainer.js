@@ -41,11 +41,13 @@ const inputsData = {
       key: 'departDate',
       placeholder: 'Depart Date',
       img: '/images/calendar.svg',
+      width: 'small',
     },
     {
       input: TravellerInput,
       key: 'details',
       img: '/images/people.svg',
+      width: 'small',
     },
   ],
   return: [
@@ -83,11 +85,13 @@ const inputsData = {
       placeholder: 'Depart Date',
       img: '/images/calendar.svg',
       showReturn: true,
+      width: 'small',
     },
     {
       input: TravellerInput,
       key: 'details',
       img: '/images/people.svg',
+      width: 'small',
     },
   ],
 };

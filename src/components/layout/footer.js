@@ -61,7 +61,7 @@ const Footer = () => {
           </a>
         </div>
         <p className='w-full text-center text-sm text-white mt-8'>
-          ©{new Date().getFullYear()}Avon Travles Pvt Ltd. All Rights Reserved.
+          ©{new Date().getFullYear()} Avon Travles Pvt Ltd. All Rights Reserved.
         </p>
       </div>
     </footer>

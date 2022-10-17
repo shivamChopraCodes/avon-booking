@@ -6,7 +6,7 @@ const nextConfig = {
     loader: 'custom',
     path: '',
   },
-  assetPrefix: './',
+  assetPrefix: '/',
 };
 
 module.exports = nextConfig;

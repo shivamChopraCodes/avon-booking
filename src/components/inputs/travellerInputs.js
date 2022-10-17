@@ -50,13 +50,13 @@ const TravelInputRow = ({ dataKey, onChange, value }) => {
   );
 };
 
-const TravellerInput = ({ value, onChange, img }) => {
+const TravellerInput = ({ value, onChange, img, width }) => {
   const [showDropDown, setShowDropDown] = useState(false);
   const wrapperRef = useRef();
   const travellerCount = Object.values(value.travellers).reduce((sum, currVal) => sum + currVal, 0);
   console.log(value);
   return (
-    <div className='w-full lg:w-1/3  px-2 mb-2 lg:mb-0'>
+    <div className={`w-full ${width === 'small' ? 'lg:w-1/3' : 'lg:w-1/4 '} px-2 mb-2 lg:mb-0`}>
       <div
         className='flex items-center bg-slate-100 w-full rounded p-2  relative z-0'
         onClick={(e) => (!showDropDown || e.target === wrapperRef.current) && setShowDropDown((prev) => !prev)}

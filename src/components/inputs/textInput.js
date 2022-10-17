@@ -3,7 +3,7 @@ import myLoader from '../../loader';
 
 const TextSearchInput = ({ placeholder, value, onChange, img, width }) => {
   return (
-    <div className={`w-full ${width === 'small' ? 'lg:w-1/4' : 'lg:w-1/6'} mb-2 px-2  `}>
+    <div className={`w-full ${width === 'small' ? 'lg:w-1/4 mb-2' : 'lg:w-1/6'}  px-2`}>
       <div className={`flex bg-slate-100 w-full  rounded p-2`}>
         <div className={'w-6 h-6 lg:w-8 lg:h-8 block'}>
           <Image loader={myLoader} src={img} layout={'responsive'} width={32} height={32} alt={'svg'} />

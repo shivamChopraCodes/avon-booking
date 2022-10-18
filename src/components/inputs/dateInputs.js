@@ -3,36 +3,28 @@ import { useRef } from 'react';
 import myLoader from '../../loader';
 
 const DatePicker = ({ placeholder, value, onChange, img, returnPlaceHolder, returnValue, onReturnChange, width }) => {
-  const inputRef = useRef();
-  const returnRef = useRef();
   return (
-    <div className={`w-full ${width === 'small' ? 'lg:w-1/3' : 'lg:w-1/4 '} px-2 mb-2 lg:mb-0`}>
+    <div className={`w-full ${'lg:w-1/4 '} px-2 mb-2 lg:mb-0`}>
       <div className='flex relative bg-slate-100 w-full rounded p-2'>
         <Image loader={myLoader} src={img} className={'w-6 h-6 lg:w-8 lg:h-8'} width={32} height={32} alt={'svg'} />
         <input
-          className={`bg-transparent border-0 w-1/3 focus:outline-0 text-sm text-zinc-800 ml-2 `}
+          className={`bg-transparent border-0 w-full focus:outline-0 text-sm text-zinc-800 ml-2 `}
           type={'text'}
-          ref={inputRef}
-          onFocus={() => (inputRef.current.type = 'date')}
-          onBlur={() => (!value ? (inputRef.current.type = 'text') : null)}
-          placeholder={placeholder}
+          name='daterange'
+          onFocus={() =>
+            $('input[name="daterange"]').daterangepicker({
+              singleDatePicker: !returnPlaceHolder,
+              minDate: new Date(),
+              showDropdowns: true,
+              locale: {
+                format: 'DD/MM/YYYY',
+              },
+            })
+          }
+          placeholder={placeholder + (returnPlaceHolder ? '    ' + returnPlaceHolder : '')}
           value={value}
-          min={new Date().toISOString().split('T')[0]}
-          onChange={(e) => onChange(e.target.value)}
+          readOnly
         />
-        {returnPlaceHolder && (
-          <input
-            className='bg-transparent border-0 w-1/3  focus:outline-0 text-sm text-zinc-800 '
-            type={'text'}
-            ref={returnRef}
-            onFocus={() => (returnRef.current.type = 'date')}
-            onBlur={() => (!returnValue ? (returnRef.current.type = 'text') : null)}
-            placeholder={returnPlaceHolder}
-            value={returnValue}
-            onChange={(e) => onReturnChange(e.target.value)}
-            min={value ? new Date(value).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]}
-          />
-        )}
       </div>
     </div>
   );

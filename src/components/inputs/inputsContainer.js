@@ -13,41 +13,37 @@ const inputsData = {
       key: 'name',
       placeholder: 'Name',
       img: '/images/input-name.svg',
-      width: 'small',
+      width: 'lg:w-1/2 mb-2',
     },
     {
       input: TextSearchInput,
       key: 'phone',
       placeholder: 'Phone',
       img: '/images/input-phone.svg',
-      width: 'small',
+      width: 'lg:w-1/2',
     },
     {
       input: TextSearchInput,
       key: 'origin',
       placeholder: 'Origin',
       img: '/images/location.svg',
-      width: 'small',
     },
     {
       input: TextSearchInput,
       key: 'destination',
       placeholder: 'Destination',
       img: '/images/location.svg',
-      width: 'small',
     },
     {
       input: DatePicker,
       key: 'departDate',
       placeholder: 'Depart Date',
       img: '/images/calendar.svg',
-      width: 'small',
     },
     {
       input: TravellerInput,
       key: 'details',
       img: '/images/people.svg',
-      width: 'small',
     },
   ],
   return: [
@@ -56,28 +52,26 @@ const inputsData = {
       key: 'name',
       placeholder: 'Name',
       img: '/images/input-name.svg',
-      width: 'small',
+      width: 'lg:w-1/2 mb-2',
     },
     {
       input: TextSearchInput,
       key: 'phone',
       placeholder: 'Phone',
       img: '/images/input-phone.svg',
-      width: 'small',
+      width: 'lg:w-1/2 mb-2',
     },
     {
       input: TextSearchInput,
       key: 'origin',
       placeholder: 'Origin',
       img: '/images/location.svg',
-      width: 'small',
     },
     {
       input: TextSearchInput,
       key: 'destination',
       placeholder: 'Destination',
       img: '/images/location.svg',
-      width: 'small',
     },
     {
       input: DatePicker,
@@ -85,13 +79,11 @@ const inputsData = {
       placeholder: 'Depart Date',
       img: '/images/calendar.svg',
       showReturn: true,
-      width: 'small',
     },
     {
       input: TravellerInput,
       key: 'details',
       img: '/images/people.svg',
-      width: 'small',
     },
   ],
 };
@@ -154,12 +146,12 @@ const HeroInputs = () => {
               })}
             />
           ))}
-          <div className='w-full lg:w-1/3  px-2 mb-2 lg:mb-0'>
+          <div className='w-full lg:w-1/6  px-2 mb-2 lg:mb-0'>
             <buton
               type='submit'
               className='color-transition button cursor-pointer text-white text-center flex justify-center items-center font-semibold rounded py-3'
             >
-              Search
+              Submit
             </buton>
           </div>
         </div>

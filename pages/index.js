@@ -138,7 +138,7 @@ export default function Home() {
               </h2>
               <p className='mb-8 lg:mb-16 font-light text-center text-zinc-600 sm:text-xl'>You can reach out to us</p>
               <div className='flex flex-wrap w-full  justify-center items-center'>
-                <div className='flex items-center'>
+                <div className='w-4/5 lg:w-auto flex items-center'>
                   <div className='block rounded-full w-24 lg:w-32 p-4 bg-white shadow-2xl overflow-hidden '>
                     <Image
                       loader={myLoader}
@@ -158,7 +158,7 @@ export default function Home() {
                     </a>
                   </div>
                 </div>
-                <div className='flex items-center my-4 lg:my-0 md:mx-4'>
+                <div className='w-4/5 lg:w-auto flex items-center my-4 lg:my-0 md:mx-4'>
                   <div className='block rounded-full w-24 lg:w-32 p-4 bg-white shadow-2xl overflow-hidden '>
                     <Image
                       loader={myLoader}
@@ -178,7 +178,7 @@ export default function Home() {
                     </a>
                   </div>
                 </div>
-                <div className='flex items-center'>
+                <div className='w-4/5 lg:w-auto flex items-center'>
                   <div className='block rounded-full w-24 lg:w-32 p-4 bg-white shadow-2xl overflow-hidden '>
                     <Image
                       loader={myLoader}

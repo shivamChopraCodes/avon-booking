@@ -16,7 +16,22 @@ const Footer = () => {
               height={50}
             />
           </div>
-          <div className='flex items-center  my-4'>
+          <div className='w-full lg:w-1/3 my-4 justify-between flex items-center'>
+            <div className='block mx-2'>
+              <Image loader={myLoader} src={'/images/taai.svg'} alt={'taai'} width={84} height={74} />
+            </div>
+            <div className='block w-[175px] lg:w-[200px] mx-4 my-4 '>
+              <Image
+                loader={myLoader}
+                layout={'responsive'}
+                src={'/images/ptaa.jpeg'}
+                alt={'ptaa'}
+                width={250}
+                height={100}
+              />
+            </div>
+          </div>
+          <div className='flex items-center '>
             <div className='block'>
               <Image loader={myLoader} src={'/images/iata.svg'} alt={'iata'} width={82} height={50} />
             </div>
@@ -26,27 +41,7 @@ const Footer = () => {
             </p>
           </div>
         </div>
-        <div className='flex flex-wrap w-full my-12'>
-          <div className='flex flex-col w-1/2 lg:w-1/3'>
-            <p className='text-white font-semibold text-lg mb-2'>About Us</p>
-            <p className='text-gray-300 my-2'>About</p>
-            <p className='text-gray-300 mb-2'>Contact Us</p>
-            <p className='text-gray-300'>Bank Details</p>
-          </div>
-          <div className='flex flex-col w-1/2 lg:w-1/3'>
-            <p className='text-white font-semibold text-lg mb-2'>About Us</p>
-            <p className='text-gray-300 my-2'>About</p>
-            <p className='text-gray-300 mb-2'>Contact Us</p>
-            <p className='text-gray-300'>Bank Details</p>
-          </div>
-          <div className='flex flex-col w-1/2 lg:w-1/3 my-12 lg:my-0'>
-            <p className='text-white font-semibold text-lg mb-2'>About Us</p>
-            <p className='text-gray-300 my-2'>About</p>
-            <p className='text-gray-300 mb-2'>Contact Us</p>
-            <p className='text-gray-300'>Bank Details</p>
-          </div>
-        </div>
-        <div className='border-t-2 py-2 xl:py-4 text-left border-b-2 w-full border-y-white flex flex-col xl:flex-row xl:flex-wrap items-center justify-between text-white font-bold  text-lg'>
+        <div className='border-t-2 py-4 mt-12 text-left border-b-2 w-full border-y-white flex flex-col xl:flex-row xl:flex-wrap items-center justify-between text-white font-bold  text-lg'>
           <a href={'https://goo.gl/maps/eqbLdy89RgrW6EmTA'} className='hover:text-primary-yellow w-full xl:w-52'>
             Avon Travels,
             <br />

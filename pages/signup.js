@@ -156,14 +156,6 @@ export default function SignUp() {
     password: '',
     confirmPassword: '',
   });
-  const [btnDisabled, setBtnDisabled] = useState(false);
-
-  useEffect(() => {
-    const allInputs = Object.values(formData).reduce((acc, currVal) => (!acc ? acc : !!currVal), true);
-    if (allInputs) {
-      setBtnDisabled(formData.confirmPassword !== formData.password);
-    } else setBtnDisabled(true);
-  }, [formData]);
 
   return (
     <div className='block mx-auto my-20 p-6 rounded-lg shadow-lg bg-white max-w-md'>
@@ -193,14 +185,13 @@ export default function SignUp() {
             className={`
       px-8
       py-4
-    ${btnDisabled ? 'bg-slate-300 cursor-not-allowed' : ' color-transition  button'}
+ color-transition  button
       font-medium
       text-xs text-white 
       leading-tight
       uppercase
       rounded
       shadow-md`}
-            disabled={btnDisabled}
           >
             Sign Up
           </button>

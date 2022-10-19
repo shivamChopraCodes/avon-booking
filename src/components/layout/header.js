@@ -46,13 +46,14 @@ const Header = () => {
             </svg>
             <span className='ml-1'>Account</span>
             {showLoginMenu && (
-              <div className='absolute rounded w-full top-[110%] bg-white flex flex-col text-slate-800 px-4 py-2 z-20'>
-                <Link href={'/signin'}>
-                  <span className='cursor-pointer hover:text-primary-yellow my-2'>Login</span>
-                </Link>
-                <Link href={'/signup'}>
-                  <span className='cursor-pointer hover:text-primary-yellow my-2'>Register</span>
-                </Link>
+              <div className='absolute rounded shadow-2xl w-full top-[110%] bg-white flex flex-col text-slate-800 px-4 py-2 z-20'>
+                <a href={'/signin'} className='cursor-pointer hover:text-primary-yellow my-2'>
+                  Login
+                </a>
+
+                <a href={'/signup'} className='cursor-pointer hover:text-primary-yellow my-2'>
+                  Register
+                </a>
               </div>
             )}
           </div>

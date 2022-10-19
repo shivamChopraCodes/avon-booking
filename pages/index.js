@@ -71,7 +71,7 @@ export default function Home() {
                 Looking for some more info? Let us know.
               </p>
               <form action='#' className='space-y-8'>
-                <div class='relative'>
+                <div className='relative'>
                   <input
                     type='email'
                     id='floating_email'
@@ -86,7 +86,7 @@ export default function Home() {
                     Your email
                   </label>
                 </div>
-                <div class='relative'>
+                <div className='relative'>
                   <input
                     type='tel'
                     id='floating_phone'
@@ -101,7 +101,7 @@ export default function Home() {
                     Your phone number
                   </label>
                 </div>
-                <div class='relative'>
+                <div className='relative'>
                   <input
                     type='text'
                     id='floating_subject'

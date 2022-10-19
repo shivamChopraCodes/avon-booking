@@ -1,22 +1,6 @@
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
-/*
-                <div class='relative'>
-                  <input
-                    type='email'
-                    id='floating_email'
-                    className='block px-2.5 pb-2.5 pt-4 w-full text-sm rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-                    placeholder=' '
-                    required
-                  />
-                  <label
-                    htmlFor='floating_email'
-                    className='absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-transparent px-2 peer-focus:px- peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1'
-                  >
-                    Your email
-                  </label>
-                </div>
-*/
+import { useState } from 'react';
+
 const data = [
   {
     label: 'Username',
@@ -162,7 +146,7 @@ export default function SignUp() {
       <p className='font-old text-2xl mb-6'> Sign Up</p>
       <form>
         {data.map((item) => (
-          <div class='relative my-4' key={item.key}>
+          <div className='relative my-4' key={item.key}>
             <input
               type={item.type}
               id={`floating_${item.key}`}

@@ -8,7 +8,7 @@ const Header = () => {
   return (
     <>
       <div className='header backdrop-blur-lg text-primary-blue font-semibold w-full z-40  flex justify-between items-center absolute top-4 left-0 px-12 '>
-        <Link href={'/'}>
+        <a href={'./index.html'}>
           <div className='block cursor-pointer w-[150px] lg:w-[200px] max-w overflow-hidden'>
             <Image
               loader={myLoader}
@@ -19,7 +19,7 @@ const Header = () => {
               height={50}
             />
           </div>
-        </Link>
+        </a>
         <div className='lg:flex items-center h-full hidden '>
           <a href={'#about-us'} className='cursor-pointer mx-4 hover:text-primary-yellow'>
             About

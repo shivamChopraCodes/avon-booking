@@ -96,11 +96,12 @@ export default function SignIn() {
             </button>
             <p className='text-gray-800 text-center ml-4'>
               Not a member?{' '}
-              <Link href='/signup'>
-                <span className='cursor-pointer text-blue-600 hover:text-blue-700 focus:text-blue-700 transition duration-200 ease-in-out'>
-                  Register
-                </span>
-              </Link>
+              <a
+                href='/signup'
+                className='cursor-pointer text-blue-600 hover:text-blue-700 focus:text-blue-700 transition duration-200 ease-in-out'
+              >
+                Register
+              </a>
             </p>
           </div>
         </form>

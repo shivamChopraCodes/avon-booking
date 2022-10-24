@@ -15,12 +15,6 @@ const services = [
       'We promise to get you the student VISA done at the most economical  rates without the involment of costly brokerage agents.',
   },
   {
-    img: '/images/services03.png',
-    text: 'Free IELTS Counseling',
-    subtext:
-      'We aim in training the students for IELTS so that they turn self sufficient and their dependency on training institutes is decreased.',
-  },
-  {
     img: '/images/services04.png',
     text: 'Travel Insurance',
     subtext:
@@ -48,7 +42,7 @@ const Services = () => {
             data-aos='fade-up'
             className={`
               group w-full md:h-full relative services-card overflow-hidden flex flex-col items-center px-4 py-12 lg:col-span-2  rounded border border-gray-100 shadow-xl
-               ${i > 2 ? (i === 3 ? 'lg:col-start-2' : 'lg:col-start-4') : ''}
+               ${!(i % 2) ? 'lg:col-start-2' : 'lg:col-start-4'}
         `}
           >
             <div className='absolute top-0 left-0 w-6 h-6 flex justify-center items-center'>

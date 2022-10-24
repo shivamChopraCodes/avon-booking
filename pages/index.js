@@ -24,33 +24,11 @@ export default function Home() {
         </div>
         <div className='py-20 flex flex-col w-full justify-center items-center text-center' id={'about-us'}>
           <p className='text-2xl lg:text-3xl font-bold text-primary-blue'>About Us</p>
-          <div className='w-full flex flex-wrap max-w-screen-xl p-4 my-6'>
-            <div className='block shadow-primary-yellow shadow-md rounded-2xl overflow-hidden w-full md:w-3/4 lg:w-5/12 mx-auto lg:ml-auto lg:mr-0'>
-              <Image
-                loader={myLoader}
-                data-aos='fade-up'
-                src='/images/avon-photo.jpeg'
-                alt={'avon-photo'}
-                width={600}
-                height={620}
-                layout={'responsive'}
-              />
-            </div>
-            <p
-              data-aos='fade-down'
-              className='text-base h-max about-us-text relative lg:text-lg text-justify my-4 lg:my-0 lg:text-left p-4  w-full lg:w-1/2 text-zinc-500 lg:ml-2'
-            >
-              We are serving the people, since 2 decades, as a fully licensed Travel agency under the Punjab government,
-              accredited with IATA (International Air Transport Association.) We have worked in close association with
-              the AVON FOREX PVT LTD since 2002 which helped us in better understanding of the Global Travellers and
-              serve better to the clients. They helped us in standing out in a group which differentiates us from the
-              competitors. We are well aware of the fact that one never knows when he or she might find it necessary to
-              utilise foreign resources; come across a situation where they need to know some foreign language or
-              education. From studying to working, to get the residency in a certain country from PR to the tourism, we
-              help one get all the kinds of VISA and livelihood arrangements, so that our clients do not face any kind
-              of trouble while studying, working, staying in an unknown nation or having fun while being on a vacation.
-            </p>
-          </div>
+          <TravelCards />
+        </div>
+        <div className='py-20 flex flex-col w-full justify-center items-center text-center' id={'about-us'}>
+          <p className='text-2xl lg:text-3xl font-bold text-primary-blue'>About Us</p>
+          <FeaturedDeals />
         </div>
         <div className='py-20 flex flex-col w-full justify-center items-center text-center overflow-hidden'>
           <p className='text-2xl lg:text-3xl font-bold text-primary-blue'>Our Partners</p>

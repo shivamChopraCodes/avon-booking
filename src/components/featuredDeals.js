@@ -42,8 +42,8 @@ const FeaturedDeals = () => {
           border-gray-100 shadow-xl '
         >
           <div className='max-h-[350px] lg:max-h-[240px] overflow-hidden'>
-            <div className='w-full  transition-all duration-500 hover:scale-125 '>
-              <Image loader={myLoader} src={deal.img} alt={'deal'} layout={'fill'} />
+            <div className='w-full block  transition-all duration-500 hover:scale-125 '>
+              <Image loader={myLoader} width={300} height={300} src={deal.img} alt={'deal'} layout={'responsive'} />
             </div>
           </div>
           <div className='flex flex-col px-2 py-4 color-transition card '>

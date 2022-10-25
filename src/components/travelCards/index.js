@@ -76,7 +76,9 @@ const TravelCards = () => {
       {cards.map((card) => (
         <div
           key={card.id}
-          className='flex flex-col w-full md:w-1/3 xl:w-[30%] md:mx-4 my-4 p-4 rounded-xl border border-gray-100 shadow-xl hover:-mt-4 transition-all '
+          data-aos='fade-up'
+          data-aos-anchor-placement='top-bottom'
+          className='flex flex-col w-full md:w-1/3 xl:w-[30%] md:mx-4 my-4 p-4 rounded-xl border border-gray-100 shadow-xl hover:shadow-2xl hover:-mt-4 transition-all duration-500 '
         >
           <div className='flex items-center text-lg lg:text-xl font-bold'>
             <p>
@@ -95,8 +97,9 @@ const TravelCards = () => {
                 <p>{card.type}</p>
               </aside>
             </div>
-            <p className='text-primary-blue '>
-              ₹ <span className='text-primary-blue font-bold'>{card.amount}</span>
+            <p className='text-primary-blue flex items-center'>
+              <span className='text-slate-400 font-medium text-sm mx-1'>As low as</span>₹{' '}
+              <span className='text-primary-blue font-bold'>{card.amount}</span>
             </p>
           </div>
         </div>

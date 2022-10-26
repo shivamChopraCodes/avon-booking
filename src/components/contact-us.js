@@ -1,3 +1,6 @@
+import Image from 'next/image';
+import myLoader from '../loader';
+
 const ContactsUs = () => {
   return (
     <div className='pt-20 w-full' id='contact-us'>

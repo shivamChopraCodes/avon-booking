@@ -72,13 +72,15 @@ const cards = [
 
 const TravelCards = () => {
   return (
-    <div className='w-full flex justify-center items-center flex-wrap px-4 '>
+    <div
+      className='w-full flex justify-center items-center flex-wrap p-4 '
+      data-aos='fade-up'
+      data-aos-anchor-placement='top-bottom'
+    >
       {cards.map((card) => (
         <div
           key={card.id}
-          data-aos='fade-up'
-          data-aos-anchor-placement='top-bottom'
-          className='flex flex-col w-full md:w-1/3 xl:w-[30%] md:mx-4 my-4 p-4 rounded-xl border border-gray-100 shadow-xl hover:shadow-2xl hover:-mt-4 transition-all duration-500 '
+          className='flex flex-col w-full md:w-1/3 xl:w-[30%] md:mx-4 my-4 p-4 rounded-xl border border-gray-100 shadow-xl hover:shadow-2xl hover:-mt-4 transition-all  '
         >
           <div className='flex items-center text-lg lg:text-xl font-bold'>
             <p>

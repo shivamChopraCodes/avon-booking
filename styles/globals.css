@@ -290,6 +290,201 @@ input[type='date']::-webkit-clear-button {
   -webkit-mask-composite: xor;
   mask-composite: exclude;
 }
+.testimonial-wrapper {
+  max-width: 992px;
+  min-height: 400px;
+  width: 90%;
+  clip-path: polygon(0 0, 100% 0, 100% 17%, 95% 100%, 8% 100%, 0 21%);
+  border-radius: 80px 80px 140px 150px;
+  overflow: hidden;
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(35.95deg, #000428 13.85%, #001641 70.32%);
+}
+.testimonial-wrapper .testimonial-text {
+  width: calc(100% - 250px);
+  display: flex;
+  justify-content: space-between;
+  padding: 50px 0 40px 0;
+}
+.testimonial-wrapper .testimonial-text .content-box {
+  margin-top: 2rem;
+}
+.testimonial-wrapper #quotes {
+  position: absolute;
+  top: 5%;
+  left: -10%;
+}
+.testimonial-wrapper .text-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: flex-start;
+  align-items: flex-start;
+  align-self: flex-start;
+}
+.testimonial-wrapper .align-self-left {
+  align-self: flex-start;
+}
+.testimonial-wrapper .gradient-text {
+  background: linear-gradient(rgba(237, 206, 77, 1), rgba(240, 152, 25, 1));
+  background: -webkit-linear-gradient(rgba(237, 206, 77, 1), rgba(240, 152, 25, 1));
+  background-size: 100%;
+  background-repeat: repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.slide-control {
+  position: absolute;
+  bottom: 0px;
+}
+.slide-control button {
+  background: none;
+  border: none;
+}
+.slide-control button .rotate-arrow {
+  transform: rotate(180deg);
+}
+.slide-control button:focus {
+  outline: none;
+}
+.testimonial-partners {
+  display: flex;
+  align-items: center;
+}
+.testimonial-partners img {
+  height: 32px;
+  opacity: 0.5;
+  transform: scale(0.8);
+}
+.testimonial-partners img.active {
+  transform: scale(1.2);
+  opacity: 1;
+}
+@media only screen and (min-width: 320px) and (max-width: 568px) {
+  .testimonial-partners {
+    position: absolute;
+    bottom: 0% !important;
+  }
+  .testimonial-partners img {
+    height: 18px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .testimonial-wrapper {
+    border-radius: 30px 30px 80px 80px;
+    width: 95%;
+    padding: 1rem 0;
+  }
+  .testimonial-wrapper .client {
+    width: 35%;
+  }
+  .testimonial-wrapper #quotes {
+    width: 70px;
+    left: -20%;
+  }
+  .testimonial-wrapper .testimonial-text {
+    width: 70%;
+    position: relative;
+    padding: 10px 0 40px 0;
+  }
+  .testimonial-wrapper .testimonial-text .content-box {
+    margin-top: 0rem;
+  }
+  .testimonial-wrapper .testimonial-text p {
+    margin: 0px;
+  }
+  .testimonial-wrapper .testimonial-text p span {
+    display: block !important;
+  }
+  .testimonial-wrapper .testimonial-text .testimonial-partners {
+    position: absolute;
+    left: -25%;
+    width: 100%;
+    bottom: 0%;
+    display: flex;
+    justify-content: space-between;
+  }
+  .testimonial-wrapper .testimonial-text .testimonial-partners img {
+    max-height: 20px;
+  }
+  .testimonial-wrapper .testimonial-text .testimonial-partners :nth-child(1) {
+    height: 17px;
+    width: 75px;
+  }
+}
+@media only screen and (min-width: 767px) and (max-width: 1023px) {
+  .testimonial-wrapper {
+    border-radius: 30px 30px 100px 100px;
+    width: 95%;
+    padding: 1rem 0 0rem;
+  }
+  .testimonial-wrapper .client {
+    width: 35%;
+  }
+  .testimonial-wrapper .client img {
+    height: 520px;
+    width: auto;
+  }
+  .testimonial-wrapper #quotes {
+    width: 70px;
+    left: -20%;
+  }
+  .testimonial-wrapper .testimonial-text {
+    width: 60%;
+    position: relative;
+    row-gap: 1rem;
+    padding: 15px 0 90px 0;
+  }
+  .testimonial-wrapper .testimonial-text .text-div {
+    margin-top: 0;
+  }
+  .testimonial-wrapper .testimonial-text .content-box {
+    margin-top: 0;
+  }
+  .testimonial-wrapper .testimonial-text p {
+    margin: 0px;
+  }
+  .testimonial-wrapper .testimonial-text p.padding-r100 {
+    padding-right: 0px !important;
+  }
+  .testimonial-wrapper .testimonial-text .testimonial-partners {
+    position: absolute;
+    left: -25%;
+    width: 100%;
+    bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .testimonial-wrapper .testimonial-text .testimonial-partners img {
+    height: 32px;
+    opacity: 0.8;
+  }
+  .testimonial-wrapper .testimonial-text .testimonial-partners img.active {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+@media only screen and (min-width: 1024px) and (max-width: 1439px) {
+  .testimonial-wrapper .testimonial-text {
+    row-gap: 0.5rem;
+  }
+  .testimonial-wrapper .client {
+    width: 35%;
+  }
+  .testimonial-wrapper .text-div {
+    margin-top: 0;
+  }
+  .testimonial-wrapper .testimonial-partners {
+    margin-top: 3rem;
+  }
+  .testimonial-wrapper #quotes {
+    left: -15%;
+  }
+}
 
 @tailwind base;
 @tailwind components;

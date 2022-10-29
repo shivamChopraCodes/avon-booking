@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Carousel from '../src/components/carousel';
+import DealSlider from '../src/components/dealsSlider';
 import FeaturedDeals from '../src/components/featuredDeals';
 import HeroInputs from '../src/components/inputs/inputsContainer';
 import Services from '../src/components/services';
@@ -21,7 +22,9 @@ export default function Home() {
               find and book best <span className='text-primary-yellow'>tickets</span>
             </p>
           </h1>
-          <HeroInputs />
+          <div className='w-5/6 lg:w-10/12 mt-16 overflow-hidden'>
+            <DealSlider />
+          </div>
         </div>
         <div className='py-20 flex flex-col w-full justify-center items-center text-center' id={'about-us'}>
           <p
@@ -39,7 +42,7 @@ export default function Home() {
         </div>
         <div className='py-20 flex flex-col w-full justify-center items-center text-center overflow-hidden'>
           <p className='text-2xl lg:text-3xl font-bold text-primary-blue'>Our Partners</p>
-          <div className='w-11/12 my-8'>
+          <div className='w-11/12 lg:w-5/6 my-8'>
             <Carousel />
           </div>
         </div>

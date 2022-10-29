@@ -485,6 +485,21 @@ input[type='date']::-webkit-clear-button {
     left: -15%;
   }
 }
+@media only screen and (min-width: 600px) {
+  /*the slides*/
+  .slick-slide {
+    margin-left: 27px;
+  }
+  .slick-track,
+  .slick-list,
+  .slick-slider {
+    height: 250px;
+  }
+  /* the parent */
+  .slick-list {
+    margin-left: -27px !important;
+  }
+}
 
 @tailwind base;
 @tailwind components;

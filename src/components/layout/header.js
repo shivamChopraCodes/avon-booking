@@ -15,8 +15,8 @@ const Header = () => {
               layout={'responsive'}
               src={'/images/logo.png'}
               alt={'avon'}
-              width={120}
-              height={50}
+              width={200}
+              height={75}
             />
           </div>
         </a>

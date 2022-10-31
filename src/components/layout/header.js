@@ -31,9 +31,9 @@ const Header = () => {
             Contact Us
           </a>
           <div
-            className={`hover-yellow cursor-pointer flex items-center hover:text-primary-yellow dropdown-toggle ${
+            className={`hover-yellow cursor-pointer rounded-lg flex items-center py-2 pl-2 bg-gradient-to-r from-yellow-300 to-primary-yellow hover:text-white dropdown-toggle ${
               showLoginMenu && 'dropdown-toggle-on'
-            } relative pr-6`}
+            } relative pr-10`}
             onClick={() => setShowLoginMenu((prev) => !prev)}
           >
             <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 48 48'>

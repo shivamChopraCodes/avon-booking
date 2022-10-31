@@ -14,9 +14,9 @@ export default function Home() {
     <div className={styles.container}>
       <main className={styles.main}>
         <div
-          className={`${styles.headWrapper} index-header-wrapper flex flex-col justify-center items-center text-white `}
+          className={`${styles.headWrapper} index-header-wrapper flex flex-col justify-center lg:justify-end items-center text-white `}
         >
-          <h1 className='flex flex-col justify-center items-center text-center '>
+          <h1 className='flex flex-col justify-center items-center text-center lg:mt-60'>
             <p className=' text-xl font-semibold '>The best tour experience</p>
             <p className=' text-[28px] font-bold my-4 '>
               find and book best <span className='text-primary-yellow'>tickets</span>
@@ -26,7 +26,10 @@ export default function Home() {
             <DealSlider />
           </div>
         </div>
-        <div className='py-20 flex flex-col w-full justify-center items-center text-center' id={'about-us'}>
+        <div
+          className='py-20 flex flex-col w-full justify-center items-center text-center lg:-mt-52 relative z-10 bg-white'
+          id={'about-us'}
+        >
           <p
             className='text-2xl lg:text-3xl font-bold text-primary-blue'
             data-aos='fade-down'

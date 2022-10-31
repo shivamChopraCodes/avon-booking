@@ -77,7 +77,7 @@ const DealSlider = () => {
           <div className='w-full block overflow-hidden  relative '>
             <Image loader={myLoader} width={300} height={235} src={deal.img} alt={'deal'} layout={'responsive'} />
           </div>
-          <div className='flex flex-col px-2 py-4 w-full text-center absolute bottom-0 lg:bottom-16 bg-primary-blue bg-opacity-70 '>
+          <div className='flex flex-col px-2 py-4 w-full text-center absolute bottom-0  bg-primary-blue bg-opacity-70 '>
             <p className='text-primary-yellow text-xs font-medium'>{deal.text}</p>
           </div>
         </div>

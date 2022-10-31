@@ -211,13 +211,13 @@ input[type='date']::-webkit-clear-button {
 }
 
 .hover-yellow:hover .hover-fill {
-  fill: var(--yellow);
+  fill: white;
 }
 
 .dropdown-toggle::before {
   content: '';
   position: absolute;
-  right: 2px;
+  right: 1rem;
   top: 50%;
   transform: translateY(-50%) rotate(45deg);
   border: 5px solid;
@@ -493,7 +493,7 @@ input[type='date']::-webkit-clear-button {
   .slick-track,
   .slick-list,
   .slick-slider {
-    height: 250px;
+    /* height: 250px; */
   }
   /* the parent */
   .slick-list {

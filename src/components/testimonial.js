@@ -1,4 +1,6 @@
+import Image from 'next/image';
 import { useState } from 'react';
+import myLoader from '../loader';
 
 const data = [
   {
@@ -38,7 +40,9 @@ const Testimonial = () => {
     <div className='flex items-center justify-center w-100 relative  pb-10 lg:pb-12 my-4'>
       <div className='testimonial-wrapper flex  md:gap-x-8 gap-x-3 justify-center'>
         <div className='testimonial-text flex flex-col relative md:gap-y-3'>
-          <img id='quotes' src='/images/quotes.svg' alt='quotes' />
+          <div id='quotes'>
+            <Image loader={myLoader} src='/images/quotes.svg' alt='quotes' width={140} height={100} layout={'fixed'} />
+          </div>
           <p className='text-sm md:text-lg h-full  text-white flex items-center w-100 pd-r12'>{data[step].text}</p>
           <div className='content-box'>
             <div className=' w-100 text-div mt-8'>
@@ -46,20 +50,16 @@ const Testimonial = () => {
             </div>
           </div>
         </div>
-        <div className='slide-control'>
-          <button onClick={previousStep} className='previous text-orange mx-2 mb-4'>
-            <img
-              className={`rotate-arrow ${!step && 'opacity-50 cursor-not-allowed'} `}
-              src='/images/next-arrow.svg'
-              alt='next-arrow'
-            />
+        <div className='slide-control mb-4 flex items-center'>
+          <button onClick={previousStep} className='previous text-orange mx-2 '>
+            <div className={`block rotate-arrow ${!step && 'opacity-50 cursor-not-allowed'} w-max mb-3`}>
+              <Image loader={myLoader} width={45} height={24} src='/images/next-arrow.svg' alt='next-arrow' />
+            </div>
           </button>
           <button onClick={nextStep} className='next'>
-            <img
-              className={`${step === data.length - 1 && 'opacity-50 cursor-not-allowed'} `}
-              src='/images/next-arrow.svg'
-              alt='next-arrow'
-            />
+            <div className={`block ${step === data.length - 1 && ' opacity-50 cursor-not-allowed'} w-max`}>
+              <Image loader={myLoader} width={45} height={24} src='/images/next-arrow.svg' alt='next-arrow' />
+            </div>
           </button>
         </div>
       </div>

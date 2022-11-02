@@ -22,7 +22,7 @@ export default function Home() {
               find and book best <span className='text-primary-yellow'>tickets</span>
             </p>
           </h1>
-          <div className='w-5/6 lg:w-10/12 mt-16 overflow-hidden'>
+          <div className='w-5/6 lg:w-10/12 mt-16 overflow-hidden deals-slider'>
             <DealSlider />
           </div>
         </div>

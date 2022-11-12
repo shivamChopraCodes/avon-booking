@@ -2,7 +2,17 @@ import Image from 'next/image';
 import { useRef } from 'react';
 import myLoader from '../../loader';
 
-const DatePicker = ({ placeholder, value, onChange, img, returnPlaceHolder, returnValue, onReturnChange, width }) => {
+const DatePicker = ({
+  placeholder,
+  value,
+  onChange,
+  img,
+  returnPlaceHolder,
+  returnValue,
+  onReturnChange,
+  width,
+  inputRef,
+}) => {
   return (
     <div className={`w-full ${'lg:w-1/4 '} px-2 mb-2 lg:mb-0`}>
       <div className='flex relative bg-slate-100 w-full rounded p-2'>
@@ -11,9 +21,10 @@ const DatePicker = ({ placeholder, value, onChange, img, returnPlaceHolder, retu
           className={`bg-transparent border-0 w-full focus:outline-0 text-sm text-zinc-800 ml-2 `}
           type={'text'}
           name='daterange'
+          ref={inputRef}
           onFocus={() =>
             $('input[name="daterange"]').daterangepicker({
-              singleDatePicker: !returnPlaceHolder,
+              singleDatePicker: false,
               minDate: new Date(),
               showDropdowns: true,
               locale: {

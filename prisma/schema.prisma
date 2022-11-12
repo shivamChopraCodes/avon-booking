@@ -1,0 +1,183 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model admin {
+  idadmin         Int    @id @default(autoincrement())
+  adminname       String @db.VarChar(45)
+  adminpassword   String @db.VarChar(45)
+  adminstaffagent String @db.VarChar(45)
+}
+
+model airpot {
+  idairpot   Int    @id @default(autoincrement())
+  airpotname String @db.VarChar(45)
+  cityname   String @db.VarChar(45)
+  hiddenshow String @db.VarChar(45)
+}
+
+model booknow {
+  idbooknow         Int     @id @default(autoincrement())
+  pnr               String? @db.VarChar(45)
+  cabinp            String? @db.VarChar(45)
+  refnummberp       String? @db.VarChar(45)
+  lastnamep         String? @db.VarChar(45)
+  genderp           String? @db.VarChar(45)
+  typep             String? @db.VarChar(45)
+  emailp            String? @db.VarChar(45)
+  dobp              String? @db.VarChar(45)
+  mobilep           String? @db.VarChar(45)
+  baggagedetailsp   String? @db.VarChar(45)
+  farerulesp        String? @db.VarChar(250)
+  passportnop       String? @db.VarChar(45)
+  passportexpiryp   String? @db.VarChar(45)
+  passportpicfrontp Bytes?
+  passportpicbackp  Bytes?
+  agencyname        String? @db.VarChar(45)
+  agencyaddress     String? @db.VarChar(45)
+  agencyemail       String? @db.VarChar(45)
+  agencyphone       String? @db.VarChar(45)
+  dateoftravel      String? @db.VarChar(45)
+  airline           String? @db.VarChar(45)
+  flightnumber      String? @db.VarChar(45)
+  aircraft          String? @db.VarChar(45)
+  departureterminal String? @db.VarChar(45)
+  arrivalterminal   String? @db.VarChar(45)
+  departure         String? @db.VarChar(45)
+  arrival           String? @db.VarChar(45)
+  duration          String? @db.VarChar(45)
+  basicfare         Int?
+  tax               Int?
+  totalfare         Int?
+  discount          Int?
+  discountcoupon    Int?
+  netfare           Int?
+  hiddenshow        String? @db.VarChar(45)
+  status            String? @db.VarChar(45)
+  ssravml           String? @db.VarChar(45)
+  ssrhnml           String? @db.VarChar(45)
+  ssrvgml           String? @db.VarChar(45)
+  ssrwchr           String? @db.VarChar(45)
+  inventoryid       String? @db.VarChar(45)
+  firstnamep        String? @db.VarChar(45)
+  title             String? @db.VarChar(45)
+  pancard           Bytes?
+  visa              Bytes?
+  passportplace     String? @db.VarChar(45)
+  sector            String? @db.VarChar(45)
+  nationality       String? @db.VarChar(45)
+}
+
+model city {
+  idcity      Int    @default(autoincrement())
+  cityname    String @db.VarChar(45)
+  countryname String @db.VarChar(45)
+  hiddenshow  String @db.VarChar(45)
+
+  @@id([idcity, countryname])
+}
+
+model country {
+  idcountry   Int     @id @default(autoincrement())
+  countryname String? @db.VarChar(45)
+  hiddenshow  String  @db.VarChar(45)
+}
+
+model flightdetails {
+  idflightdetails Int         @id @default(autoincrement())
+  company         String      @unique @db.VarChar(45)
+  logo            Bytes
+  hiddenshow      String      @db.VarChar(45)
+  inventory       inventory[]
+}
+
+model inventory {
+  idinventory                 Int            @id @default(autoincrement())
+  departuredate               String?        @db.VarChar(45)
+  transferdate                String?        @db.VarChar(45)
+  arrivaldate                 String?        @db.VarChar(45)
+  flightnumber                String?        @db.VarChar(45)
+  transferflightnumber        String?        @db.VarChar(45)
+  flightcompany               String?        @db.VarChar(45)
+  sector                      String?        @db.VarChar(45)
+  departuretime               String?        @db.VarChar(45)
+  departuretotransfertime     String?        @db.VarChar(45)
+  transfertoarrivaltime       String?        @db.VarChar(45)
+  arrivaltime                 String?        @db.VarChar(45)
+  flighttype                  String?        @db.VarChar(45)
+  baggage                     String?        @db.VarChar(45)
+  nameofdeparturecity         String?        @db.VarChar(45)
+  departureairpot             String?        @db.VarChar(45)
+  transfercityname            String?        @db.VarChar(45)
+  tranferairpot               String?        @db.VarChar(45)
+  nameofarrivalcity           String?        @db.VarChar(45)
+  arrivalairpot               String?        @db.VarChar(45)
+  flightduration              String?        @db.VarChar(45)
+  transferstayduration        String?        @db.VarChar(45)
+  departuretotransferduration String?        @db.VarChar(45)
+  transfertoarrivalduration   String?        @db.VarChar(45)
+  pnr                         String?        @db.VarChar(45)
+  cost                        String?        @db.VarChar(45)
+  numberofseats               String?        @db.VarChar(45)
+  vendor                      String?        @db.VarChar(45)
+  advancepayment              String?        @db.VarChar(45)
+  namingdeadline              String?        @db.VarChar(45)
+  ticketingdeadline           String?        @db.VarChar(45)
+  totalgroupvalue             String?        @db.VarChar(45)
+  layover                     String?        @db.VarChar(45)
+  adminid                     String?        @db.VarChar(45)
+  stock                       String?        @db.VarChar(45)
+  purchasedate                String?        @db.VarChar(45)
+  hiddenshow                  String?        @db.VarChar(45)
+  referencenumber             String?        @db.VarChar(45)
+  aircraft                    String?        @db.VarChar(45)
+  flightdetails               flightdetails? @relation(fields: [flightcompany], references: [company], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model signupagent {
+  idsignupagent       Int    @id @default(autoincrement())
+  username            String @db.VarChar(45)
+  agencyname          String @db.VarChar(100)
+  agencyaddress1      String @db.VarChar(300)
+  agencyaddress2      String @db.VarChar(300)
+  citytown            String @db.VarChar(45)
+  state               String @db.VarChar(45)
+  pin                 String @db.VarChar(45)
+  mobile              String @db.VarChar(45)
+  whatsappnumber      String @db.VarChar(45)
+  email               String @db.VarChar(45)
+  contactperson       String @db.VarChar(45)
+  designation         String @db.VarChar(45)
+  pangirnumber        Bytes
+  adharcardnopassport Bytes
+  gstnumber           Bytes
+  visitingcard        Bytes
+  tannumber           Bytes
+  password            String @db.VarChar(45)
+  status              String @db.VarChar(45)
+  adminid             String @db.VarChar(45)
+  datetime            String @db.VarChar(45)
+  showhidden          String @db.VarChar(45)
+  adminstaffagent     String @db.VarChar(45)
+}
+
+model signupstaff {
+  idsignupstaff    Int    @id @default(autoincrement())
+  name             String @db.VarChar(45)
+  dob              String @db.VarChar(45)
+  username         String @db.VarChar(45)
+  password         String @db.VarChar(45)
+  bankaccountno    String @db.VarChar(45)
+  village          String @db.VarChar(45)
+  personalmobileno String @db.VarChar(45)
+  anothermobileno  String @db.VarChar(45)
+  whatsappnoifdiff String @db.VarChar(45)
+  blockunblock     String @db.VarChar(45)
+  hiddenshow       String @db.VarChar(45)
+  adminstaffagent  String @db.VarChar(45)
+}

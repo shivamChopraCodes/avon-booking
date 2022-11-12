@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import CheckRadioButton from './checkRadioInputs';
 import DatePicker from './dateInputs';
 import TextSearchInput from './textInput';
@@ -60,7 +60,8 @@ const inputsData = {
   ],
 };
 
-const SearchFlights = () => {
+const SearchFlights = ({ cities }) => {
+  const inputRef = useRef();
   const [selectedRadio, setSelectedRadio] = useState('one-way');
   const [formData, setFormData] = useState({
     origin: '',
@@ -98,6 +99,13 @@ const SearchFlights = () => {
               placeholder={input.placeholder}
               value={formData[input.key]}
               img={input.img}
+              {...(input.key === 'departDate' && { inputRef })}
+              {...(input.key === 'origin' && {
+                options: cities.filter((city) => city.cityname !== formData.destination),
+              })}
+              {...(input.key === 'destination' && {
+                options: cities.filter((city) => city.cityname !== formData.origin),
+              })}
               onChange={(value) =>
                 setFormData((prev) => ({
                   ...prev,
@@ -116,12 +124,15 @@ const SearchFlights = () => {
             />
           ))}
           <div className='w-full lg:w-1/6  px-2  lg:mb-0'>
-            <buton
+            <button
+              onClick={() => {
+                console.log(inputRef.current.value);
+              }}
               type='submit'
-              className='color-transition button cursor-pointer text-white text-center flex justify-center items-center font-semibold rounded py-3'
+              className='w-full color-transition button cursor-pointer text-white text-center flex justify-center items-center font-semibold rounded py-3'
             >
               Search
-            </buton>
+            </button>
           </div>
         </div>
       </div>

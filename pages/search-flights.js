@@ -1,6 +1,21 @@
+import { useEffect, useState } from 'react';
 import FlightListing from '../src/components/FlightListing';
 import SearchFlights from '../src/components/inputs/searchFlights';
 import styles from '../styles/Home.module.css';
+
+export async function getServerSideProps() {
+  // Fetch data from external API
+  const res = await fetch(`${process.env.BASE_URL}/api/fetch-cities`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const cities = await res.json();
+
+  // Pass data to the page via props
+  return { props: { cities } };
+}
 
 const FlightData = [
   {
@@ -55,11 +70,30 @@ const FlightData = [
   },
 ];
 
-export default function SearchFlight() {
+export default function SearchFlight({ cities }) {
+  const [data, setData] = useState({});
+  const fetchData = async () => {
+    const response = await fetch('/api/search-flight', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+    setData(data);
+  };
+
+  useEffect(() => {
+    console.log(cities);
+    fetchData();
+  }, []);
+
   return (
     <div className={styles.container}>
       <main className={`${styles.main} justify-start pt-18 lg:pt-32 `}>
-        <SearchFlights />
+        <SearchFlights cities={cities} />
         <div className='w-full flex justify-center  my-10'>
           <div className='show-flights flex flex-col w-full md:max-w-3xl lg:max-w-7xl py-10 px-4 lg:px-0'>
             <div className='w-full flex justify-between items-start'>
@@ -69,7 +103,7 @@ export default function SearchFlight() {
                 </span>
                 <span className='text-sm lg:text-sm'>Sun. Mar 30</span>
               </section>
-              <span className='text-xs md:text-sm mt-2'>Showing 118 of 118 flights</span>
+              <span className='text-xs md:text-sm mt-2'>Showing 118 of {data.totalCount} flights</span>
             </div>
             <div className='w-full hidden md:grid gap-4 lg:gap-10 overflow-hidden grid-cols-7 grid-rows-1 text-sm font-bold text-center my-4 lg:my-10 rounded bg-blue-100 py-2 bg-opacity-50'>
               <p className='col-span-2'>Airline</p>
@@ -78,8 +112,8 @@ export default function SearchFlight() {
               <p>Arrive</p>
               <p className='col-span-2'>Price</p>
             </div>
-            {FlightData.map((flight) => (
-              <FlightListing key={flight.flightImg} {...flight} />
+            {data?.flights?.map((flight) => (
+              <FlightListing key={flight.idinventory} {...flight} />
             ))}
           </div>
         </div>

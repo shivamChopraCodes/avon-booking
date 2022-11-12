@@ -30,6 +30,7 @@ const TextSearchInput = ({ placeholder, value, onChange, img, width, options }) 
                 : options
               ).map((option) => (
                 <div
+                  key={option.cityname}
                   className='flex flex-col cursor-pointer w-full border-b p-2 border-slate-400 justify-center '
                   onClick={() => {
                     onChange(option.cityname);

@@ -9,45 +9,60 @@ import Testimonial from '../src/components/testimonial';
 import TravelCards from '../src/components/travelCards';
 import styles from '../styles/Home.module.css';
 
-export async function getServerSideProps() {
-  // Fetch data from external API
-  const res = await fetch(`${process.env.BASE_URL}/api/homepage-data/best-tour`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  const res2 = await fetch(`${process.env.BASE_URL}/api/homepage-data/amazing-deals`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  const best_tour = await res.json();
-  const amazing_deals = await res2.json();
+// export async function getServerSideProps() {
+//   // Fetch data from external API
+//   const res = await fetch(`${process.env.BASE_URL}/api/homepage-data/best-tour`, {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   });
+//   const res2 = await fetch(`${process.env.BASE_URL}/api/homepage-data/amazing-deals`, {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   });
+//   const best_tour = await res.json();
+//   const amazing_deals = await res2.json();
 
-  // Pass data to the page via props
-  return {
-    props: {
-      data: {
-        ...best_tour,
-        ...amazing_deals,
-      },
-    },
-  };
-}
+//   // Pass data to the page via props
+//   return {
+//     props: {
+//       data: {
+//         ...best_tour,
+//         ...amazing_deals,
+//       },
+//     },
+//   };
+// }
 
-export default function Home({ data }) {
+export default function Home({}) {
+  const [data, setData] = useState({});
   const [weeklySpecials, setWeeklySpecials] = useState(null);
   const fetchWeeklySpecials = async () => {
+    const res = await fetch(`./api/homepage-data/best-tour`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const res2 = await fetch(`./api/homepage-data/amazing-deals`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     const res3 = await fetch(`./api/homepage-data/weekly-specials`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
     });
+    const best_tour = await res.json();
+    const amazing_deals = await res2.json();
     const weekly_specials = await res3.json();
-    setWeeklySpecials([...weekly_specials.weekly_specials]);
+    setData({ ...weekly_specials, ...best_tour, ...amazing_deals });
   };
   useEffect(() => {
     fetchWeeklySpecials();
@@ -84,7 +99,7 @@ export default function Home({ data }) {
         </div>
         <div className='py-20 flex flex-col w-full justify-center items-center text-center' id={'featured-deals'}>
           <p className='text-2xl lg:text-3xl font-bold text-primary-blue'>Weekly Specials</p>
-          <FeaturedDeals logos={data?.logos} data={weeklySpecials} />
+          <FeaturedDeals logos={data?.logos} data={data.weekly_specials} />
         </div>
         <div className='py-20 flex flex-col w-full justify-center items-center text-center overflow-hidden'>
           <p className='text-2xl lg:text-3xl font-bold text-primary-blue'>Our Partners</p>

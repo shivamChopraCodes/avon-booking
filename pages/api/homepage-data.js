@@ -1,7 +1,14 @@
 // import { Pri } from "../../.db";
 
 import { PrismaClient } from '@prisma/client';
-
+export const config = {
+  api: {
+    responseLimit: '100mb',
+    bodyParser: {
+      sizeLimit: '100mb',
+    },
+  },
+};
 export default async function handler(req, res) {
   const prisma = new PrismaClient();
   if (req.method === 'GET') {

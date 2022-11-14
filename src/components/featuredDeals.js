@@ -39,9 +39,10 @@ const deals = [
 
 const FeaturedDeals = ({ data, logos }) => {
   if (!data) return null;
+
   return (
     <div className='flex flex-wrap w-full justify-center my-4 px-3'>
-      {data.map((deal, i) => (
+      {data?.map((deal, i) => (
         <div
           data-aos='fade-zoom-in'
           data-aos-easing='ease-in-back'

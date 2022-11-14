@@ -23,15 +23,8 @@ export async function getServerSideProps() {
       'Content-Type': 'application/json',
     },
   });
-  const res3 = await fetch(`${process.env.BASE_URL}/api/homepage-data/weekly-specials`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
   const best_tour = await res.json();
   const amazing_deals = await res2.json();
-  const weekly_specials = await res3.json();
 
   // Pass data to the page via props
   return {
@@ -46,7 +39,21 @@ export async function getServerSideProps() {
 }
 
 export default function Home({ data }) {
-  console.log({ data });
+  const [weeklySpecials, setWeeklySpecials] = useState(null);
+  const fetchWeeklySpecials = async () => {
+    const res3 = await fetch(`./api/homepage-data/weekly-specials`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const weekly_specials = await res3.json();
+    setWeeklySpecials([...weekly_specials.weekly_specials]);
+  };
+  useEffect(() => {
+    fetchWeeklySpecials();
+  }, []);
+
   return (
     <div className={styles.container}>
       <main className={styles.main}>
@@ -78,7 +85,7 @@ export default function Home({ data }) {
         </div>
         <div className='py-20 flex flex-col w-full justify-center items-center text-center' id={'featured-deals'}>
           <p className='text-2xl lg:text-3xl font-bold text-primary-blue'>Weekly Specials</p>
-          <FeaturedDeals logos={data?.logos} data={data?.weekly_specials} />
+          <FeaturedDeals logos={data?.logos} data={weeklySpecials} />
         </div>
         <div className='py-20 flex flex-col w-full justify-center items-center text-center overflow-hidden'>
           <p className='text-2xl lg:text-3xl font-bold text-primary-blue'>Our Partners</p>

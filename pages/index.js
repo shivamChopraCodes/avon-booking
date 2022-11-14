@@ -38,7 +38,7 @@ export default function Home({ data }) {
             </p>
           </h1>
           <div className='w-5/6 lg:w-10/12 mt-16 overflow-hidden deals-slider'>
-            <DealSlider logos={data.logos} data={data.best_tour} />
+            <DealSlider logos={data?.logos} data={data?.best_tour} />
           </div>
         </div>
         <div
@@ -52,11 +52,11 @@ export default function Home({ data }) {
           >
             Amazing Deals
           </p>
-          <TravelCards logos={data.logos} data={data.amazing_deals} />
+          <TravelCards logos={data?.logos} data={data?.amazing_deals} />
         </div>
         <div className='py-20 flex flex-col w-full justify-center items-center text-center' id={'featured-deals'}>
           <p className='text-2xl lg:text-3xl font-bold text-primary-blue'>Weekly Specials</p>
-          <FeaturedDeals logos={data.logos} data={data.weekly_specials} />
+          <FeaturedDeals logos={data?.logos} data={data?.weekly_specials} />
         </div>
         <div className='py-20 flex flex-col w-full justify-center items-center text-center overflow-hidden'>
           <p className='text-2xl lg:text-3xl font-bold text-primary-blue'>Our Partners</p>

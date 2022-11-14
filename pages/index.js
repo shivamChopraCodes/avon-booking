@@ -59,10 +59,17 @@ export default function Home({}) {
         'Content-Type': 'application/json',
       },
     });
+    const res4 = await fetch(`./api/homepage-data/weekly-specials?skip=2`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     const best_tour = await res.json();
     const amazing_deals = await res2.json();
-    const weekly_specials = await res3.json();
-    setData({ ...weekly_specials, ...best_tour, ...amazing_deals });
+    const weekly_specials1 = await res3.json();
+    const weekly_specials2 = await res4.json();
+    setData({ ...weekly_specials1, ...weekly_specials2, ...best_tour, ...amazing_deals });
   };
   useEffect(() => {
     fetchWeeklySpecials();

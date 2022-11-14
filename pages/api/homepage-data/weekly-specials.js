@@ -12,7 +12,12 @@ export const config = {
 export default async function handler(req, res) {
   const prisma = new PrismaClient();
   if (req.method === 'GET') {
+    const {
+      query: { skip },
+    } = req;
     const weekly_specials = await prisma.weeklyspecial.findMany({
+      ...(skip && { skip: +skip }),
+      take: 2,
       where: {
         hiddenshow: 'Show',
       },

@@ -32,7 +32,6 @@ export async function getServerSideProps() {
       data: {
         ...best_tour,
         ...amazing_deals,
-        ...weekly_specials,
       },
     },
   };

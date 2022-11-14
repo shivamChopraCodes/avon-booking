@@ -3,7 +3,7 @@
 import { PrismaClient } from '@prisma/client';
 export const config = {
   api: {
-    responseLimit: '100mb',
+    responseLimit: false,
     bodyParser: {
       sizeLimit: '100mb',
     },

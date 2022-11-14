@@ -69,7 +69,11 @@ export default function Home({}) {
     const amazing_deals = await res2.json();
     const weekly_specials1 = await res3.json();
     const weekly_specials2 = await res4.json();
-    setData({ ...weekly_specials1, ...weekly_specials2, ...best_tour, ...amazing_deals });
+    setData({
+      weekly_specials: [...weekly_specials1.weekly_specials, ...weekly_specials2.weekly_specials],
+      ...best_tour,
+      ...amazing_deals,
+    });
   };
   useEffect(() => {
     fetchWeeklySpecials();

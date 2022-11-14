@@ -16,6 +16,9 @@ export default async function handler(req, res) {
       where: {
         hiddenshow: 'Show',
       },
+      select: {
+        flightcompany: true,
+      },
     });
 
     const amazing_deals = await prisma.amazingdeals.findMany({
@@ -27,6 +30,9 @@ export default async function handler(req, res) {
     const weekly_specials = await prisma.weeklyspecial.findMany({
       where: {
         hiddenshow: 'Show',
+      },
+      select: {
+        flightcompany: true,
       },
     });
     const bestTourCompanies = best_tour.reduce((result, current) => {
@@ -67,9 +73,7 @@ export default async function handler(req, res) {
       []
     );
     const data = {
-      best_tour,
       amazing_deals,
-      weekly_specials,
       logos,
     };
     return res.send(data);

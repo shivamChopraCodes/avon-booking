@@ -11,16 +11,38 @@ import styles from '../styles/Home.module.css';
 
 export async function getServerSideProps() {
   // Fetch data from external API
-  const res = await fetch(`${process.env.BASE_URL}/api/homepage-data`, {
+  const res = await fetch(`${process.env.BASE_URL}/api/homepage-data/best-tour`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
     },
   });
-  const data = await res.json();
+  const res2 = await fetch(`${process.env.BASE_URL}/api/homepage-data/amazing-deals`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const res3 = await fetch(`${process.env.BASE_URL}/api/homepage-data/weekly-specials`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const best_tour = await res.json();
+  const amazing_deals = await res2.json();
+  const weekly_specials = await res3.json();
 
   // Pass data to the page via props
-  return { props: { data } };
+  return {
+    props: {
+      data: {
+        ...best_tour,
+        ...amazing_deals,
+        ...weekly_specials,
+      },
+    },
+  };
 }
 
 export default function Home({ data }) {

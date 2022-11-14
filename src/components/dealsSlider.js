@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import Slider from 'react-slick';
+import { serverbase64, toBase64 } from '../binaryConverter';
 import myLoader from '../loader';
 
 const DealsData = [
@@ -31,7 +32,8 @@ const DealsData = [
   },
 ];
 
-const DealSlider = () => {
+const DealSlider = ({ data }) => {
+  console.log('slider dta', data);
   const settings = {
     dots: true,
     infinite: true,
@@ -63,14 +65,21 @@ const DealSlider = () => {
       },
     ],
   };
-
+  if (!data) return;
   return (
     <Slider className='w-full' {...settings}>
       {DealsData.map((deal) => (
         <div key={deal.img} className='flex flex-col relative rounded-xl w-full  z-0 '>
           <div className='absolute top-4 left-3 flex items-center h-8 z-[2] cursor-default bg-white transition-all duration-300 rounded-full overflow-hidden'>
             <div className='block rounded-full overflow-hidden h-full'>
-              <Image loader={myLoader} width={32} height={32} src={deal.flightImg} alt={'service'} layout={'fixed'} />
+              <Image
+                loader={myLoader}
+                width={32}
+                height={32}
+                src={`data:image/jpeg;base64,${serverbase64(data.logo.data)}`}
+                alt={'service'}
+                layout={'fixed'}
+              />
             </div>
           </div>
 

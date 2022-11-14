@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import Carousel from '../src/components/carousel';
 import DealSlider from '../src/components/dealsSlider';
 import FeaturedDeals from '../src/components/featuredDeals';
@@ -9,7 +10,36 @@ import TravelCards from '../src/components/travelCards';
 import myLoader from '../src/loader';
 import styles from '../styles/Home.module.css';
 
-export default function Home() {
+export async function getStaticProps() {
+  // Fetch data from external API
+  const res = await fetch(`${process.env.BASE_URL}/api/homepage-data`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await res.json();
+
+  // Pass data to the page via props
+  return { props: { data } };
+}
+
+export default function Home({ data }) {
+  // const [data, setData] = useState({});
+  // const fetchData = async () => {
+  //   const res = await fetch(`/api/homepage-data`, {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //   });
+  //   const tempData = await res.json();
+  //   setData(tempData);
+  // };
+  // useEffect(() => {
+  //   fetchData();
+  // }, []);
+  console.log('data', data);
   return (
     <div className={styles.container}>
       <main className={styles.main}>
@@ -23,7 +53,7 @@ export default function Home() {
             </p>
           </h1>
           <div className='w-5/6 lg:w-10/12 mt-16 overflow-hidden deals-slider'>
-            <DealSlider />
+            <DealSlider data={data.updateLogo} />
           </div>
         </div>
         <div

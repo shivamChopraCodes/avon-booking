@@ -32,8 +32,7 @@ const DealsData = [
   },
 ];
 
-const DealSlider = ({ data }) => {
-  console.log('slider dta', data);
+const DealSlider = ({ data, logos }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -68,15 +67,15 @@ const DealSlider = ({ data }) => {
   if (!data) return;
   return (
     <Slider className='w-full' {...settings}>
-      {DealsData.map((deal) => (
-        <div key={deal.img} className='flex flex-col relative rounded-xl w-full  z-0 '>
+      {data.map((deal) => (
+        <div key={deal.idbesttour} className='flex flex-col relative rounded-xl w-full  z-0 '>
           <div className='absolute top-4 left-3 flex items-center h-8 z-[2] cursor-default bg-white transition-all duration-300 rounded-full overflow-hidden'>
             <div className='block rounded-full overflow-hidden h-full'>
               <Image
                 loader={myLoader}
                 width={32}
                 height={32}
-                src={`data:image/jpeg;base64,${serverbase64(data.logo.data)}`}
+                src={`data:image/jpeg;base64,${serverbase64(logos[deal?.flightcompany]?.data)}`}
                 alt={'service'}
                 layout={'fixed'}
               />
@@ -84,7 +83,14 @@ const DealSlider = ({ data }) => {
           </div>
 
           <div className='w-full block overflow-hidden  relative '>
-            <Image loader={myLoader} width={300} height={235} src={deal.img} alt={'deal'} layout={'responsive'} />
+            <Image
+              loader={myLoader}
+              width={300}
+              height={235}
+              src={`data:image/jpeg;base64,${serverbase64(deal.image.data)}`}
+              alt={'deal'}
+              layout={'responsive'}
+            />
           </div>
           <div className='flex flex-col px-2 py-4 w-full text-center absolute bottom-0  bg-primary-blue bg-opacity-70 '>
             <p className='text-primary-yellow text-xs font-medium'>{deal.text}</p>

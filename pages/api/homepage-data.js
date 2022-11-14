@@ -11,28 +11,59 @@ export default async function handler(req, res) {
       },
     });
 
-    // const amazing_deals = await prisma.amazingdeals.findMany({
-    //   where: {
-    //     hiddenshow: 'Show',
-    //   },
-    // });
-
-    // const weekly_specials = await prisma.weeklyspecial.findMany({
-    //   where: {
-    //     hiddenshow: 'Show',
-    //   },
-    // });
-    const updateLogo = await prisma.flightdetails.findFirst({
+    const amazing_deals = await prisma.amazingdeals.findMany({
       where: {
         hiddenshow: 'Show',
-        company: 'BRITISH AIRWAYS',
       },
     });
+
+    const weekly_specials = await prisma.weeklyspecial.findMany({
+      where: {
+        hiddenshow: 'Show',
+      },
+    });
+    const bestTourCompanies = best_tour.reduce((result, current) => {
+      if (!result[current.flightcompany]) {
+        result = {
+          ...result,
+          [current.flightcompany]: true,
+        };
+      }
+      return result;
+    }, {});
+    const weeklySpecialCompanies = weekly_specials.reduce(
+      (result, current) => {
+        if (!result[current.flightcompany]) {
+          result = {
+            ...result,
+            [current.flightcompany]: true,
+          };
+        }
+        return result;
+      },
+      { ...bestTourCompanies }
+    );
+
+    const uniqueCompanies = Object.keys(weeklySpecialCompanies).map((company) => ({ company }));
+
+    const flight_details = await prisma.flightdetails.findMany({
+      where: {
+        hiddenshow: 'Show',
+        OR: [...uniqueCompanies],
+      },
+    });
+    const logos = flight_details.reduce(
+      (result, current) => ({
+        ...result,
+        [current.company]: current.logo,
+      }),
+      []
+    );
     const data = {
       best_tour,
-      // amazing_deals,
-      // weekly_specials,
-      updateLogo,
+      amazing_deals,
+      weekly_specials,
+      logos,
     };
     return res.send(data);
   }

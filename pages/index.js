@@ -7,10 +7,9 @@ import HeroInputs from '../src/components/inputs/inputsContainer';
 import Services from '../src/components/services';
 import Testimonial from '../src/components/testimonial';
 import TravelCards from '../src/components/travelCards';
-import myLoader from '../src/loader';
 import styles from '../styles/Home.module.css';
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   // Fetch data from external API
   const res = await fetch(`${process.env.BASE_URL}/api/homepage-data`, {
     method: 'GET',
@@ -25,21 +24,7 @@ export async function getStaticProps() {
 }
 
 export default function Home({ data }) {
-  // const [data, setData] = useState({});
-  // const fetchData = async () => {
-  //   const res = await fetch(`/api/homepage-data`, {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   });
-  //   const tempData = await res.json();
-  //   setData(tempData);
-  // };
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-  console.log('data', data);
+  console.log({ data });
   return (
     <div className={styles.container}>
       <main className={styles.main}>
@@ -53,7 +38,7 @@ export default function Home({ data }) {
             </p>
           </h1>
           <div className='w-5/6 lg:w-10/12 mt-16 overflow-hidden deals-slider'>
-            <DealSlider data={data.updateLogo} />
+            <DealSlider logos={data.logos} data={data.best_tour} />
           </div>
         </div>
         <div
@@ -67,11 +52,11 @@ export default function Home({ data }) {
           >
             Amazing Deals
           </p>
-          <TravelCards />
+          <TravelCards logos={data.logos} data={data.amazing_deals} />
         </div>
         <div className='py-20 flex flex-col w-full justify-center items-center text-center' id={'featured-deals'}>
           <p className='text-2xl lg:text-3xl font-bold text-primary-blue'>Weekly Specials</p>
-          <FeaturedDeals />
+          <FeaturedDeals logos={data.logos} data={data.weekly_specials} />
         </div>
         <div className='py-20 flex flex-col w-full justify-center items-center text-center overflow-hidden'>
           <p className='text-2xl lg:text-3xl font-bold text-primary-blue'>Our Partners</p>

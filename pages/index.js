@@ -9,91 +9,91 @@ import Testimonial from '../src/components/testimonial';
 import TravelCards from '../src/components/travelCards';
 import styles from '../styles/Home.module.css';
 
-export async function getStaticProps() {
-  // Fetch data from external API
-  const res = await fetch(`${process.env.BASE_URL}/api/homepage-data/best-tour`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  const res2 = await fetch(`${process.env.BASE_URL}/api/homepage-data/amazing-deals`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  const res3 = await fetch(`${process.env.BASE_URL}/api/homepage-data/weekly-specials`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  const res4 = await fetch(`${process.env.BASE_URL}/api/homepage-data/weekly-specials?skip=2`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  const best_tour = await res.json();
-  const amazing_deals = await res2.json();
-  const weekly_specials1 = await res3.json();
-  const weekly_specials2 = await res4.json();
+// export async function getStaticProps() {
+// Fetch data from external API
+//   const res = await fetch(`${process.env.BASE_URL}/api/homepage-data/best-tour`, {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   });
+//   const res2 = await fetch(`${process.env.BASE_URL}/api/homepage-data/amazing-deals`, {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   });
+//   const res3 = await fetch(`${process.env.BASE_URL}/api/homepage-data/weekly-specials`, {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   });
+//   const res4 = await fetch(`${process.env.BASE_URL}/api/homepage-data/weekly-specials?skip=2`, {
+//     method: 'GET',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   });
+//   const best_tour = await res.json();
+//   const amazing_deals = await res2.json();
+//   const weekly_specials1 = await res3.json();
+//   const weekly_specials2 = await res4.json();
 
-  // Pass data to the page via props
-  return {
-    props: {
-      data: {
-        weekly_specials: [...weekly_specials1.weekly_specials, ...weekly_specials2.weekly_specials],
-        ...best_tour,
-        ...amazing_deals,
+//   // Pass data to the page via props
+//   return {
+//     props: {
+//       data: {
+//         weekly_specials: [...weekly_specials1.weekly_specials, ...weekly_specials2.weekly_specials],
+//         ...best_tour,
+//         ...amazing_deals,
+//       },
+//     },
+//     revalidate: 10,
+//   };
+// }
+
+export default function Home() {
+  const [data, setData] = useState({});
+  const [weeklySpecials, setWeeklySpecials] = useState(null);
+  const fetchWeeklySpecials = async () => {
+    const res = await fetch(`./api/homepage-data/best-tour`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    },
-    revalidate: 10,
+    });
+    const res2 = await fetch(`./api/homepage-data/amazing-deals`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const res3 = await fetch(`./api/homepage-data/weekly-specials`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const res4 = await fetch(`./api/homepage-data/weekly-specials?skip=2`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const best_tour = await res.json();
+    const amazing_deals = await res2.json();
+    const weekly_specials1 = await res3.json();
+    const weekly_specials2 = await res4.json();
+    setData({
+      weekly_specials: [...weekly_specials1.weekly_specials, ...weekly_specials2.weekly_specials],
+      ...best_tour,
+      ...amazing_deals,
+    });
   };
-}
-
-export default function Home({ data }) {
-  // const [data, setData] = useState({});
-  // const [weeklySpecials, setWeeklySpecials] = useState(null);
-  // const fetchWeeklySpecials = async () => {
-  //   const res = await fetch(`./api/homepage-data/best-tour`, {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   });
-  //   const res2 = await fetch(`./api/homepage-data/amazing-deals`, {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   });
-  //   const res3 = await fetch(`./api/homepage-data/weekly-specials`, {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   });
-  //   const res4 = await fetch(`./api/homepage-data/weekly-specials?skip=2`, {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //   });
-  //   const best_tour = await res.json();
-  //   const amazing_deals = await res2.json();
-  //   const weekly_specials1 = await res3.json();
-  //   const weekly_specials2 = await res4.json();
-  //   setData({
-  //     weekly_specials: [...weekly_specials1.weekly_specials, ...weekly_specials2.weekly_specials],
-  //     ...best_tour,
-  //     ...amazing_deals,
-  //   });
-  // };
-  // useEffect(() => {
-  //   fetchWeeklySpecials();
-  // }, []);
+  useEffect(() => {
+    fetchWeeklySpecials();
+  }, []);
 
   return (
     <div className={styles.container}>

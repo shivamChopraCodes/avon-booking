@@ -60,7 +60,7 @@ const inputsData = {
   ],
 };
 
-const SearchFlights = ({ cities }) => {
+const SearchFlights = ({ cities, submit }) => {
   const inputRef = useRef();
   const [selectedRadio, setSelectedRadio] = useState('one-way');
   const [formData, setFormData] = useState({
@@ -76,6 +76,32 @@ const SearchFlights = ({ cities }) => {
       type: 'economy',
     },
   });
+  const handleSubmit = () => {
+    if (!inputRef.current.value || !formData.origin || !formData.destination) return null;
+    const [startDate, endDate] = inputRef.current.value.split(' - ').map((val) => {
+      const splitVal = val.split('/');
+      return `${splitVal[2]}-${splitVal[1]}-${splitVal[0]}`;
+    });
+    const occupants = formData.details.travellers.adults + formData.details.travellers.children;
+    const {
+      origin,
+      destination,
+      details: { type },
+    } = formData;
+    setFormData((prev) => ({
+      ...prev,
+      departDate: inputRef.current.value,
+    }));
+    submit({
+      startDate,
+      endDate,
+      origin,
+      destination,
+      occupants,
+      type,
+      showDates: inputRef.current.value.split(' - '),
+    });
+  };
   return (
     <div className='w-full bg-slate-400 bg-opacity-50 py-6' data-aos='fade-up' data-aos-anchor-placement='top-bottom'>
       <div className='w-full max-w-screen-xl flex flex-col items-center mx-auto'>
@@ -125,9 +151,7 @@ const SearchFlights = ({ cities }) => {
           ))}
           <div className='w-full lg:w-1/6  px-2  lg:mb-0'>
             <button
-              onClick={() => {
-                console.log(inputRef.current.value);
-              }}
+              onClick={handleSubmit}
               type='submit'
               className='w-full color-transition button cursor-pointer text-white text-center flex justify-center items-center font-semibold rounded py-3'
             >

@@ -5,9 +5,18 @@ import { PrismaClient } from '@prisma/client';
 export default async function handler(req, res) {
   const prisma = new PrismaClient();
   if (req.method === 'GET') {
+    const {
+      query: { startDate, endDate, departure, arrival, type, occupants, skip },
+    } = req;
     const totalCount = await prisma.inventory.count({
       where: {
         hiddenshow: 'Show',
+        departuredate: {
+          lte: endDate,
+          gte: startDate,
+        },
+        nameofarrivalcity: arrival,
+        nameofdeparturecity: departure,
       },
     });
     const flights = await prisma.$queryRaw`SELECT idinventory,
@@ -22,7 +31,13 @@ export default async function handler(req, res) {
      flightdetails.logo
       FROM inventory 
      JOIN flightdetails ON flightdetails.company = inventory.flightcompany
-     WHERE inventory.hiddenshow = 'Show'`;
+     WHERE inventory.hiddenshow = 'Show'
+     AND inventory.departuredate BETWEEN ${startDate} and ${endDate}
+     AND inventory.nameofdeparturecity = ${departure}
+     AND inventory.nameofarrivalcity = ${arrival}
+     ORDER BY inventory.departuredate DESC
+     LIMIT ${skip || 0}, 4
+     `;
 
     // const flights = await prisma.inventory.findMany({
     //   where: {

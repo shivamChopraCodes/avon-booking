@@ -12,9 +12,13 @@ const FlightListing = ({
   cost,
   type,
   logo,
+  paginationref,
 }) => {
   return (
-    <div className='w-full grid gap-4 lg:gap-10 overflow-hidden grid-cols-3 md:grid-cols-7 grid-rows-1 text-sm tetx-center text-center my-4 lg:my-4 shadow-lg rounded py-2 px-2 '>
+    <div
+      {...(paginationref && { ref: paginationref })}
+      className='w-full grid gap-4 lg:gap-10 overflow-hidden grid-cols-3 md:grid-cols-7 grid-rows-1 text-sm tetx-center text-center my-4 lg:my-4 shadow-lg rounded py-2 px-2 '
+    >
       <section className='flex col-span-3 md:col-span-2 justify-start md:justify-center'>
         <div className='block rounded-lg overflow-hidden h-10 mr-2'>
           <Image
@@ -23,6 +27,7 @@ const FlightListing = ({
             layout={'fixed'}
             width={80}
             height={40}
+            alt={'logo'}
           />
         </div>
         <div className='flex flex-col text-left'>
@@ -37,7 +42,7 @@ const FlightListing = ({
       </section>
       <p className='text-lg font-bold'>{arrivaldate}</p>
       <section className='col-span-3 md:col-span-2 flex md:flex-col justify-end md:items-center text-lg font-bold'>
-        <p>₹ {cost}</p>
+        <p>₹ {(+cost).toLocaleString('en-IN', { maximumSignificantDigits: 3 })}</p>
         <button className='border mx-2 py-2 md:mx-0 bg-primary-blue rounded-md button color-transition w-36 md:my-2 text-white font-medium'>
           Book Now
         </button>

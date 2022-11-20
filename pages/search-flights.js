@@ -175,3 +175,5 @@ export default function SearchFlight({ cities }) {
     </div>
   );
 }
+
+SearchFlight.auth = true;

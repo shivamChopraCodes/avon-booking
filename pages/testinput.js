@@ -27,7 +27,7 @@ export default function Page() {
     const formData1 = new FormData();
     formData1.append('image', file);
     console.log(data);
-    const res = await fetch(`/api/homepage-data`, {
+    const res = await fetch(`/api/hello`, {
       method: 'POST',
       body: formData1,
     });

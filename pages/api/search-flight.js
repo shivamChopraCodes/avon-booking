@@ -66,4 +66,7 @@ export default async function handler(req, res) {
     };
     return res.send(data);
   }
+  if(req.method==='POST') {
+    
+  }
 }

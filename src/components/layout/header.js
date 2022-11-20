@@ -1,3 +1,4 @@
+import { getSession, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -5,10 +6,12 @@ import myLoader from '../../loader';
 
 const Header = () => {
   const [showLoginMenu, setShowLoginMenu] = useState(false);
+  const { data: userData, status: userStatus } = useSession();
+  console.log(userData, userStatus);
   return (
     <>
       <div className='header backdrop-blur-lg text-primary-blue font-semibold w-full z-40  flex justify-between items-center absolute top-4 left-0 px-12 '>
-        <a href={'./index.html'}>
+        <Link href={'/'}>
           <div className='block cursor-pointer w-[150px] lg:w-[200px] max-w overflow-hidden'>
             <Image
               loader={myLoader}
@@ -19,7 +22,7 @@ const Header = () => {
               height={75}
             />
           </div>
-        </a>
+        </Link>
         <div className='lg:flex items-center h-full hidden '>
           <a href={'#about-us'} className='cursor-pointer mx-4 hover:text-primary-yellow'>
             About
@@ -44,16 +47,23 @@ const Header = () => {
               />
               <path d='M0 0h48v48h-48z' fill='none' />
             </svg>
-            <span className='ml-1'>Account</span>
+            <span className='ml-1'>{userStatus === 'authenticated' ? userData.user.userName : 'Account'}</span>
             {showLoginMenu && (
               <div className='absolute rounded shadow-2xl w-full top-[110%] bg-white flex flex-col text-slate-800 px-4 py-2 z-20'>
-                <a href={'/signin'} className='cursor-pointer hover:text-primary-yellow my-2'>
-                  Login
-                </a>
-
-                <a href={'/signup'} className='cursor-pointer hover:text-primary-yellow my-2'>
-                  Register
-                </a>
+                {userStatus === 'authenticated' ? (
+                  <span onClick={() => signOut()} className='cursor-pointer hover:text-primary-yellow my-2'>
+                    Logout
+                  </span>
+                ) : (
+                  <>
+                    <Link href={'/signin'}>
+                      <span className='cursor-pointer hover:text-primary-yellow my-2'>Login</span>
+                    </Link>
+                    <Link href={'/signup'}>
+                      <span className='cursor-pointer hover:text-primary-yellow my-2'>Register</span>
+                    </Link>
+                  </>
+                )}
               </div>
             )}
           </div>

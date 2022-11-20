@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import Spinner from '../src/components/spinner';
+import Spinner from '../../src/components/spinner';
 import { toast } from 'react-toastify';
 
 export default function SignIn() {
@@ -11,7 +11,7 @@ export default function SignIn() {
     password: '',
     rememberMe: false,
   });
-  const [showSpinner, setshowSpinner] = useState();
+  const [showSpinner, setshowSpinner] = useState(false);
   const router = useRouter();
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -20,6 +20,7 @@ export default function SignIn() {
     await signIn('credentials', {
       email: formData.email,
       password: formData.password,
+      userType: 'staff',
       callbackUrl: `${window.location.origin}/search-flights`,
       redirect: false,
     }).then(function (result) {
@@ -46,13 +47,13 @@ export default function SignIn() {
   return (
     <div className='w-full flex justify-center items-center px-2'>
       {showSpinner && (
-        <div className='fixed w-screen h-screen top-0 left-0 flex items-center justify-center bg-white bg-opacity-50'>
+        <div className='z-50 fixed w-screen h-screen top-0 left-0 flex items-center justify-center bg-white bg-opacity-70'>
           <Spinner />
         </div>
       )}
 
-      <div className='block mx-auto my-20 p-6 rounded-lg shadow-lg bg-white max-w-md'>
-        <p className='font-bold text-2xl mb-6'> Sign In</p>
+      <div className='block mx-auto my-20 p-6 rounded-lg shadow-lg bg-white w-full max-w-sm'>
+        <p className='font-bold text-2xl mb-6'>Staff Sign In</p>
         <form>
           <div className='form-group mb-6'>
             <label htmlFor='InputEmail1' className='form-label inline-block mb-2 text-gray-700'>
@@ -136,15 +137,6 @@ export default function SignIn() {
             >
               Sign In
             </button>
-            <p className='text-gray-800 text-center ml-4'>
-              Not a member?{' '}
-              <a
-                href={'/signup'}
-                className='cursor-pointer text-blue-600 hover:text-blue-700 focus:text-blue-700 transition duration-200 ease-in-out'
-              >
-                Register
-              </a>
-            </p>
           </div>
         </form>
       </div>

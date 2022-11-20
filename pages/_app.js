@@ -5,16 +5,42 @@ import 'aos/dist/aos.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useEffect } from 'react';
-
-function MyApp({ Component, pageProps }) {
+import { SessionProvider, useSession } from 'next-auth/react';
+import Spinner from '../src/components/spinner';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   useEffect(() => {
     AOS.init({ once: true });
   }, []);
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <SessionProvider session={session}>
+      <Layout>
+        {Component.auth ? (
+          <Auth>
+            <Component {...pageProps} />
+          </Auth>
+        ) : (
+          <Component {...pageProps} />
+        )}
+        <ToastContainer />
+      </Layout>
+    </SessionProvider>
   );
 }
 
 export default MyApp;
+function Auth({ children }) {
+  // if `{ required: true }` is supplied, `status` can only be "loading" or "authenticated"
+  const { status } = useSession({ required: true });
+
+  if (status === 'loading') {
+    return (
+      <div className='w-screen h-screen flex items-center justify-center'>
+        <Spinner />
+      </div>
+    );
+  }
+
+  return children;
+}

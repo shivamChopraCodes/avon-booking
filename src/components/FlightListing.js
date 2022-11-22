@@ -1,8 +1,11 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import { toBase64 } from '../binaryConverter';
 import myLoader from '../loader';
+import { dateToIndian } from '../utils/dateFormatter';
 
 const FlightListing = ({
+  idinventory,
   flightName,
   flightcompany,
   departuredate,
@@ -35,17 +38,19 @@ const FlightListing = ({
           <p>{flightnumber}</p>
         </div>
       </section>
-      <p className='text-lg font-bold'>{departuredate}</p>
+      <p className='text-lg font-bold'>{dateToIndian(departuredate)}</p>
       <section className='flex flex-col text-slate-600 text-sm items-center'>
         <p>{flightduration}</p>
         <p className='px-2 border-t border-slate-600 pt-2 mt-2 w-max'>{type}</p>
       </section>
-      <p className='text-lg font-bold'>{arrivaldate}</p>
+      <p className='text-lg font-bold'>{dateToIndian(arrivaldate)}</p>
       <section className='col-span-3 md:col-span-2 flex md:flex-col justify-end md:items-center text-lg font-bold'>
         <p>₹ {(+cost).toLocaleString('en-IN', { maximumSignificantDigits: 3 })}</p>
-        <button className='border mx-2 py-2 md:mx-0 bg-primary-blue rounded-md button color-transition w-36 md:my-2 text-white font-medium'>
-          Book Now
-        </button>
+        <Link href={`/flight-details/${idinventory}`}>
+          <button className='border mx-2 py-2 md:mx-0 bg-primary-blue rounded-md button color-transition w-36 md:my-2 text-white font-medium'>
+            Book Now
+          </button>
+        </Link>
       </section>
     </div>
   );

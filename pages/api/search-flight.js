@@ -6,20 +6,42 @@ export default async function handler(req, res) {
   const prisma = new PrismaClient();
   if (req.method === 'GET') {
     const {
-      query: { startDate, endDate, departure, arrival, type, occupants, skip },
+      query: { startDate, endDate, departure, arrival, type, occupants, skip, flightId },
     } = req;
-    const totalCount = await prisma.inventory.count({
-      where: {
-        hiddenshow: 'Show',
-        departuredate: {
-          lte: endDate,
-          gte: startDate,
+    if (flightId) {
+      const flightDetails = await prisma.inventory.findFirst({
+        where: {
+          hiddenshow: 'Show',
+          idinventory: +flightId,
         },
-        nameofarrivalcity: arrival,
-        nameofdeparturecity: departure,
-      },
-    });
-    const flights = await prisma.$queryRaw`SELECT idinventory,
+      });
+      const logo = await prisma.flightdetails.findFirst({
+        where: {
+          company: flightDetails.flightcompany,
+          hiddenshow: 'Show',
+        },
+        select: {
+          logo: true,
+        },
+      });
+      const data = {
+        flightDetails,
+        logo,
+      };
+      return res.send(data);
+    } else {
+      const totalCount = await prisma.inventory.count({
+        where: {
+          hiddenshow: 'Show',
+          departuredate: {
+            lte: endDate,
+            gte: startDate,
+          },
+          nameofarrivalcity: arrival,
+          nameofdeparturecity: departure,
+        },
+      });
+      const flights = await prisma.$queryRaw`SELECT idinventory,
      flightcompany,
      departuredate,
      departuretime,
@@ -39,34 +61,34 @@ export default async function handler(req, res) {
      LIMIT ${skip || 0}, 4
      `;
 
-    // const flights = await prisma.inventory.findMany({
-    //   where: {
-    //     hiddenshow: 'Show',
-    //   },
-    //   include: {
-    //     flightdetails: {
-    //       company: true,
-    //     },
-    //   },
-    //   select: {
-    //     idinventory: true,
-    //     flightcompany: true,
-    //     departuredate: true,
-    //     departuretime: true,
-    //     arrivaldate: true,
-    //     arrivaltime: true,
-    //     flightduration: true,
-    //     cost: true,
+      // const flights = await prisma.inventory.findMany({
+      //   where: {
+      //     hiddenshow: 'Show',
+      //   },
+      //   include: {
+      //     flightdetails: {
+      //       company: true,
+      //     },
+      //   },
+      //   select: {
+      //     idinventory: true,
+      //     flightcompany: true,
+      //     departuredate: true,
+      //     departuretime: true,
+      //     arrivaldate: true,
+      //     arrivaltime: true,
+      //     flightduration: true,
+      //     cost: true,
 
-    //   },
-    // });
-    const data = {
-      totalCount,
-      flights,
-    };
-    return res.send(data);
+      //   },
+      // });
+      const data = {
+        totalCount,
+        flights,
+      };
+      return res.send(data);
+    }
   }
-  if(req.method==='POST') {
-    
+  if (req.method === 'POST') {
   }
 }

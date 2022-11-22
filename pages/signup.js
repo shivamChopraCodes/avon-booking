@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import Spinner from '../src/components/spinner';
@@ -147,6 +148,7 @@ export default function SignUp() {
   const [warnings, setWarnings] = useState({});
   const [btnEnabled, setBtnEnabled] = useState(false);
   const [showSpinner, setshowSpinner] = useState(false);
+  const router = useRouter()
 
   const submit = async (e) => {
     e.preventDefault();
@@ -173,6 +175,8 @@ export default function SignUp() {
           position: 'top-center',
           autoClose: 3000,
         });
+      } else {
+        
       }
     } catch (e) {
       console.log(e);

@@ -9,6 +9,8 @@ import { SessionProvider, useSession } from 'next-auth/react';
 import Spinner from '../src/components/spinner';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+import { TravellersContextProvider } from '../src/context/travellerContext';
+import { FlightsContextProvider } from '../src/context/flightContext';
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   useEffect(() => {
     AOS.init({ once: true });
@@ -17,9 +19,13 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     <SessionProvider session={session}>
       <Layout>
         {Component.auth ? (
-          <Auth>
-            <Component {...pageProps} />
-          </Auth>
+          <FlightsContextProvider>
+            <TravellersContextProvider>
+              <Auth>
+                <Component {...pageProps} />
+              </Auth>
+            </TravellersContextProvider>
+          </FlightsContextProvider>
         ) : (
           <Component {...pageProps} />
         )}

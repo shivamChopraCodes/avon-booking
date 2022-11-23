@@ -5,6 +5,9 @@ import { toBase64 } from '../../src/binaryConverter';
 import { dateToIndian } from '../../src/utils/dateFormatter';
 import TravellerInput from '../../src/components/inputs/travellerInputs';
 import { useState } from 'react';
+import { useTravellersContext } from '../../src/context/travellerContext';
+import { useFlightsContext } from '../../src/context/flightContext';
+import { useRouter } from 'next/router';
 
 export async function getServerSideProps(context) {
   const res = await fetch(`${process.env.BASE_URL}/api/search-flight?flightId=${context.params.id}`, {
@@ -21,7 +24,7 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default function FlightPage({ router, flightDetails, logo }) {
+export default function FlightPage({ flightDetails, logo }) {
   const [passengers, setPassengers] = useState({
     travellers: {
       adults: 1,
@@ -29,7 +32,15 @@ export default function FlightPage({ router, flightDetails, logo }) {
       infants: 0,
     },
   });
+  const router = useRouter();
+  const [travellersData, setTravellersData] = useTravellersContext();
+  const [flightData, setFlightData] = useFlightsContext();
+  console.log(travellersData);
   console.log(flightDetails, logo);
+  const bookNow = () => {
+    setFlightData({ ...flightDetails, logo });
+    router.push('/book-flight');
+  };
   return (
     <div className={styles.container}>
       <main className={`${styles.main} justify-start pt-20  lg:pt-32 max-w-md lg:max-w-5xl mx-auto px-4`}>
@@ -70,8 +81,8 @@ export default function FlightPage({ router, flightDetails, logo }) {
                 hideFlightType={true}
                 width={'w-full lg:w-1/3'}
                 img={'/images/people.svg'}
-                value={passengers}
-                onChange={(value) => setPassengers({ ...value })}
+                value={travellersData}
+                onChange={(value) => setTravellersData((prev) => ({ ...prev, ...value }))}
                 max={flightDetails.numberofseats}
                 dropdownClasses={'shadow-xl'}
               />
@@ -147,11 +158,15 @@ export default function FlightPage({ router, flightDetails, logo }) {
               {' '}
               ₹{' '}
               {(
-                Object.values(passengers.travellers).reduce((sum, current) => sum + current, 0) * +flightDetails.cost
+                Object.values(travellersData.travellers).reduce((sum, current) => sum + current, 0) *
+                +flightDetails.cost
               ).toLocaleString('en-IN', { maximumSignificantDigits: 3 })}
             </span>
           </p>{' '}
-          <button className='border mx-2 py-2 bg-primary-blue rounded-md button color-transition w-36  text-white font-medium'>
+          <button
+            onClick={bookNow}
+            className='border mx-2 py-2 bg-primary-blue rounded-md button color-transition w-36  text-white font-medium'
+          >
             Book Now
           </button>
         </div>

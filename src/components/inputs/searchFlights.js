@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useTravellersContext } from '../../context/travellerContext';
 import CheckRadioButton from './checkRadioInputs';
 import DatePicker from './dateInputs';
 import TextSearchInput from './textInput';
@@ -76,12 +77,14 @@ const SearchFlights = ({ cities, submit }) => {
       type: 'economy',
     },
   });
+  const [travellersData, setTravellersData] = useTravellersContext();
   const handleSubmit = () => {
     if (!inputRef.current.value || !formData.origin || !formData.destination) return null;
     const [startDate, endDate] = inputRef.current.value.split(' - ').map((val) => {
       const splitVal = val.split('/');
       return `${splitVal[2]}-${splitVal[1]}-${splitVal[0]}`;
     });
+    setTravellersData({ ...formData.details });
     const occupants = formData.details.travellers.adults + formData.details.travellers.children;
     const {
       origin,

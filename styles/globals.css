@@ -173,7 +173,14 @@ input[type='date']::-webkit-clear-button {
 .custom-radio.circle-fill:checked + label {
   color: var(--yellow) !important;
 }
-
+.book-flight-radio .custom-radio + label::before {
+  border-color: var(--blue);
+  background-color: #9babc5;
+}
+.book-flight-radio .custom-radio:checked + label::before {
+  background-color: #ffffff;
+  border-color: var(--yellow);
+}
 .color-transition {
   background-size: 200% 100%;
   background-position: right bottom;

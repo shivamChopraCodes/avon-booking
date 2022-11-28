@@ -71,6 +71,8 @@ model booknow {
   passportplace     String? @db.VarChar(45)
   sector            String? @db.VarChar(45)
   nationality       String? @db.VarChar(45)
+  idagent           Int?
+  idstaff           Int?
 }
 
 model city {

@@ -1,4 +1,3 @@
-const bcrypt = require('bcryptjs');
 import fs from 'fs';
 import formidable from 'formidable';
 import { PrismaClient } from '@prisma/client';
@@ -52,6 +51,10 @@ export default function bookflight(req, res) {
             ...fields,
             ...filesConverted,
             hiddenshow: 'Show',
+            basicfare: +fields.basicfare,
+            totalfare: +fields.totalfare,
+            ...(fields.idagent && { idagent: +fields.idagent }),
+            ...(fields.idstaff && { idstaff: +fields.idstaff }),
           },
         });
         return res.status(200).json({});

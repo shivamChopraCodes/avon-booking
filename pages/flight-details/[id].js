@@ -83,7 +83,7 @@ export default function FlightPage({ flightDetails, logo }) {
                 img={'/images/people.svg'}
                 value={travellersData}
                 onChange={(value) => setTravellersData((prev) => ({ ...prev, ...value }))}
-                max={flightDetails.numberofseats}
+                max={Math.min(flightDetails.numberofseats || 4)}
                 dropdownClasses={'shadow-xl'}
               />
             </div>

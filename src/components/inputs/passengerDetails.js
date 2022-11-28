@@ -15,6 +15,13 @@ const passengerInputs = [
     key: 'lastnamep',
   },
   {
+    label: 'Title',
+    mandatory: true,
+    type: 'dropdown',
+    key: 'title',
+    options: ['Mr', 'Mrs', 'Ms'],
+  },
+  {
     label: 'Gender',
     mandatory: true,
     type: 'dropdown',
@@ -64,6 +71,12 @@ const passengerInputs = [
     key: 'passportplace',
   },
   {
+    label: 'Passport Expiry Date',
+    mandatory: true,
+    type: 'date',
+    key: 'passportexpiryp',
+  },
+  {
     label: 'Passport Front (Max Size: 1MB)',
     mandatory: true,
     type: 'file',
@@ -87,6 +100,9 @@ const passengerInputs = [
     type: 'file',
     key: 'pancard',
   },
+];
+
+const radiobtns = [
   {
     label: 'AVML(Vegetarian Meal)',
     mandatory: true,
@@ -120,6 +136,7 @@ const passengerInputs = [
 const PassengerDetails = ({ elem, showPassengerNumber, submit }) => {
   const [showData, setShowData] = useState(false);
   const [passengerData, setPassengerData] = useState({
+    title: 'Mr',
     firstnamep: '',
     lastnamep: '',
     genderp: 'Male',
@@ -188,18 +205,6 @@ const PassengerDetails = ({ elem, showPassengerNumber, submit }) => {
                     </option>
                   ))}
                 </select>
-              ) : item.type === 'checkbox' ? (
-                <CheckRadioButton
-                  key={item.key}
-                  name={`hero-radio-${item.key}_${elem}`}
-                  label={item.label}
-                  type={'checkbox'}
-                  isChecked={passengerData[item.key] === item.value}
-                  handleChange={(e) => {
-                    setPassengerData((prev) => ({ ...prev, [item.key]: !prev[item.key] ? item.value : '' }));
-                  }}
-                  wrapperClasses={'mx-3 book-flight-radio'}
-                />
               ) : (
                 <input
                   type={item.type}
@@ -220,22 +225,43 @@ const PassengerDetails = ({ elem, showPassengerNumber, submit }) => {
                   placeholder=' '
                   required
                 />
-              )}
-              {item.type !== 'checkbox' && (
-                <label
-                  htmlFor={`floating_${item.key}_${elem}`}
-                  className='absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-1 scale-75 top-2 z-10 origin-[0] bg-transparent px-2 peer-focus:px- peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-2 left-1'
-                >
-                  {item.label}
-                  {item.mandatory ? <span className='text-red-500'>*</span> : null}
-                </label>
-              )}
-
+              )}{' '}
+              <label
+                htmlFor={`floating_${item.key}_${elem}`}
+                className='absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-1 scale-75 top-2 z-10 origin-[0] bg-transparent px-2 peer-focus:px- peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-2 left-1'
+              >
+                {item.label}
+                {item.mandatory ? <span className='text-red-500'>*</span> : null}
+              </label>
               {/* {}warnings[item.key] && (
                 <p className='absolute text-red-500 text-xs md:text-sm top-full'>{warnings[item.key]}</p>
               )} */}
             </div>
           ))}
+          <div className='w-full flex flex-wrap'>
+            {radiobtns.map((item) => (
+              <div className='relative my-4 w-full lg:w-[49%]' key={item.key}>
+                <CheckRadioButton
+                  key={item.key}
+                  name={`hero-radio-${item.key}_${elem}`}
+                  label={item.label}
+                  type={'checkbox'}
+                  isChecked={passengerData[item.key] === item.value}
+                  handleChange={(e) => {
+                    setPassengerData((prev) => {
+                      const tempData = { ...prev };
+                      if (!prev[item.key]) {
+                        tempData = { ...tempData, [item.key]: item.value };
+                      } else delete tempData[item.key];
+                      console.log(tempData);
+                      return { ...tempData };
+                    });
+                  }}
+                  wrapperClasses={'mx-3 book-flight-radio'}
+                />
+              </div>
+            ))}
+          </div>
           <div className='flex items-center w-full'>
             <button
               onClick={(e) => {

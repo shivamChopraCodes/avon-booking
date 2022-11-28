@@ -87,7 +87,7 @@ const TravellerInput = ({ value, onChange, img, width, hideFlightType, max, drop
               ))}
 
               {!hideFlightType &&
-                ['economy', 'business', 'first class'].map((each) => (
+                ['Economy Class', 'Business Class', 'First Class'].map((each) => (
                   <CustomRadioButton
                     key={each}
                     type={'radio'}

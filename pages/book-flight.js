@@ -1,3 +1,4 @@
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -148,6 +149,8 @@ export default function BookFlight() {
     agencyphone: '',
     dateoftravel: '',
   });
+  const { data: userData, status: userStatus } = useSession();
+
   const [passengersData, setPassengersData] = useState({});
   console.log(flightData, travellersData);
 
@@ -163,6 +166,11 @@ export default function BookFlight() {
       departure: flightData.nameofdeparturecity,
       arrival: flightData.nameofarrivalcity,
       refnummberp: flightData.referencenumber,
+      duration: flightData.flightduration,
+      basicfare: flightData.cost,
+      totalfare: flightData.cost,
+      [userData.user.userType === 'Agent' ? 'idagent' : 'idstaff']: userData.user.userId,
+      farerulesp: 'Ticket is Non changeable and Non refundable',
     };
     console.log(data);
     try {
@@ -223,69 +231,70 @@ export default function BookFlight() {
   }, []);
 
   return (
-    <div className='block mx-auto my-20 p-6 rounded-lg shadow-lg bg-white max-w-md lg:max-w-5xl'>
-      {showSpinner && (
-        <div className='z-50 fixed w-screen h-screen top-0 left-0 flex items-center justify-center bg-white bg-opacity-70'>
-          <Spinner />
-        </div>
-      )}
-      <p className='font-medium text-2xl mb-6'>
-        {flightData?.flightcompany} {flightData?.flighttype} {flightData?.flightnumber}
-      </p>
-      <form className='flex flex-col lg:flex-row lg:flex-wrap lg:gap-x-4 gap-4'>
-        {data.map((item) => (
-          <div className='relative my-4 w-full lg:w-[49%]' key={item.key}>
-            <input
-              type={item.type}
-              id={`floating_${item.key}`}
-              onChange={(e) => {
-                if (item.type === 'file') {
-                  setFiles((prev) => ({
-                    ...prev,
-                    [item.key]: e.target.files[0],
-                  }));
-                } else
-                  setFormData((prev) => ({
-                    ...prev,
-                    [item.key]: e.target.value.trim(),
-                  }));
-              }}
-              className='block px-2.5 pb-2.5 pt-8 w-full h-full text-sm rounded-lg border border-gray-900 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-              placeholder=' '
-              required
-            />
-            <label
-              htmlFor={`floating_${item.key}`}
-              className='absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-1 scale-75 top-2 z-10 origin-[0] bg-transparent px-2 peer-focus:px- peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-2 left-1'
-            >
-              {item.label}
-              {item.mandatory ? <span className='text-red-500'>*</span> : null}
-            </label>
-            {warnings[item.key] && (
-              <p className='absolute text-red-500 text-xs md:text-sm top-full'>{warnings[item.key]}</p>
-            )}
+    <>
+      <div className='block mx-auto mt-20 p-6 rounded-lg shadow-lg bg-white max-w-md lg:max-w-5xl'>
+        {showSpinner && (
+          <div className='z-50 fixed w-screen h-screen top-0 left-0 flex items-center justify-center bg-white bg-opacity-70'>
+            <Spinner />
           </div>
-        ))}
-        {[...Array(totalTravelers).keys()].map((elem) => (
-          <PassengerDetails
-            key={elem}
-            submit={(data) => setPassengersData((prev) => ({ ...prev, [data.elem]: { ...data } }))}
-            showPassengerNumber={totalTravelers > 1}
-            elem={elem}
-          />
-        ))}
-      </form>
-      <div className='sticky z-20 bottom-0 items-center w-full flex justify-between lg:justify-end bg-white shadow-xl border-2 border-primary-blue rounded p-4 my-4'>
-        <p className='font-medium text-lg mx-2'>
-          Total:{' '}
-          <span className='font-bold'>
-            {' '}
-            ₹ {(totalTravelers * +flightData?.cost).toLocaleString('en-IN', { maximumSignificantDigits: 3 })}
-          </span>
-        </p>{' '}
-        <button
-          onClick={(e) => btnEnabled && submit(e)}
-          className={` ${btnEnabled ? 'button' : 'bg-gray-400'}
+        )}
+        <p className='font-medium text-2xl mb-6'>
+          {flightData?.flightcompany} {flightData?.flighttype} {flightData?.flightnumber}
+        </p>
+        <form className='flex flex-col lg:flex-row lg:flex-wrap lg:gap-x-4 gap-4'>
+          {data.map((item) => (
+            <div className='relative my-4 w-full lg:w-[49%]' key={item.key}>
+              <input
+                type={item.type}
+                id={`floating_${item.key}`}
+                onChange={(e) => {
+                  if (item.type === 'file') {
+                    setFiles((prev) => ({
+                      ...prev,
+                      [item.key]: e.target.files[0],
+                    }));
+                  } else
+                    setFormData((prev) => ({
+                      ...prev,
+                      [item.key]: e.target.value.trim(),
+                    }));
+                }}
+                className='block px-2.5 pb-2.5 pt-8 w-full h-full text-sm rounded-lg border border-gray-900 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                placeholder=' '
+                required
+              />
+              <label
+                htmlFor={`floating_${item.key}`}
+                className='absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-1 scale-75 top-2 z-10 origin-[0] bg-transparent px-2 peer-focus:px- peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-2 left-1'
+              >
+                {item.label}
+                {item.mandatory ? <span className='text-red-500'>*</span> : null}
+              </label>
+              {warnings[item.key] && (
+                <p className='absolute text-red-500 text-xs md:text-sm top-full'>{warnings[item.key]}</p>
+              )}
+            </div>
+          ))}
+          {[...Array(totalTravelers).keys()].map((elem) => (
+            <PassengerDetails
+              key={elem}
+              submit={(data) => setPassengersData((prev) => ({ ...prev, [data.elem]: { ...data } }))}
+              showPassengerNumber={totalTravelers > 1}
+              elem={elem}
+            />
+          ))}
+        </form>
+        <div className='sticky z-20 bottom-0 items-center w-full flex justify-between lg:justify-end bg-white shadow-xl border-2 border-primary-blue rounded p-4 my-4'>
+          <p className='font-medium text-lg mx-2'>
+            Total:{' '}
+            <span className='font-bold'>
+              {' '}
+              ₹ {(totalTravelers * +flightData?.cost).toLocaleString('en-IN', { maximumSignificantDigits: 3 })}
+            </span>
+          </p>{' '}
+          <button
+            onClick={(e) => btnEnabled && submit(e)}
+            className={` ${btnEnabled ? 'button' : 'bg-gray-400'}
       px-8
       py-4
  color-transition  
@@ -295,11 +304,16 @@ export default function BookFlight() {
       uppercase
       rounded
       shadow-md`}
-        >
-          Book Now
-        </button>
+          >
+            Book Now
+          </button>
+        </div>
       </div>
-    </div>
+      <div className='mx-auto mt-4 mb-20 p-6 rounded-lg border-2 border-dotted border-primary-yellow bg-white max-w-md lg:max-w-5xl flex flex-col'>
+        <span className='text-xl font-bold'>Fare rules</span>
+        Ticket is Non changeable and Non refundable
+      </div>
+    </>
   );
 }
 

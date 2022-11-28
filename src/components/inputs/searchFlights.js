@@ -74,7 +74,7 @@ const SearchFlights = ({ cities, submit }) => {
         children: 0,
         infants: 0,
       },
-      type: 'economy',
+      type: 'Economy Class',
     },
   });
   const [travellersData, setTravellersData] = useTravellersContext();
@@ -135,6 +135,7 @@ const SearchFlights = ({ cities, submit }) => {
               {...(input.key === 'destination' && {
                 options: cities.filter((city) => city.cityname !== formData.origin),
               })}
+              {...(input.key === 'details' && { max: 4 })}
               onChange={(value) =>
                 setFormData((prev) => ({
                   ...prev,

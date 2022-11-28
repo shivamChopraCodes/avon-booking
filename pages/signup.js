@@ -148,7 +148,7 @@ export default function SignUp() {
   const [warnings, setWarnings] = useState({});
   const [btnEnabled, setBtnEnabled] = useState(false);
   const [showSpinner, setshowSpinner] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
 
   const submit = async (e) => {
     e.preventDefault();
@@ -176,7 +176,11 @@ export default function SignUp() {
           autoClose: 3000,
         });
       } else {
-        
+        toast.success('Sign up succesful. Your acount will be activated post verification', {
+          position: 'top-center',
+          autoClose: 3000,
+        });
+        router.push('/signin');
       }
     } catch (e) {
       console.log(e);

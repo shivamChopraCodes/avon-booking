@@ -33,12 +33,6 @@ const data = [
     type: 'text',
     key: 'agencyphone',
   },
-  {
-    label: 'Date of Travel',
-    mandatory: true,
-    type: 'date',
-    key: 'dateoftravel',
-  },
 ];
 const passengerInputs = [
   {
@@ -142,13 +136,6 @@ export default function BookFlight() {
   const [flightData, setFlightData] = useFlightsContext();
   const [travellersData, setTravellersData] = useTravellersContext();
   const totalTravelers = Object.values(travellersData.travellers).reduce((sum, current) => sum + current, 0);
-  const [formData, setFormData] = useState({
-    agencyname: '',
-    agencyaddress: '',
-    agencyemail: '',
-    agencyphone: '',
-    dateoftravel: '',
-  });
   const { data: userData, status: userStatus } = useSession();
 
   const [passengersData, setPassengersData] = useState({});
@@ -171,6 +158,11 @@ export default function BookFlight() {
       totalfare: flightData.cost,
       [userData.user.userType === 'Agent' ? 'idagent' : 'idstaff']: userData.user.userId,
       farerulesp: 'Ticket is Non changeable and Non refundable',
+      dateoftravel: flightData.departuredate,
+      agencyname: userData.agencyName,
+      agencyaddress: userData.agencyAddress,
+      agencyemail: userData.email,
+      agencyphone: userData.agentPhone,
     };
     console.log(data);
     try {
@@ -210,6 +202,7 @@ export default function BookFlight() {
         position: 'top-center',
         autoClose: 3000,
       });
+      router.push('/search-flights');
     } catch (e) {
       toast.error('Booking Unsuccesful, Please try again later', {
         position: 'top-center',
@@ -220,12 +213,9 @@ export default function BookFlight() {
   };
 
   useEffect(() => {
-    const mandatoryKeys = data.reduce((acc, item) => (item.mandatory ? [...acc, item.key] : acc), []);
-    let enableBtn =
-      mandatoryKeys.reduce((result, key) => result && (!!formData[key] || !!files[key]), true) &&
-      !!Object.keys(passengersData).length;
+    let enableBtn = !!Object.keys(passengersData).length;
     enableBtn !== btnEnabled && setBtnEnabled(enableBtn);
-  }, [formData, passengersData]);
+  }, [passengersData]);
   useEffect(() => {
     if (!flightData) router.push('/search-flights');
   }, []);
@@ -242,45 +232,13 @@ export default function BookFlight() {
           {flightData?.flightcompany} {flightData?.flighttype} {flightData?.flightnumber}
         </p>
         <form className='flex flex-col lg:flex-row lg:flex-wrap lg:gap-x-4 gap-4'>
-          {data.map((item) => (
-            <div className='relative my-4 w-full lg:w-[49%]' key={item.key}>
-              <input
-                type={item.type}
-                id={`floating_${item.key}`}
-                onChange={(e) => {
-                  if (item.type === 'file') {
-                    setFiles((prev) => ({
-                      ...prev,
-                      [item.key]: e.target.files[0],
-                    }));
-                  } else
-                    setFormData((prev) => ({
-                      ...prev,
-                      [item.key]: e.target.value.trim(),
-                    }));
-                }}
-                className='block px-2.5 pb-2.5 pt-8 w-full h-full text-sm rounded-lg border border-gray-900 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-                placeholder=' '
-                required
-              />
-              <label
-                htmlFor={`floating_${item.key}`}
-                className='absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-1 scale-75 top-2 z-10 origin-[0] bg-transparent px-2 peer-focus:px- peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-2 left-1'
-              >
-                {item.label}
-                {item.mandatory ? <span className='text-red-500'>*</span> : null}
-              </label>
-              {warnings[item.key] && (
-                <p className='absolute text-red-500 text-xs md:text-sm top-full'>{warnings[item.key]}</p>
-              )}
-            </div>
-          ))}
           {[...Array(totalTravelers).keys()].map((elem) => (
             <PassengerDetails
               key={elem}
               submit={(data) => setPassengersData((prev) => ({ ...prev, [data.elem]: { ...data } }))}
               showPassengerNumber={totalTravelers > 1}
               elem={elem}
+              openOnMount={!elem}
             />
           ))}
         </form>

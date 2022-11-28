@@ -133,7 +133,7 @@ const radiobtns = [
   },
 ];
 
-const PassengerDetails = ({ elem, showPassengerNumber, submit }) => {
+const PassengerDetails = ({ elem, showPassengerNumber, submit, openOnMount }) => {
   const [showData, setShowData] = useState(false);
   const [passengerData, setPassengerData] = useState({
     title: 'Mr',
@@ -157,6 +157,9 @@ const PassengerDetails = ({ elem, showPassengerNumber, submit }) => {
     let enableBtn = Object.keys(passengerData).reduce((result, key) => result && !!passengerData[key], true);
     enableBtn !== btnEnabled && setBtnEnabled(enableBtn);
   }, [passengerData]);
+  useEffect(() => {
+    if (openOnMount) setShowData(true);
+  }, []);
   return (
     <div key={elem} className='w-full' data-accordion='collapse'>
       <h2 className='  border border-gray-900 rounded-lg'>

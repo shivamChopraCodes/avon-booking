@@ -67,7 +67,11 @@ const configuration = {
                       email: user.email,
                       status: user.status,
                       userType: user.adminstaffagent,
+                      agencyName: user.agencyname,
+                      agencyAddress: user.agencyaddress1 + user.agencyaddress2,
+                      agentPhone: user.mobile,
                     };
+              console.log('userAccount', userAccount);
               return userAccount;
             } else {
               throw new Error(JSON.stringify({ errors: user.errors, status: false }));

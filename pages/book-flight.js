@@ -34,108 +34,19 @@ const data = [
     key: 'agencyphone',
   },
 ];
-const passengerInputs = [
-  {
-    label: 'First Name',
-    mandatory: true,
-    type: 'text',
-    key: 'firstnamep',
-  },
-  {
-    label: 'Last Name',
-    mandatory: true,
-    type: 'text',
-    key: 'lastnamep',
-  },
-  {
-    label: 'Gender',
-    mandatory: true,
-    type: 'dropdown',
-    key: 'genderp',
-    options: ['Male', 'Female', 'Others'],
-  },
-  {
-    label: 'Date of Birth',
-    mandatory: true,
-    type: 'date',
-    key: 'dobp',
-  },
-  {
-    label: 'Phone Number',
-    mandatory: true,
-    type: 'text',
-    key: 'mobilep',
-  },
-  {
-    label: 'Nationality',
-    mandatory: true,
-    type: 'text',
-    key: 'nationality',
-  },
-  {
-    label: 'Baggage Details',
-    mandatory: true,
-    type: 'text',
-    key: 'baggagedetailsp',
-  },
-  {
-    label: 'Sector',
-    mandatory: true,
-    type: 'text',
-    key: 'sector',
-  },
-  {
-    label: 'Passport No.',
-    mandatory: true,
-    type: 'text',
-    key: 'passportnop',
-  },
-  {
-    label: 'Baggage Details',
-    mandatory: true,
-    type: 'text',
-    key: 'baggagedetailsp',
-  },
-  {
-    label: 'Passport Place',
-    mandatory: true,
-    type: 'text',
-    key: 'passportplace',
-  },
-  {
-    label: 'Passport Front (Max Size: 1MB)',
-    mandatory: true,
-    type: 'file',
-    key: 'passportpicfrontp',
-  },
-  {
-    label: 'Passport Back (Max Size: 1MB)',
-    mandatory: true,
-    type: 'file',
-    key: 'passportpicbackp',
-  },
-  {
-    label: 'Visa (Max Size: 1MB)',
-    mandatory: true,
-    type: 'file',
-    key: 'visa',
-  },
-  {
-    label: 'Pan Card (Max Size: 1MB)',
-    mandatory: true,
-    type: 'file',
-    key: 'pancard',
-  },
-];
+const travellerTypeText = { adults: 'adult', children: 'child', infants: 'infant' };
+
 export default function BookFlight() {
-  const [files, setFiles] = useState({});
-  const [warnings, setWarnings] = useState({});
   const [btnEnabled, setBtnEnabled] = useState(false);
   const [showSpinner, setshowSpinner] = useState(false);
   const router = useRouter();
   const [flightData, setFlightData] = useFlightsContext();
   const [travellersData, setTravellersData] = useTravellersContext();
   const totalTravelers = Object.values(travellersData.travellers).reduce((sum, current) => sum + current, 0);
+  const travllersArray = Object.entries(travellersData.travellers).reduce(
+    (result, [key, value], i) => [...result, ...(value ? [{ elem: i, type: travellerTypeText[key] }] : [])],
+    []
+  );
   const { data: userData, status: userStatus } = useSession();
 
   const [passengersData, setPassengersData] = useState({});
@@ -159,19 +70,21 @@ export default function BookFlight() {
       [userData.user.userType === 'Agent' ? 'idagent' : 'idstaff']: userData.user.userId,
       farerulesp: 'Ticket is Non changeable and Non refundable',
       dateoftravel: flightData.departuredate,
-      agencyname: userData.agencyName,
-      agencyaddress: userData.agencyAddress,
-      agencyemail: userData.email,
-      agencyphone: userData.agentPhone,
+      agencyname: userData.user.agencyName,
+      agencyaddress: userData.user.agencyAddress,
+      agencyemail: userData.user.email,
+      agencyphone: userData.user.agentPhone,
+      baggagedetailsp: flightData.baggage,
+      sector: flightData.sector,
+      inventoryid: flightData.idinventory,
+      status: 'Pending',
     };
     console.log(data);
     try {
+      let error = false;
       await Promise.all([
         ...Object.values(passengersData).map(async (object) => {
           const formData1 = new FormData();
-          Object.entries(files).forEach(([key, value]) => {
-            formData1.append(key, value);
-          });
           Object.entries(reusableData).forEach(([key, value]) => {
             formData1.append(key, value);
           });
@@ -187,6 +100,7 @@ export default function BookFlight() {
             const response = await res.json();
             console.log(response);
             if (response.error) {
+              error = true;
               toast.error(response.error, {
                 position: 'top-center',
                 autoClose: 3000,
@@ -198,11 +112,13 @@ export default function BookFlight() {
           }
         }),
       ]);
-      toast.success('Booking Completed', {
-        position: 'top-center',
-        autoClose: 3000,
-      });
-      router.push('/search-flights');
+      if (!error) {
+        toast.success('Booking Completed', {
+          position: 'top-center',
+          autoClose: 3000,
+        });
+        router.push('/search-flights');
+      }
     } catch (e) {
       toast.error('Booking Unsuccesful, Please try again later', {
         position: 'top-center',
@@ -232,13 +148,14 @@ export default function BookFlight() {
           {flightData?.flightcompany} {flightData?.flighttype} {flightData?.flightnumber}
         </p>
         <form className='flex flex-col lg:flex-row lg:flex-wrap lg:gap-x-4 gap-4'>
-          {[...Array(totalTravelers).keys()].map((elem) => (
+          {travllersArray.map(({ elem, type }) => (
             <PassengerDetails
               key={elem}
-              submit={(data) => setPassengersData((prev) => ({ ...prev, [data.elem]: { ...data } }))}
+              submit={(data) => setPassengersData((prev) => ({ ...prev, [elem]: { ...data } }))}
               showPassengerNumber={totalTravelers > 1}
               elem={elem}
               openOnMount={!elem}
+              type={type}
             />
           ))}
         </form>
@@ -267,7 +184,7 @@ export default function BookFlight() {
           </button>
         </div>
       </div>
-      <div className='mx-auto mt-4 mb-20 p-6 rounded-lg border-2 border-dotted border-primary-yellow bg-white max-w-md lg:max-w-5xl flex flex-col'>
+      <div className='mx-2 md:mx-auto mt-4 mb-20 p-6 rounded-lg border-2 border-dotted border-primary-yellow bg-white max-w-md lg:max-w-5xl flex flex-col'>
         <span className='text-xl font-bold'>Fare rules</span>
         Ticket is Non changeable and Non refundable
       </div>

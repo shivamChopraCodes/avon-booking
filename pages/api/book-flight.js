@@ -61,7 +61,7 @@ export default function bookflight(req, res) {
       } catch (e) {
         console.log(e);
         res.status(401);
-        res.json({ error: 'User already exists' });
+        res.json({ error: `Booking failed for ${fields.firstnamep} ${fields.lastnamep} ` });
         return;
       }
 

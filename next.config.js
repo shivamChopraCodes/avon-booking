@@ -6,7 +6,12 @@ const nextConfig = {
     loader: 'custom',
     path: '',
   },
-   assetPrefix: '/',
+  assetPrefix: '/',
+  compiler: {
+    removeConsole: {
+      exclude: ['error'],
+    },
+  },
 };
 
 module.exports = nextConfig;

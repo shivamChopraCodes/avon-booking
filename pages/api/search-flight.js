@@ -39,6 +39,9 @@ export default async function handler(req, res) {
           },
           nameofarrivalcity: arrival,
           nameofdeparturecity: departure,
+          numberofseats: {
+            gte: occupants,
+          },
         },
       });
       const flights = await prisma.$queryRaw`SELECT idinventory,
@@ -57,6 +60,7 @@ export default async function handler(req, res) {
      AND inventory.departuredate BETWEEN ${startDate} and ${endDate}
      AND inventory.nameofdeparturecity = ${departure}
      AND inventory.nameofarrivalcity = ${arrival}
+     AND inventory.numberofseats >= ${occupants}
      ORDER BY inventory.departuredate DESC
      LIMIT ${skip || 0}, 4
      `;

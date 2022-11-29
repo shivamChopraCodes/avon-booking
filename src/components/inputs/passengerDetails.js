@@ -1,12 +1,17 @@
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import myLoader from '../../loader';
+import { fileSizeOneMb } from '../../utils/validaitons';
 import CheckRadioButton from './checkRadioInputs';
 
 const passengerInputs = [
   {
-    label: 'First Name',
+    label: 'Title',
     mandatory: true,
-    type: 'text',
-    key: 'firstnamep',
+    type: 'dropdown',
+    key: 'title',
+    options: ['Mr', 'Mrs', 'Ms'],
   },
   {
     label: 'Last Name',
@@ -15,11 +20,10 @@ const passengerInputs = [
     key: 'lastnamep',
   },
   {
-    label: 'Title',
+    label: 'First Name',
     mandatory: true,
-    type: 'dropdown',
-    key: 'title',
-    options: ['Mr', 'Mrs', 'Ms'],
+    type: 'text',
+    key: 'firstnamep',
   },
   {
     label: 'Gender',
@@ -41,22 +45,16 @@ const passengerInputs = [
     key: 'mobilep',
   },
   {
+    label: 'Email',
+    mandatory: true,
+    type: 'text',
+    key: 'emailp',
+  },
+  {
     label: 'Nationality',
     mandatory: true,
     type: 'text',
     key: 'nationality',
-  },
-  {
-    label: 'Baggage Details',
-    mandatory: true,
-    type: 'text',
-    key: 'baggagedetailsp',
-  },
-  {
-    label: 'Sector',
-    mandatory: true,
-    type: 'text',
-    key: 'sector',
   },
   {
     label: 'Passport No.',
@@ -84,19 +82,19 @@ const passengerInputs = [
   },
   {
     label: 'Passport Back (Max Size: 1MB)',
-    mandatory: true,
+    mandatory: false,
     type: 'file',
     key: 'passportpicbackp',
   },
   {
     label: 'Visa (Max Size: 1MB)',
-    mandatory: true,
+    mandatory: false,
     type: 'file',
     key: 'visa',
   },
   {
     label: 'Pan Card (Max Size: 1MB)',
-    mandatory: true,
+    mandatory: false,
     type: 'file',
     key: 'pancard',
   },
@@ -133,18 +131,18 @@ const radiobtns = [
   },
 ];
 
-const PassengerDetails = ({ elem, showPassengerNumber, submit, openOnMount }) => {
+const PassengerDetails = ({ elem, showPassengerNumber, submit, openOnMount, type }) => {
   const [showData, setShowData] = useState(false);
   const [passengerData, setPassengerData] = useState({
     title: 'Mr',
     firstnamep: '',
     lastnamep: '',
     genderp: 'Male',
+    typep: type,
     dobp: '',
     mobilep: '',
+    emailp: '',
     nationality: '',
-    baggagedetailsp: '',
-    sector: '',
     passportnop: '',
     passportplace: '',
     passportpicfrontp: '',
@@ -152,9 +150,16 @@ const PassengerDetails = ({ elem, showPassengerNumber, submit, openOnMount }) =>
     visa: '',
     pancard: '',
   });
+  const [fileName, setFileName] = useState({
+    passportpicfrontp: undefined,
+    passportpicbackp: undefined,
+    visa: undefined,
+    pancard: undefined,
+  });
   const [btnEnabled, setBtnEnabled] = useState(false);
   useEffect(() => {
-    let enableBtn = Object.keys(passengerData).reduce((result, key) => result && !!passengerData[key], true);
+    const mandatoryKeys = passengerInputs.reduce((acc, item) => (item.mandatory ? [...acc, item.key] : acc), []);
+    const enableBtn = mandatoryKeys.reduce((result, key) => result && !!passengerData[key], true);
     enableBtn !== btnEnabled && setBtnEnabled(enableBtn);
   }, [passengerData]);
   useEffect(() => {
@@ -168,7 +173,9 @@ const PassengerDetails = ({ elem, showPassengerNumber, submit, openOnMount }) =>
           onClick={() => setShowData((prev) => !prev)}
           className='flex items-center justify-between w-full p-5 font-medium text-left'
         >
-          <span>Passenger{showPassengerNumber ? ' ' + (elem + 1) : ''} Details</span>
+          <span className='capitalize'>
+            Passenger{showPassengerNumber ? ' ' + (elem + 1) : ''} {type} Details
+          </span>
           <svg
             data-accordion-icon
             className={`w-6 h-6 ${showData && 'rotate-180'} shrink-0`}
@@ -177,9 +184,9 @@ const PassengerDetails = ({ elem, showPassengerNumber, submit, openOnMount }) =>
             xmlns='http://www.w3.org/2000/svg'
           >
             <path
-              fill-rule='evenodd'
+              fillRule='evenodd'
               d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z'
-              clip-rule='evenodd'
+              clipRule='evenodd'
             ></path>
           </svg>
         </button>
@@ -198,6 +205,7 @@ const PassengerDetails = ({ elem, showPassengerNumber, submit, openOnMount }) =>
                       [item.key]: e.target.value.trim(),
                     }));
                   }}
+                  value={passengerData[item.key]}
                   className='block px-2.5 pb-2.5 pt-8 w-full h-full text-sm rounded-lg border border-gray-900 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'
                   placeholder=' '
                   required
@@ -208,16 +216,47 @@ const PassengerDetails = ({ elem, showPassengerNumber, submit, openOnMount }) =>
                     </option>
                   ))}
                 </select>
+              ) : item.type === 'file' && fileName[item.key] ? (
+                <p className='flex px-2.5 pb-2.5 pt-8 w-full h-full text-sm rounded-lg border border-gray-900 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'>
+                  <span>{fileName[item.key]}</span>
+                  <div
+                    className='flex items-center mx-4 cursor-pointer'
+                    onClick={() => {
+                      [setFileName, setPassengerData].forEach((func) =>
+                        func((prev) => ({
+                          ...prev,
+                          [item.key]: null,
+                        }))
+                      );
+                    }}
+                  >
+                    <Image loader={myLoader} width={'16'} height={'16'} src='/images/close.svg' alt='close icon' />
+                  </div>
+                </p>
               ) : (
                 <input
                   type={item.type}
                   id={`floating_${item.key}_${elem}`}
+                  value={item.type === 'file' ? fileName[item.key] : passengerData[item.key]}
                   onChange={(e) => {
                     if (item.type === 'file') {
-                      setPassengerData((prev) => ({
-                        ...prev,
-                        [item.key]: e.target.files[0],
-                      }));
+                      console.log(e.target.files[0]);
+                      if (!fileSizeOneMb(e.target.files[0])) {
+                        toast.warn(`${item.label} file size should not br more than 1 MB`, {
+                          position: 'top-center',
+                          autoClose: 3000,
+                        });
+                        return;
+                      } else {
+                        setFileName((prev) => ({
+                          ...prev,
+                          [item.key]: e.target.files[0].name,
+                        }));
+                        setPassengerData((prev) => ({
+                          ...prev,
+                          [item.key]: e.target.files[0],
+                        }));
+                      }
                     } else
                       setPassengerData((prev) => ({
                         ...prev,
@@ -270,7 +309,7 @@ const PassengerDetails = ({ elem, showPassengerNumber, submit, openOnMount }) =>
               onClick={(e) => {
                 e.preventDefault();
                 setShowData(false);
-                btnEnabled && submit(passengerData);
+                btnEnabled && submit(Object.fromEntries(Object.entries(passengerData).filter(([_, v]) => v)));
               }}
               className={` ${btnEnabled ? 'button' : 'bg-gray-400'}
       px-8

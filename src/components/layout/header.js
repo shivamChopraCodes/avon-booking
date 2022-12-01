@@ -1,13 +1,19 @@
 import { getSession, signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import myLoader from '../../loader';
 
 const Header = () => {
   const [showLoginMenu, setShowLoginMenu] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const { data: userData, status: userStatus } = useSession();
+  const router = useRouter();
+  useEffect(() => {
+    if (showMobileMenu) setShowMobileMenu(false);
+    if (showLoginMenu) setShowLoginMenu(false);
+  }, [router.asPath]);
   console.log(userData, userStatus);
   return (
     <>
@@ -34,6 +40,11 @@ const Header = () => {
           <a href={'#contact-us'} className='cursor-pointer mx-4 hover:text-primary-yellow'>
             Contact Us
           </a>
+          {userStatus === 'authenticated' && (
+            <Link href={'/search-flights'}>
+              <span className='cursor-pointer mx-4 hover:text-primary-yellow my-4 '>Search Flights</span>
+            </Link>
+          )}
           <div
             className={`hover-yellow cursor-pointer rounded-lg flex items-center py-2 pl-2 bg-gradient-to-r from-yellow-300 to-primary-yellow hover:text-white dropdown-toggle ${
               showLoginMenu && 'dropdown-toggle-on'
@@ -103,6 +114,11 @@ const Header = () => {
               <a href={'#contact-us'} className='cursor-pointer mx-4 hover:text-primary-yellow my-4 '>
                 Contact Us
               </a>
+              {userStatus === 'authenticated' && (
+                <Link href={'/search-flights'}>
+                  <span className='cursor-pointer mx-4 hover:text-primary-yellow my-4 '>Search Flights</span>
+                </Link>
+              )}
               <div
                 className={` my-4 hover-yellow cursor-pointer rounded-lg flex items-center py-2 pl-2 bg-gradient-to-r from-yellow-300 to-primary-yellow hover:text-white dropdown-toggle ${
                   showLoginMenu && 'dropdown-toggle-on'
@@ -142,7 +158,10 @@ const Header = () => {
         )}
       </div>
       {showLoginMenu && (
-        <div className='w-screen h-screen fixed top-0 left-0 z-10 ' onClick={() => setShowLoginMenu(false)}></div>
+        <div className='w-screen h-screen fixed top-0 left-0 z-20 ' onClick={() => setShowLoginMenu(false)}></div>
+      )}
+      {showMobileMenu && (
+        <div className='w-screen h-screen fixed top-0 left-0 z-10 ' onClick={() => setShowMobileMenu(false)}></div>
       )}
     </>
   );

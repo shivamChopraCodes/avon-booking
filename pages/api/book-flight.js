@@ -53,6 +53,7 @@ export default function bookflight(req, res) {
             hiddenshow: 'Show',
             basicfare: +fields.basicfare,
             totalfare: +fields.totalfare,
+            inventoryid: +fields.inventoryid,
             ...(fields.idagent && { idagent: +fields.idagent }),
             ...(fields.idstaff && { idstaff: +fields.idstaff }),
           },

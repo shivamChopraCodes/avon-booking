@@ -50,7 +50,7 @@ const BookingListing = ({
       className='w-full flex flex-col  gap-x-4 text-sm text-center my-4 lg:my-4 shadow-lg rounded'
     >
       <section className='w-full text-left px-4 lg:px-8 py-4 bg-gradient-to-r rounded-t from-yellow-300 to-primary-yellow capitalize flex items-center flex-wrap justify-between  '>
-        <div className='w-full flex flex-col '>
+        <div className='flex flex-col '>
           <span className='text-base text-white lg:text-xl font-bold'>
             {departure}
             <strong className='text-xl'> →</strong> {arrival}{' '}
@@ -59,9 +59,10 @@ const BookingListing = ({
             {new Date(dateoftravel).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
           </span>
         </div>
-        <p className='text-sm whitespace-nowrap flex lg:text-base text-white'>
-          Reference Number: <strong className='ml-2'>{refnummberp}</strong>
-        </p>
+        <div className='text-sm whitespace-nowrap flex flex-col lg:flex-row lg:text-base text-white my-4 lg:my-0 '>
+          <span className='text-sm whitespace-nowrap flex lg:text-base text-white '>Reference Number:</span>
+          <strong className='ml-2 text-right'>{refnummberp}</strong>
+        </div>
       </section>
       <div className='flex justify-between flex-wrap w-full '>
         <div className='flex flex-col w-full lg:w-1/2'>

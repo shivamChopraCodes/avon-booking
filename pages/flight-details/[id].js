@@ -83,14 +83,9 @@ export default function FlightPage({ flightDetails, logo }) {
                 img={'/images/people.svg'}
                 value={travellersData}
                 onChange={(value) => setTravellersData((prev) => ({ ...prev, ...value }))}
-                max={Math.min(flightDetails.numberofseats || 4)}
+                max={Math.min(+flightDetails.numberofseats, 4)}
                 dropdownClasses={'shadow-xl'}
               />
-            </div>
-            <div className='w-full md:w-auto flex justify-end my-2 md:my-0'>
-              <button className='border mx-2 py-2 md:mx-0 bg-primary-blue rounded-md button color-transition w-36  text-white font-medium'>
-                Add
-              </button>
             </div>
           </div>
         </div>

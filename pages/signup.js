@@ -1,9 +1,18 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import Spinner from '../src/components/spinner';
-
+import myLoader from '../src/loader';
+import { fileSizeOneMb } from '../src/utils/validaitons';
+const InputToolTip = ({ data }) => {
+  return (
+    <div className='absolute t-0 bg-white shadow-lg bottom-full z-10  flex flex-col rounded'>
+      <div className=' mt-2 password-helper-container px-2.5 py-1.5 relative'>{data}</div>
+    </div>
+  );
+};
 const data = [
   {
     label: 'Username',
@@ -149,6 +158,35 @@ export default function SignUp() {
   const [btnEnabled, setBtnEnabled] = useState(false);
   const [showSpinner, setshowSpinner] = useState(false);
   const router = useRouter();
+  const [goodPassword, setGoodPasswrd] = useState({
+    'minimum 8 length': false,
+    '1 small and 1 capital letter': false,
+    '1 digit': false,
+    '1 special character': false,
+  });
+  const [showPasswordTooltip, setShowPasswordTooltip] = useState(false);
+  const checkGoodPassword = (password) => {
+    let temp = {};
+    temp['minimum 8 length'] = password.length >= 8;
+    temp['1 small and 1 capital letter'] = /(?=.*[a-z])/.test(password) && /(?=.*[A-Z])/.test(password);
+    temp['1 digit'] = /(?=.*\d)/.test(password);
+    temp['1 special character'] = /(?=.*\W])/.test(password) || /[-+_!@#$%^&*.,?]/.test(password);
+    setGoodPasswrd(temp);
+  };
+  const populatePasswordWarnings = () => {
+    return ['minimum 8 length', '1 small and 1 capital letter', '1 digit', '1 special character'].map((u) => (
+      <p key={u} className={`flex items-center password-helper ${goodPassword[u] ? 'good' : 'bad'}`}>
+        <span>{u}</span>
+        <Image
+          loader={myLoader}
+          width={'20'}
+          height={'20'}
+          src={goodPassword[u] ? '/images/tick.svg' : '/images/closeRed.svg'}
+          alt='tick-icon'
+        />
+      </p>
+    ));
+  };
 
   const submit = async (e) => {
     e.preventDefault();
@@ -189,6 +227,11 @@ export default function SignUp() {
   };
 
   useEffect(() => {
+    const isPasswordGood = Object.values(goodPassword).reduce((result, current) => result && current, true);
+    if (!isPasswordGood) {
+      btnEnabled && setBtnEnabled(false);
+      return;
+    }
     const mandatoryKeys = data.reduce((acc, item) => (item.mandatory ? [...acc, item.key] : acc), []);
     let enableBtn = mandatoryKeys.reduce((result, key) => result && (!!formData[key] || !!files[key]), true);
     console.log(enableBtn, formData, files, btnEnabled);
@@ -225,19 +268,30 @@ export default function SignUp() {
               id={`floating_${item.key}`}
               onChange={(e) => {
                 if (item.type === 'file') {
+                  if (!fileSizeOneMb(e.target.files[0])) {
+                    toast.warn(`${item.label} file size should not be more than 1 MB`, {
+                      position: 'top-center',
+                      autoClose: 3000,
+                    });
+                    return;
+                  }
                   setFiles((prev) => ({
                     ...prev,
                     [item.key]: e.target.files[0],
                   }));
-                } else
+                } else {
                   setFormData((prev) => ({
                     ...prev,
                     [item.key]: e.target.value.trim(),
                   }));
+                  item.key === 'password' && checkGoodPassword(e.target.value.trim());
+                }
               }}
               className='block px-2.5 pb-2.5 pt-8 w-full h-full text-sm rounded-lg border border-gray-900 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'
               placeholder=' '
               required
+              onFocus={() => item.key === 'password' && setShowPasswordTooltip(true)}
+              onBlur={() => item.key === 'password' && setShowPasswordTooltip(false)}
             />
             <label
               htmlFor={`floating_${item.key}`}
@@ -249,6 +303,7 @@ export default function SignUp() {
             {warnings[item.key] && (
               <p className='absolute text-red-500 text-xs md:text-sm top-full'>{warnings[item.key]}</p>
             )}
+            {item.key === 'password' && showPasswordTooltip && <InputToolTip data={populatePasswordWarnings()} />}
           </div>
         ))}
         <div className='flex items-center w-full'>

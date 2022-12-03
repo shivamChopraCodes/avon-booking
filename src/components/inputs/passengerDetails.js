@@ -242,7 +242,7 @@ const PassengerDetails = ({ elem, showPassengerNumber, submit, openOnMount, type
                     if (item.type === 'file') {
                       console.log(e.target.files[0]);
                       if (!fileSizeOneMb(e.target.files[0])) {
-                        toast.warn(`${item.label} file size should not br more than 1 MB`, {
+                        toast.warn(`${item.label} file size should not be more than 1 MB`, {
                           position: 'top-center',
                           autoClose: 3000,
                         });

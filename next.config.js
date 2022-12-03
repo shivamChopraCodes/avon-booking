@@ -7,11 +7,13 @@ const nextConfig = {
     path: '',
   },
   assetPrefix: '/',
-  compiler: {
-    removeConsole: {
-      exclude: ['error'],
+  ...(process.env.BASE_URL !== 'http://localhost:3000' && {
+    compiler: {
+      removeConsole: {
+        exclude: ['error'],
+      },
     },
-  },
+  }),
 };
 
 module.exports = nextConfig;

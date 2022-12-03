@@ -31,7 +31,8 @@ const fetchUser = async (email, type) => {
   }
 };
 
-const configuration = {
+export const authOptions = {
+  secret: 'elKvNxUvZy+7CfMWilbA6JTZiornxSq8scdh/NwgUao=',
   cookie: {
     secure: process.env.NODE_ENV && process.env.NODE_ENV === 'production',
   },
@@ -140,4 +141,4 @@ const configuration = {
     signIn: '/signin',
   },
 };
-export default (req, res) => NextAuth(req, res, configuration);
+export default (req, res) => NextAuth(req, res, authOptions);

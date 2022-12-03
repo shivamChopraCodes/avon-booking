@@ -61,11 +61,18 @@ const Header = () => {
             </svg>
             <span className='ml-1'>{userStatus === 'authenticated' ? userData.user.userName : 'Account'}</span>
             {showLoginMenu && (
-              <div className='absolute rounded shadow-2xl w-full top-[110%] bg-white flex flex-col text-slate-800 px-4 py-2 z-20'>
+              <div className='absolute rounded shadow-2xl w-min top-[110%] bg-white flex flex-col text-slate-800 px-4 py-2 z-20'>
                 {userStatus === 'authenticated' ? (
-                  <span onClick={() => signOut()} className='cursor-pointer hover:text-primary-yellow my-2'>
-                    Logout
-                  </span>
+                  <>
+                    <Link href={'/booking-history'}>
+                      <span className='cursor-pointer whitespace-nowrap hover:text-primary-yellow my-4 '>
+                        Your Bookings
+                      </span>
+                    </Link>
+                    <span onClick={() => signOut()} className='cursor-pointer hover:text-primary-yellow my-2'>
+                      Logout
+                    </span>
+                  </>
                 ) : (
                   <>
                     <Link href={'/signin'}>
@@ -135,11 +142,18 @@ const Header = () => {
                 </svg>
                 <span className='ml-1'>{userStatus === 'authenticated' ? userData.user.userName : 'Account'}</span>
                 {showLoginMenu && (
-                  <div className='absolute rounded shadow-2xl w-full top-[110%] bg-white flex flex-col text-slate-800 px-4 py-2 z-20'>
+                  <div className='absolute rounded shadow-2xl w-min top-[110%] bg-white flex flex-col text-slate-800 px-4 py-2 z-20'>
                     {userStatus === 'authenticated' ? (
-                      <span onClick={() => signOut()} className='cursor-pointer hover:text-primary-yellow my-2'>
-                        Logout
-                      </span>
+                      <>
+                        <Link href={'/booking-history'}>
+                          <span className='cursor-pointer whitespace-nowrap hover:text-primary-yellow my-4 '>
+                            Your Bookings
+                          </span>
+                        </Link>
+                        <span onClick={() => signOut()} className='cursor-pointer hover:text-primary-yellow my-2'>
+                          Logout
+                        </span>
+                      </>
                     ) : (
                       <>
                         <Link href={'/signin'}>

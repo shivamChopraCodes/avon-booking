@@ -503,6 +503,21 @@ input[type='date']::-webkit-clear-button {
   }
 }
 
+.password-helper-container :before {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+
+  border-left: 8px solid transparent;
+  border-top: 8px solid #f8faff;
+  border-right: 8px solid transparent;
+  left: 10%;
+
+  bottom: -8px;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

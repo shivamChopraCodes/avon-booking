@@ -61,7 +61,7 @@ const Header = () => {
             </svg>
             <span className='ml-1'>{userStatus === 'authenticated' ? userData.user.userName : 'Account'}</span>
             {showLoginMenu && (
-              <div className='absolute rounded shadow-2xl w-min top-[110%] bg-white flex flex-col text-slate-800 px-4 py-2 z-20'>
+              <div className='absolute rounded shadow-2xl w-full top-[110%] left-0 bg-white flex flex-col text-slate-800 px-4 py-2 z-20'>
                 {userStatus === 'authenticated' ? (
                   <>
                     <Link href={'/booking-history'}>
@@ -142,7 +142,7 @@ const Header = () => {
                 </svg>
                 <span className='ml-1'>{userStatus === 'authenticated' ? userData.user.userName : 'Account'}</span>
                 {showLoginMenu && (
-                  <div className='absolute rounded shadow-2xl w-min top-[110%] bg-white flex flex-col text-slate-800 px-4 py-2 z-20'>
+                  <div className='absolute rounded shadow-2xl w-full top-[110%] left-0 bg-white flex flex-col text-slate-800 px-4 py-2 z-20'>
                     {userStatus === 'authenticated' ? (
                       <>
                         <Link href={'/booking-history'}>

@@ -1,5 +1,6 @@
 import { unstable_getServerSession } from 'next-auth';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 import BookingListing from '../src/components/BookingListing';
 import FlightListing from '../src/components/FlightListing';
 import SearchFlights from '../src/components/inputs/searchFlights';
@@ -12,10 +13,9 @@ export async function getServerSideProps({ req, res }) {
   const session = await unstable_getServerSession(req, res, authOptions);
   let bookings = {};
   let id = null;
-  console.log('session shivam session shshshshshs', session);
   if (session) {
     id = `${session.user.userType === 'Agent' ? 'idagent' : 'idstaff'}=${session.user.userId}`;
-    const response = await fetch(`${process.env.BASE_URL}/api/fetch-bookings?${id}&skip=0`, {
+    const response = await fetch(`${process.env.BASE_URL}/api/fetch-bookings?${id}&skip=0&rows=${4}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -37,10 +37,10 @@ export default function BookingHistory({ id, bookings }) {
   const [loading, setLoading] = useState(false);
   console.log(bookings, id);
   const callDataRef = useRef();
-  const fetchData = async (skip) => {
+  const fetchData = async (skip, rows = 4) => {
     setLoading(true);
     if (!skip) setData({ fetched: false });
-    const response = await fetch(`/api/fetch-bookings?${id}&skip=${skip}`, {
+    const response = await fetch(`/api/fetch-bookings?${id}&skip=${skip}&rows=${rows}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -50,11 +50,37 @@ export default function BookingHistory({ id, bookings }) {
     console.log(data);
     setLoading(false);
     setData((prev) => ({
-      flightBooked: [...prev.flightBooked, ...bookings.flightBooked],
+      flightBooked: [...(skip ? prev.flightBooked : []), ...bookings.flightBooked],
       totalCount: bookings.totalCount,
       fetched: true,
     }));
     setLogos((prev) => ({ ...prev, ...bookings.logos }));
+  };
+
+  const cancelFlight = async (id) => {
+    try {
+      const res = await fetch(`/api/cancel-booking`, {
+        method: 'POST',
+        body: JSON.stringify({
+          idbooknow: id,
+        }),
+      });
+      const response = await res.json();
+      if (response.error) {
+        toast.error(response.error, {
+          position: 'top-center',
+          autoClose: 3000,
+        });
+      } else {
+        toast.success(response.message, {
+          position: 'top-center',
+          autoClose: 3000,
+        });
+        await fetchData(0, data.flightBooked.length);
+      }
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   const observer = useRef(); // (*)
@@ -94,6 +120,7 @@ export default function BookingHistory({ id, bookings }) {
                     {...flight}
                     logo={logos[flight.inventory.flightcompany]}
                     {...(data.flightBooked.length === i + 1 ? { paginationref: lastBookElementRef } : {})}
+                    cancelFlight={cancelFlight}
                   />
                 ))}
                 {loading && <Spinner />}

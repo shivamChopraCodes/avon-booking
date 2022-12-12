@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   const prisma = new PrismaClient();
   if (req.method === 'GET') {
     const {
-      query: { skip, idagent, idstaff },
+      query: { skip, idagent, idstaff, rows },
     } = req;
     const totalCount = await prisma.booknow.count({
       where: {
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
         },
       ],
       skip: +skip,
-      take: 4,
+      take: +rows,
       select: {
         idbooknow: true,
         refnummberp: true,

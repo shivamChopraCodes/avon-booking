@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { serverbase64, toBase64 } from '../binaryConverter';
 import myLoader from '../loader';
 import { dateToIndian } from '../utils/dateFormatter';
@@ -43,7 +44,9 @@ const BookingListing = ({
   arrivalterminal,
   logo,
   paginationref,
+  cancelFlight,
 }) => {
+  const [showCancelModal, setShowCancelModal] = useState(false);
   return (
     <div
       {...(paginationref && { ref: paginationref })}
@@ -144,7 +147,7 @@ const BookingListing = ({
                   : status?.toLowerCase() === 'pending'
                   ? 'text-primary-yellow'
                   : 'text-red-600'
-              }`}
+              } font-bold  `}
             >
               {status}
             </span>
@@ -155,10 +158,36 @@ const BookingListing = ({
               <span>{dateToIndian(createdat)}</span>
             </div>
           )}
-          {status?.toLowerCase() !== 'pending' && updatedat && (
-            <div className='mb-4 w-full flex items-center justify-between text-base lg:text-lg'>
-              <span className='text-slate-400 '> {status} Date</span>
-              <span>{dateToIndian(updatedat)}</span>
+          {status?.toLowerCase() !== 'pending' ? (
+            updatedat && (
+              <div className='w-full flex items-center justify-between text-base lg:text-lg'>
+                <span className='text-slate-400 '> {status} Date</span>
+                <span>{dateToIndian(updatedat)}</span>
+              </div>
+            )
+          ) : (
+            <div className='w-full flex items-center justify-end text-base lg:text-lg relative'>
+              <button
+                onClick={() => cancelFlight(idbooknow)}
+                className=' relative z-0 bg-red-600 px-2 py-1 text-center rounded focus:ring-1 focus:ring-red-500 text-white '
+              >
+                Cancel Booking
+              </button>
+              {/* <div className='relative z-10'>
+                <div className='absolute flex flex-col items-center -left-52 bottom-[-195px] z-20 w-96 p-2 -mt-1 text-sm leading-tight border-primary-yellow border-2 transform  -translate-y-full bg-white rounded-lg shadow-lg'>
+                  This will cancel the booking request permanently.
+                  <button className=' relative z-0 my-2 bg-red-600 px-4 py-2 text-center rounded focus:ring-1 focus:ring-red-500 text-white '>
+                    Cancel
+                  </button>
+                </div>
+                <svg
+                  className='absolute z-10 w-6 h-6 shadow-xl text-white transform -translate-x-12  -bottom-10 fill-current stroke-primary-yellow'
+                  width='8'
+                  height='8'
+                >
+                  <rect x='12' y='-10' width='8' height='8' transform='rotate(45)' />
+                </svg>
+              </div> */}
             </div>
           )}
           <section className='flex flex-col items-start w-full text-lg my-8 '>

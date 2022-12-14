@@ -121,9 +121,9 @@ const Header = () => {
               <a href={'#services'} className='cursor-pointer mx-4 hover:text-primary-yellow my-4 '>
                 Services
               </a>
-              <a href={'#contact-us'} className='cursor-pointer mx-4 hover:text-primary-yellow my-4 '>
-                Contact Us
-              </a>
+              <Link href={'/contact-us'}>
+                <span className='cursor-pointer mx-4 hover:text-primary-yellow'>Contact Us</span>
+              </Link>
               {userStatus === 'authenticated' && (
                 <Link href={'/search-flights'}>
                   <span className='cursor-pointer mx-4 hover:text-primary-yellow my-4 '>Search Flights</span>

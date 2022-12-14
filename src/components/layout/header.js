@@ -17,9 +17,13 @@ const Header = () => {
   console.log(userData, userStatus);
   return (
     <>
-      <div className='header backdrop-blur-lg text-primary-blue font-semibold w-full z-40  flex justify-between items-center absolute top-4 left-0 px-12 '>
+      <div
+        className={`header backdrop-blur-lg ${
+          router.pathname.includes('contact') ? 'text-white' : 'text-primary-blue'
+        } font-semibold w-full z-40  flex justify-between items-center absolute top-4 left-0 px-12`}
+      >
         <Link href={'/'}>
-          <div className='block cursor-pointer w-[150px] lg:w-[200px] max-w overflow-hidden'>
+          <div className='block cursor-pointer w-[150px] lg:w-[200px] max-w overflow-hidden drop-shadow-2xl '>
             <Image
               loader={myLoader}
               layout={'responsive'}
@@ -37,9 +41,9 @@ const Header = () => {
           <a href={'#services'} className='cursor-pointer mx-4 hover:text-primary-yellow'>
             Services
           </a>
-          <a href={'#contact-us'} className='cursor-pointer mx-4 hover:text-primary-yellow'>
-            Contact Us
-          </a>
+          <Link href={'/contact-us'}>
+            <span className='cursor-pointer mx-4 hover:text-primary-yellow'>Contact Us</span>
+          </Link>
           {userStatus === 'authenticated' && (
             <Link href={'/search-flights'}>
               <span className='cursor-pointer mx-4 hover:text-primary-yellow my-4 '>Search Flights</span>
@@ -48,7 +52,7 @@ const Header = () => {
           <div
             className={`hover-yellow cursor-pointer rounded-lg flex items-center py-2 pl-2 bg-gradient-to-r from-yellow-300 to-primary-yellow hover:text-white dropdown-toggle ${
               showLoginMenu && 'dropdown-toggle-on'
-            } relative pr-10`}
+            } relative pr-10 text-primary-blue`}
             onClick={() => setShowLoginMenu((prev) => !prev)}
           >
             <svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 48 48'>
@@ -88,7 +92,6 @@ const Header = () => {
           </div>
         </div>
         <button
-          data-collapse-toggle='navbar-default'
           type='button'
           className='inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg lg:hidden '
           aria-controls='navbar-default'
@@ -110,7 +113,7 @@ const Header = () => {
           </svg>
         </button>
         {showMobileMenu && (
-          <div className='absolute left-0 top-full z-20 items-center w-full lg:hidden'>
+          <div className='absolute left-0 top-full z-20 items-center w-full lg:hidde text-primary-blue '>
             <div className='mx-auto bg-white flex flex-col items-center w-3/4 lg:hidden shadow-lg rounded'>
               <a href={'#about-us'} className='cursor-pointer mx-4 hover:text-primary-yellow my-4 '>
                 About

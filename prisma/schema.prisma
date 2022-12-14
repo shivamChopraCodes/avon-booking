@@ -216,3 +216,13 @@ model weeklyspecial {
   trip            String? @db.VarChar(45)
   hiddenshow      String? @db.VarChar(45)
 }
+
+
+model enquiry {
+  id        Int     @id @default(autoincrement())
+  name      String  @db.VarChar(45)
+  email     String  @db.VarChar(45)
+  phone     String? @db.VarChar(45)
+  message   String  @db.VarChar(350)
+  createdat String  @db.VarChar(45)
+}

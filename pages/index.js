@@ -54,10 +54,11 @@ import styles from '../styles/Home.module.css';
 //   };
 // }
 
-export default function Home() {
-  const [data, setData] = useState({});
+export default function Home({ homepageDataRef }) {
+  const [data, setData] = useState({ ...homepageDataRef.current });
   const [loading, setLoading] = useState(false);
   const [weeklySpecials, setWeeklySpecials] = useState(null);
+
   const fetchWeeklySpecials = async () => {
     setLoading(true);
     const res = await fetch(`./api/homepage-data/best-tour`, {
@@ -93,10 +94,15 @@ export default function Home() {
       ...best_tour,
       ...amazing_deals,
     });
+    homepageDataRef.current = {
+      weekly_specials: [...weekly_specials1.weekly_specials, ...weekly_specials2.weekly_specials],
+      ...best_tour,
+      ...amazing_deals,
+    };
     setLoading(false);
   };
   useEffect(() => {
-    fetchWeeklySpecials();
+    !Object.keys(data).length && fetchWeeklySpecials();
   }, []);
 
   return (

@@ -134,8 +134,8 @@ export default function Page() {
           </h2>
           <p className='mb-8 lg:mb-16 font-medium text-center text-zinc-600 sm:text-xl'>You can reach out to us</p>
           <div className='flex flex-wrap w-full  justify-center items-center'>
-            <div className='w-4/5 lg:w-auto flex items-center'>
-              <div className='block rounded-full w-24 lg:w-32 p-4 bg-white shadow-2xl overflow-hidden '>
+            <div className='w-4/5 md:w-auto flex items-center'>
+              <div className='block rounded-full w-12 md:w-24 lg:w-32 p-2 md:p-4 bg-white shadow-2xl overflow-hidden '>
                 <Image
                   loader={myLoader}
                   src={'/images/enquiry-icon.svg'}
@@ -152,8 +152,8 @@ export default function Page() {
                 </a>
               </div>
             </div>
-            <div className='w-4/5 lg:w-auto flex items-center my-4 lg:my-0 md:mx-4'>
-              <div className='block rounded-full w-24 lg:w-32 p-4 bg-white shadow-2xl overflow-hidden '>
+            <div className='w-4/5 md:w-auto flex items-center my-4 lg:my-0 md:mx-4'>
+              <div className='block rounded-full w-12 md:w-24 lg:w-32 p-2 md:p-4 bg-white shadow-2xl overflow-hidden '>
                 <Image
                   loader={myLoader}
                   src={'/images/office-hours.svg'}
@@ -173,8 +173,8 @@ export default function Page() {
                 </a>
               </div>
             </div>
-            <div className='w-4/5 lg:w-auto flex items-center'>
-              <div className='block rounded-full w-24 lg:w-32 p-4 bg-white shadow-2xl overflow-hidden '>
+            <div className='w-4/5 md:w-100 lg:w-auto flex items-center'>
+              <div className='block rounded-full w-12 md:w-24 lg:w-32 p-2 md:p-4 bg-white shadow-2xl overflow-hidden '>
                 <Image
                   loader={myLoader}
                   src={'/images/customer-care.svg'}

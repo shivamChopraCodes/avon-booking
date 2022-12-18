@@ -4,7 +4,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { SessionProvider, useSession } from 'next-auth/react';
 import Spinner from '../src/components/spinner';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,6 +15,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   useEffect(() => {
     AOS.init({ once: true });
   }, []);
+  const homepageDataRef = useRef({});
   return (
     <SessionProvider session={session}>
       <Layout>
@@ -27,7 +28,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
             </TravellersContextProvider>
           </FlightsContextProvider>
         ) : (
-          <Component {...pageProps} />
+          <Component {...pageProps} homepageDataRef={homepageDataRef} />
         )}
         <ToastContainer />
       </Layout>

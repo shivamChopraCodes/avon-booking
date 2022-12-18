@@ -35,9 +35,9 @@ const Header = () => {
           </div>
         </Link>
         <div className='lg:flex items-center h-full hidden '>
-          <a href={'#about-us'} className='cursor-pointer mx-4 hover:text-primary-yellow'>
-            About
-          </a>
+          <Link href={'/about-us'}>
+            <span className='cursor-pointer mx-4 hover:text-primary-yellow'>About</span>
+          </Link>
           <a href={'#services'} className='cursor-pointer mx-4 hover:text-primary-yellow'>
             Services
           </a>
@@ -115,18 +115,18 @@ const Header = () => {
         {showMobileMenu && (
           <div className='absolute left-0 top-full z-20 items-center w-full lg:hidde text-primary-blue '>
             <div className='mx-auto bg-white flex flex-col items-center w-3/4 lg:hidden shadow-lg rounded'>
-              <a href={'#about-us'} className='cursor-pointer mx-4 hover:text-primary-yellow my-4 '>
-                About
-              </a>
+              <Link href={'/about-us'}>
+                <span className='cursor-pointer mx-4 hover:text-primary-yellow my-4'>About</span>
+              </Link>
               <a href={'#services'} className='cursor-pointer mx-4 hover:text-primary-yellow my-4 '>
                 Services
               </a>
               <Link href={'/contact-us'}>
-                <span className='cursor-pointer mx-4 hover:text-primary-yellow'>Contact Us</span>
+                <span className='cursor-pointer mx-4 hover:text-primary-yellow my-4'>Contact Us</span>
               </Link>
               {userStatus === 'authenticated' && (
                 <Link href={'/search-flights'}>
-                  <span className='cursor-pointer mx-4 hover:text-primary-yellow my-4 '>Search Flights</span>
+                  <span className='cursor-pointer mx-4 hover:text-primary-yellow my-4'>Search Flights</span>
                 </Link>
               )}
               <div

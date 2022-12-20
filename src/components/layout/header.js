@@ -38,9 +38,9 @@ const Header = () => {
           <Link href={'/about-us'}>
             <span className='cursor-pointer mx-4 hover:text-primary-yellow'>About</span>
           </Link>
-          <a href={'#services'} className='cursor-pointer mx-4 hover:text-primary-yellow'>
-            Services
-          </a>
+          <Link href={'/#services'}>
+            <span className='cursor-pointer mx-4 hover:text-primary-yellow'>Services</span>
+          </Link>
           <Link href={'/contact-us'}>
             <span className='cursor-pointer mx-4 hover:text-primary-yellow'>Contact Us</span>
           </Link>
@@ -118,9 +118,9 @@ const Header = () => {
               <Link href={'/about-us'}>
                 <span className='cursor-pointer mx-4 hover:text-primary-yellow my-4'>About</span>
               </Link>
-              <a href={'#services'} className='cursor-pointer mx-4 hover:text-primary-yellow my-4 '>
-                Services
-              </a>
+              <Link href={'/#services'}>
+                <span className='cursor-pointer mx-4 hover:text-primary-yellow my-4 '>Services</span>
+              </Link>
               <Link href={'/contact-us'}>
                 <span className='cursor-pointer mx-4 hover:text-primary-yellow my-4'>Contact Us</span>
               </Link>

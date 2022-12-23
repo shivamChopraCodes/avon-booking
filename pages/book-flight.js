@@ -44,13 +44,17 @@ export default function BookFlight() {
   const [travellersData, setTravellersData] = useTravellersContext();
   const totalTravelers = Object.values(travellersData.travellers).reduce((sum, current) => sum + current, 0);
   const travllersArray = Object.entries(travellersData.travellers).reduce(
-    (result, [key, value], i) => [...result, ...(value ? [{ elem: i, type: travellerTypeText[key] }] : [])],
+    (result, [key, value]) => [
+      ...result,
+      ...(value
+        ? Array.from({ length: value }, (_, i) => ({ elem: result.length + i, type: travellerTypeText[key] }))
+        : []),
+    ],
     []
   );
   const { data: userData, status: userStatus } = useSession();
 
   const [passengersData, setPassengersData] = useState({});
-  console.log(flightData, travellersData);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -186,7 +190,7 @@ export default function BookFlight() {
       </div>
       <div className='mx-2 md:mx-auto mt-4 mb-20 p-6 rounded-lg border-2 border-dotted border-primary-yellow bg-white max-w-md lg:max-w-5xl flex flex-col'>
         <span className='text-xl font-bold'>Fare rules</span>
-        Ticket is Non changeable and Non refundable
+        Ticket is Non changeable and Non refundable.
       </div>
     </>
   );

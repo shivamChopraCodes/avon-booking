@@ -8,17 +8,18 @@ const prisma = new PrismaClient();
 const bcrypt = require('bcryptjs');
 
 const confirmPasswordHash = async (plainPassword, hashedPassword) => {
-  console.log(plainPassword, hashedPassword, await bcrypt.hashSync('123456', 10));
   return await bcrypt.compareSync(plainPassword, hashedPassword);
 };
 
-const fetchUser = async (email, type) => {
+const fetchUser = async ({ email, username, password }, type) => {
+  console.log(username, password);
   if (type === 'staff') {
     return await prisma.signupstaff.findFirst({
       where: {
-        email: email,
-        showhidden: 'Show',
-        blockunblock: 'Unblock',
+        username: username,
+        hiddenshow: 'Show',
+        blockunblock: 'UnBlock',
+        password: password,
       },
     });
   } else {
@@ -48,37 +49,47 @@ export const authOptions = {
       credentials: {},
       async authorize(credentials) {
         try {
-          const user = await fetchUser(credentials.email, credentials.userType);
-          if (user !== null) {
+          const user = await fetchUser(credentials, credentials.userType);
+          if (user) {
+            console.log(user);
+            if (credentials.userType === 'staff') {
+              userAccount = {
+                userId: user.idsignupstaff,
+                userName: user.username,
+                userType: user.adminstaffagent,
+              };
+              return userAccount;
+            }
             //Compare the hash
             const res = await confirmPasswordHash(credentials.password, user.password);
             console.log('res', res);
 
-            if (res === true) {
+            if (res && credentials.userType !== 'staff') {
               userAccount =
-                credentials.userType === 'staff'
-                  ? {
-                      userId: user.idsignupstaff,
-                      userName: user.username,
-                      userType: user.adminstaffagent,
-                    }
-                  : {
-                      userId: user.idsignupagent,
-                      userName: user.username,
-                      email: user.email,
-                      status: user.status,
-                      userType: user.adminstaffagent,
-                      agencyName: user.agencyname,
-                      agencyAddress: user.agencyaddress1 + user.agencyaddress2,
-                      agentPhone: user.mobile,
-                    };
+                // credentials.userType === 'staff'
+                //   ? {
+                //       userId: user.idsignupstaff,
+                //       userName: user.username,
+                //       userType: user.adminstaffagent,
+                //     }
+                //   :
+                {
+                  userId: user.idsignupagent,
+                  userName: user.username,
+                  email: user.email,
+                  status: user.status,
+                  userType: user.adminstaffagent,
+                  agencyName: user.agencyname,
+                  agencyAddress: user.agencyaddress1 + user.agencyaddress2,
+                  agentPhone: user.mobile,
+                };
               console.log('userAccount', userAccount);
               return userAccount;
             } else {
-              throw new Error(JSON.stringify({ errors: user.errors, status: false }));
+              throw new Error(JSON.stringify({ errors: user?.errors, status: false }));
             }
           } else {
-            throw new Error(JSON.stringify({ errors: user.errors, status: false }));
+            throw new Error(JSON.stringify({ errors: user?.errors, status: false }));
           }
         } catch (err) {
           console.log('Authorize error:', err);
@@ -94,7 +105,8 @@ export const authOptions = {
         console.log('Sign in callback', user);
         console.log('User id: ', user.userId);
         if (typeof user.userId !== typeof undefined) {
-          if (user.status.toLowerCase() === 'verified') {
+          console.log(user);
+          if (user.status?.toLowerCase() === 'verified' || user.userType === 'Staff') {
             console.log('User is active');
             console.log(user);
             return user;

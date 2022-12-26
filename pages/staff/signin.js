@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 export default function SignIn() {
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: '',
     rememberMe: false,
   });
@@ -18,7 +18,7 @@ export default function SignIn() {
     event.stopPropagation();
     setshowSpinner(true);
     await signIn('credentials', {
-      email: formData.email,
+      username: formData.username,
       password: formData.password,
       userType: 'staff',
       callbackUrl: `${window.location.origin}/search-flights`,
@@ -56,13 +56,13 @@ export default function SignIn() {
         <p className='font-bold text-2xl mb-6'>Staff Sign In</p>
         <form>
           <div className='form-group mb-6'>
-            <label htmlFor='InputEmail1' className='form-label inline-block mb-2 text-gray-700'>
-              Email
+            <label htmlFor='Inputusername1' className='form-label inline-block mb-2 text-gray-700'>
+              Username
             </label>
             <input
               type='text'
-              value={formData.email}
-              onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
+              value={formData.username}
+              onChange={(e) => setFormData((prev) => ({ ...prev, username: e.target.value }))}
               className='form-control
         block
         w-full

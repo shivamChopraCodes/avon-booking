@@ -7,7 +7,7 @@ const nextConfig = {
     path: '',
   },
   assetPrefix: '/',
-  ...(process.env.BASE_URL !== 'http://localhost:3000' && {
+  ...(process.env.BASE_URL !== 'http://localhost:3001' && {
     compiler: {
       removeConsole: {
         exclude: ['error'],

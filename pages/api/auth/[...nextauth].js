@@ -31,7 +31,7 @@ const fetchUser = async ({ email, username, password }, type) => {
     });
   }
 };
-
+const pages = { signIn: '/signin' };
 export const authOptions = {
   secret: 'elKvNxUvZy+7CfMWilbA6JTZiornxSq8scdh/NwgUao=',
   cookie: {
@@ -58,6 +58,7 @@ export const authOptions = {
                 userName: user.username,
                 userType: user.adminstaffagent,
               };
+              pages.signIn = '/staff/signin';
               return userAccount;
             }
             //Compare the hash
@@ -84,6 +85,7 @@ export const authOptions = {
                   agentPhone: user.mobile,
                 };
               console.log('userAccount', userAccount);
+              pages.signIn = '/signin';
               return userAccount;
             } else {
               throw new Error(JSON.stringify({ errors: user?.errors, status: false }));
@@ -106,6 +108,7 @@ export const authOptions = {
         console.log('User id: ', user.userId);
         if (typeof user.userId !== typeof undefined) {
           console.log(user);
+          user.userType === 'Staff' ? (pages.signIn = '/staff/signin') : (pages.signIn = '/signin');
           if (user.status?.toLowerCase() === 'verified' || user.userType === 'Staff') {
             console.log('User is active');
             console.log(user);
@@ -141,6 +144,9 @@ export const authOptions = {
       console.log('session 86', session);
       return session;
     },
+    async redirect({ url, baseUrl }) {
+      return baseUrl;
+    },
     async jwt({ token, user, account, profile, isNewUser }) {
       console.log('JWT callback. Got User: ', token, user);
       if (typeof user !== typeof undefined) {
@@ -149,8 +155,6 @@ export const authOptions = {
       return token;
     },
   },
-  pages: {
-    signIn: '/signin',
-  },
+  pages,
 };
 export default (req, res) => NextAuth(req, res, authOptions);

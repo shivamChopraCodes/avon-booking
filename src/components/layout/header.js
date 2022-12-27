@@ -14,7 +14,19 @@ const Header = () => {
     if (showMobileMenu) setShowMobileMenu(false);
     if (showLoginMenu) setShowLoginMenu(false);
   }, [router.asPath]);
-  console.log(userData, userStatus);
+
+  const logout = async () => {
+    console.log(userData);
+    const {
+      user: { userType },
+    } = userData;
+    console.log(`${userType.toLowerCase() === 'staff' ? '/staff' : ''}/signin`);
+    const data = await signOut({ redirect: false });
+    if (data) {
+      router.push(`${userType.toLowerCase() === 'staff' ? '/staff' : ''}/signin`);
+    }
+  };
+
   return (
     <>
       <div
@@ -57,6 +69,7 @@ const Header = () => {
           >
             {userData?.user?.userType === 'Staff' ? (
               <svg
+                className='hover-fill'
                 fill='#002d5b'
                 height='30px'
                 width='30px'
@@ -103,7 +116,7 @@ const Header = () => {
                         Your Bookings
                       </span>
                     </Link>
-                    <span onClick={() => signOut()} className='cursor-pointer hover:text-primary-yellow my-2'>
+                    <span onClick={logout} className='cursor-pointer hover:text-primary-yellow my-2'>
                       Logout
                     </span>
                   </>
@@ -212,7 +225,7 @@ const Header = () => {
                             Your Bookings
                           </span>
                         </Link>
-                        <span onClick={() => signOut()} className='cursor-pointer hover:text-primary-yellow my-2'>
+                        <span onClick={logout} className='cursor-pointer hover:text-primary-yellow my-2'>
                           Logout
                         </span>
                       </>

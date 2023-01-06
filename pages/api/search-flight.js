@@ -61,7 +61,7 @@ export default async function handler(req, res) {
      AND inventory.nameofdeparturecity = ${departure}
      AND inventory.nameofarrivalcity = ${arrival}
      AND inventory.numberofseats >= ${occupants}
-     ORDER BY inventory.departuredate DESC
+     ORDER BY inventory.departuredate ASC
      LIMIT ${skip || 0}, 4
      `;
 

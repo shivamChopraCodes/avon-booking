@@ -43,7 +43,7 @@ export default function Page() {
   }, [formData]);
 
   return (
-    <div className='pt-20 w-full bg-primary-blue' id='contact-us'>
+    <div className='pt-20 w-full bg-zinc-500' id='contact-us'>
       <section className=' py-8 px-8'>
         <div className='py-8 lg:py-16 px-4 mx-auto max-w-screen-md bg-gray-300 rounded'>
           <h2 className='mb-4 text-4xl tracking-tight font-extrabold text-center text-primary-yellow '>Contact Us</h2>

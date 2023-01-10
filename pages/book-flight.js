@@ -39,11 +39,12 @@ const travellerTypeText = { adults: 'adult', children: 'child', infants: 'infant
 export default function BookFlight() {
   const [btnEnabled, setBtnEnabled] = useState(false);
   const [showSpinner, setshowSpinner] = useState(false);
+  const [travellersDataCheck, setTravellersDataCheck] = useState({});
   const router = useRouter();
   const [flightData, setFlightData] = useFlightsContext();
   const [travellersData, setTravellersData] = useTravellersContext();
-  const totalTravelers = Object.values(travellersData.travellers).reduce((sum, current) => sum + current, 0);
-  const travllersArray = Object.entries(travellersData.travellers).reduce(
+  const totalTravellers = Object.values(travellersData?.travellers).reduce((sum, current) => sum + current, 0);
+  const travellersArray = Object.entries(travellersData?.travellers).reduce(
     (result, [key, value]) => [
       ...result,
       ...(value
@@ -52,6 +53,11 @@ export default function BookFlight() {
     ],
     []
   );
+  useEffect(() => {
+    if (!travellersData?.travellers) return;
+    const data = travellersArray.reduce((result, curr) => ({ ...result, [curr.elem]: false }), {});
+    setTravellersDataCheck({ ...data });
+  }, [travellersData.travellers]);
   const { data: userData, status: userStatus } = useSession();
 
   const [passengersData, setPassengersData] = useState({});
@@ -83,7 +89,6 @@ export default function BookFlight() {
       inventoryid: flightData.idinventory,
       status: 'Pending',
     };
-    console.log(data);
     try {
       let error = false;
       await Promise.all([
@@ -133,9 +138,12 @@ export default function BookFlight() {
   };
 
   useEffect(() => {
-    let enableBtn = !!Object.keys(passengersData).length;
+    let enableBtn =
+      !!Object.keys(passengersData).length &&
+      Object.values(travellersDataCheck).reduce((result, curr) => result && curr, true);
+    console.log(passengersData, travellersDataCheck);
     enableBtn !== btnEnabled && setBtnEnabled(enableBtn);
-  }, [passengersData]);
+  }, [passengersData, travellersDataCheck]);
   useEffect(() => {
     if (!flightData) router.push('/search-flights');
   }, []);
@@ -148,15 +156,24 @@ export default function BookFlight() {
             <Spinner />
           </div>
         )}
+        <div className='mx-2 md:mx-auto mt-4 mb-20 p-6 rounded-lg border-2 border-dotted border-primary-yellow bg-white max-w-md lg:max-w-5xl flex flex-col'>
+          <span className='text-xl font-bold'>Fare rules</span>
+          Ticket is Non changeable and Non refundable.
+        </div>
         <p className='font-medium text-2xl mb-6'>
-          {flightData?.flightcompany} {flightData?.flighttype} {flightData?.flightnumber}
+          {flightData?.flightcompany} {flightData?.flighttype} {flightData?.flightnumber}{' '}
+          <span className='text-primary-yellow'>{flightData?.nameofdeparturecity}</span> to{' '}
+          <span className='text-primary-yellow'>{flightData?.nameofarrivalcity}</span>
         </p>
         <form className='flex flex-col lg:flex-row lg:flex-wrap lg:gap-x-4 gap-4'>
-          {travllersArray.map(({ elem, type }) => (
+          {travellersArray.map(({ elem, type }) => (
             <PassengerDetails
               key={elem}
-              submit={(data) => setPassengersData((prev) => ({ ...prev, [elem]: { ...data } }))}
-              showPassengerNumber={totalTravelers > 1}
+              submit={(data, isValid) => {
+                setTravellersDataCheck((prev) => ({ ...prev, [elem]: isValid }));
+                setPassengersData((prev) => ({ ...prev, [elem]: { ...data } }));
+              }}
+              showPassengerNumber={totalTravellers > 1}
               elem={elem}
               openOnMount={!elem}
               type={type}
@@ -168,7 +185,7 @@ export default function BookFlight() {
             Total:{' '}
             <span className='font-bold'>
               {' '}
-              ₹ {(totalTravelers * +flightData?.cost).toLocaleString('en-IN', { maximumSignificantDigits: 3 })}
+              ₹ {(totalTravellers * +flightData?.cost).toLocaleString('en-IN', { maximumSignificantDigits: 3 })}
             </span>
           </p>{' '}
           <button
@@ -187,10 +204,6 @@ export default function BookFlight() {
             Book Now
           </button>
         </div>
-      </div>
-      <div className='mx-2 md:mx-auto mt-4 mb-20 p-6 rounded-lg border-2 border-dotted border-primary-yellow bg-white max-w-md lg:max-w-5xl flex flex-col'>
-        <span className='text-xl font-bold'>Fare rules</span>
-        Ticket is Non changeable and Non refundable.
       </div>
     </>
   );

@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useFiltersContext } from '../../context/filtersContext';
 import { useTravellersContext } from '../../context/travellerContext';
 import CheckRadioButton from './checkRadioInputs';
 import DatePicker from './dateInputs';
@@ -77,6 +78,8 @@ const SearchFlights = ({ cities, submit }) => {
       type: 'Economy Class',
     },
   });
+  const [filters, setFilters] = useFiltersContext();
+
   const [travellersData, setTravellersData] = useTravellersContext();
   const handleSubmit = () => {
     if (!inputRef.current.value || !formData.origin || !formData.destination) return null;
@@ -95,6 +98,12 @@ const SearchFlights = ({ cities, submit }) => {
       ...prev,
       departDate: inputRef.current.value,
     }));
+    setFilters((prev) => ({
+      ...prev,
+      ...formData,
+      departDate: inputRef.current.value,
+      showDates: inputRef.current.value.split(' - '),
+    }));
     submit({
       startDate,
       endDate,
@@ -105,6 +114,13 @@ const SearchFlights = ({ cities, submit }) => {
       showDates: inputRef.current.value.split(' - '),
     });
   };
+  useEffect(() => {
+    if (filters.origin) {
+      const { origin, destination, departDate, details } = filters;
+      setFormData({ origin, destination, departDate, details });
+      inputRef.current.value = filters.departDate;
+    }
+  }, []);
   return (
     <div className='w-full bg-slate-400 bg-opacity-50 py-6' data-aos='fade-up' data-aos-anchor-placement='top-bottom'>
       <div className='w-full max-w-screen-xl flex flex-col items-center mx-auto'>

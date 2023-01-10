@@ -130,8 +130,8 @@ const BookingListing = ({
             <div className='flex items-center lg:items-start justify-between w-full'>
               <p className='text-sm lg:text-base font-normal uppercase '>
                 <span className='font-bold'>{title}</span>
-                <span className='font-bold mx-2 '>{lastnamep}</span>
-                <span>{firstnamep}</span>
+                <span className='mx-2'>{firstnamep}</span>
+                <span>{lastnamep}</span>
               </p>
               <span className='text-sm lg:text-base capitalize'>
                 {typep} {genderp}

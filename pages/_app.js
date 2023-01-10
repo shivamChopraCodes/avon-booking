@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { TravellersContextProvider } from '../src/context/travellerContext';
 import { FlightsContextProvider } from '../src/context/flightContext';
+import { FiltersContextProvider } from '../src/context/filtersContext';
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   useEffect(() => {
     AOS.init({ once: true });
@@ -20,13 +21,15 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     <SessionProvider session={session}>
       <Layout>
         {Component.auth ? (
-          <FlightsContextProvider>
-            <TravellersContextProvider>
-              <Auth>
-                <Component {...pageProps} />
-              </Auth>
-            </TravellersContextProvider>
-          </FlightsContextProvider>
+          <FiltersContextProvider>
+            <FlightsContextProvider>
+              <TravellersContextProvider>
+                <Auth>
+                  <Component {...pageProps} />
+                </Auth>
+              </TravellersContextProvider>
+            </FlightsContextProvider>
+          </FiltersContextProvider>
         ) : (
           <Component {...pageProps} homepageDataRef={homepageDataRef} />
         )}

@@ -253,7 +253,7 @@ export default function SignUp() {
   }, [formData, files]);
 
   return (
-    <div className='block mx-auto my-20 p-6 rounded-lg shadow-lg bg-white max-w-md lg:max-w-5xl'>
+    <div className='block mx-auto pt-16 my-20 p-6 rounded-lg shadow-lg bg-white max-w-md lg:max-w-5xl'>
       {showSpinner && (
         <div className='z-50 fixed w-screen h-screen top-0 left-0 flex items-center justify-center bg-white bg-opacity-70'>
           <Spinner />

@@ -6,7 +6,7 @@ export default function Page() {
   return (
     <div className={styles.container}>
       <main className={styles.main}>
-        <div className='py-20 flex flex-col w-full justify-center items-center text-center mt-10'>
+        <div className='py-24 flex flex-col w-full justify-center items-center text-center mt-10'>
           <div className='w-full flex flex-col'>
             <p className='text-2xl lg:text-3xl font-bold text-primary-blue'>About Us</p>
             <div className='w-full flex flex-wrap max-w-screen-xl p-4 my-6'>

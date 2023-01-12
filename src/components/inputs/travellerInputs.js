@@ -58,7 +58,7 @@ const TravellerInput = ({ value, onChange, img, width, hideFlightType, max, drop
   const travellerCount = Object.values(value.travellers).reduce((sum, currVal) => sum + currVal, 0);
 
   return (
-    <div className={`${width || 'w-full lg:w-1/4'} px-2 mb-2 lg:mb-0`}>
+    <div className={`${width || 'w-full lg:w-1/4'} px-2 my-2 lg:mt-0 lg:mb-0`}>
       <div
         className='flex items-center bg-slate-100 w-full rounded p-2  relative z-0'
         onClick={(e) => (!showDropDown || e.target === wrapperRef.current) && setShowDropDown((prev) => !prev)}

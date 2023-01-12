@@ -169,7 +169,7 @@ const SearchFlights = ({ cities, submit }) => {
               })}
             />
           ))}
-          <div className='w-full lg:w-1/6  px-2  lg:mb-0'>
+          <div className='w-full lg:w-1/6  px-2 my-4 lg:mt-0 lg:mb-0'>
             <button
               onClick={handleSubmit}
               type='submit'

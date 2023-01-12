@@ -5,7 +5,7 @@ import myLoader from '../../loader';
 const TextSearchInput = ({ placeholder, value, onChange, img, width, options }) => {
   const [showOptions, setShowOptions] = useState(false);
   return (
-    <div className={`w-full ${width || 'lg:w-1/6'}  px-2`}>
+    <div className={`w-full ${width || 'lg:w-1/6'} my-2 lg:mt-0 lg:my-0 lg:mb-0 px-2`}>
       <div className={`flex bg-slate-100 w-full z-[${placeholder === 'Origin' ? 2 : 1}] relative rounded p-2`}>
         <div className={'w-6 h-6 lg:w-8 lg:h-8 block'}>
           <Image loader={myLoader} src={img} layout={'responsive'} width={32} height={32} alt={'svg'} />

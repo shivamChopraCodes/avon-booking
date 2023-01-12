@@ -148,7 +148,7 @@ export default function SearchFlight({ cities }) {
 
   return (
     <div className={styles.container}>
-      <main className={`${styles.main} justify-start pt-24 lg:pt-32 `}>
+      <main className={`${styles.main} justify-start pt-32 lg:pt-40 `}>
         <SearchFlights cities={cities} submit={fetchData} />
         <div className='w-full flex flex-col items-center justify-center  my-10'>
           {loading && !data.fetched ? (

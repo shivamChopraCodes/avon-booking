@@ -16,17 +16,19 @@ const FlightListing = ({
   type,
   logo,
   paginationref,
+  onBook,
+  onItineraryClick,
 }) => {
   return (
     <div
       {...(paginationref && { ref: paginationref })}
       className='w-full grid gap-4 lg:gap-10 overflow-hidden grid-cols-3 md:grid-cols-7 grid-rows-1 text-sm tetx-center text-center my-4 lg:my-4 shadow-lg rounded py-2 px-2 '
     >
-      <section className='flex col-span-3 md:col-span-2 justify-start md:justify-center'>
+      <section className='flex col-span-3 md:col-span-2 my-4 md:my-0 justify-start md:justify-center'>
         <div className='block rounded-lg overflow-hidden h-10 mr-2'>
           <Image
             loader={myLoader}
-            src={`data:image/jpeg;base64,${toBase64(logo.data)}`}
+            src={`data:image/jpeg;base64,${toBase64(logo?.data)}`}
             layout={'fixed'}
             width={80}
             height={40}
@@ -44,13 +46,26 @@ const FlightListing = ({
         <p className='px-2 border-t border-slate-600 pt-2 mt-2 w-max'>{type}</p>
       </section>
       <p className='text-lg font-bold'>{dateToIndian(arrivaldate)}</p>
-      <section className='col-span-3 md:col-span-2 flex md:flex-col justify-end md:items-center text-lg font-bold'>
-        <p>₹ {(+cost).toLocaleString('en-IN', { maximumSignificantDigits: 3 })}</p>
-        <Link href={`/flight-details/${idinventory}`}>
-          <button className='border mx-2 py-2 md:mx-0 bg-primary-blue rounded-md button color-transition w-36 md:my-2 text-white font-medium'>
+      <section className='col-span-3 md:col-span-2 my-4 md:my-0 flex flex-row-reverse md:flex-row text-lg font-bold justify-between md:justify-center items-center'>
+        <aside className='flex md:flex-col  justify-end items-center '>
+          <p>₹ {(+cost).toLocaleString('en-IN', { maximumSignificantDigits: 3 })}</p>
+          <button
+            onClick={onBook}
+            className='border ml-2 py-2 md:mx-0 bg-primary-blue rounded-md button color-transition w-36 md:my-2 text-white font-medium'
+          >
             Book Now
           </button>
-        </Link>
+        </aside>
+        <div className='cursor-pointer mx-4' onClick={onItineraryClick}>
+          <Image
+            loader={myLoader}
+            src={`/images/info-icon-blue.svg`}
+            layout={'fixed'}
+            width={32}
+            height={32}
+            alt={'logo'}
+          />
+        </div>
       </section>
     </div>
   );

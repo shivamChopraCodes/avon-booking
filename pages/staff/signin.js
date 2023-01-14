@@ -45,7 +45,7 @@ export default function SignIn() {
     });
   };
   return (
-    <div className='w-full flex justify-center items-center px-2'>
+    <div className='w-full flex justify-center items-center px-2 pt-8'>
       {showSpinner && (
         <div className='z-50 fixed w-screen h-screen top-0 left-0 flex items-center justify-center bg-white bg-opacity-70'>
           <Spinner />

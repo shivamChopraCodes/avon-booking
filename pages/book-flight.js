@@ -87,6 +87,7 @@ export default function BookFlight() {
       baggagedetailsp: flightData.baggage,
       sector: flightData.sector,
       inventoryid: flightData.idinventory,
+      createdat: new Date().toLocaleDateString('en-CA'),
       status: 'Pending',
     };
     try {
@@ -150,7 +151,7 @@ export default function BookFlight() {
 
   return (
     <>
-      <div className='block mx-auto mt-20 p-6 rounded-lg shadow-lg bg-white max-w-md lg:max-w-5xl'>
+      <div className='block mx-auto mt-20 p-6 pt-20 rounded-lg shadow-lg bg-white max-w-md lg:max-w-5xl'>
         {showSpinner && (
           <div className='z-50 fixed w-screen h-screen top-0 left-0 flex items-center justify-center bg-white bg-opacity-70'>
             <Spinner />

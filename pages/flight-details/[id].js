@@ -110,7 +110,7 @@ export default function FlightPage({ flightDetails, logo }) {
                   <li className='mb-10 ml-4'>
                     <div className='absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700'></div>
                     <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
-                      Travel Duration: {flightDetails.departuretotransfertime}h
+                      Travel Duration: {flightDetails.departuretotransferduration}h
                     </p>
                   </li>
                   <li className='mb-10 ml-4'>
@@ -131,7 +131,7 @@ export default function FlightPage({ flightDetails, logo }) {
                 <div className='absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700'></div>
                 <p className='text-base font-normal text-gray-500 dark:text-gray-400'>
                   Travel Duration:{' '}
-                  {+flightDetails.layover ? flightDetails.departuretotransfertime : flightDetails.flightduration}h
+                  {+flightDetails.layover ? flightDetails.transfertoarrivalduration : flightDetails.flightduration}h
                 </p>
               </li>
               <li className='ml-4'>

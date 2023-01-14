@@ -1,8 +1,11 @@
+import { useRouter } from 'next/router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import FlightListing from '../src/components/FlightListing';
 import SearchFlights from '../src/components/inputs/searchFlights';
+import ItineraryModal from '../src/components/itineraryModal';
 import Spinner from '../src/components/spinner';
 import { useFiltersContext } from '../src/context/filtersContext';
+import { useFlightsContext } from '../src/context/flightContext';
 import styles from '../styles/Home.module.css';
 
 export async function getServerSideProps() {
@@ -81,7 +84,10 @@ export default function SearchFlight({ cities }) {
     startDate: '',
     endDate: '',
   });
+  const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
   const [filters, setFilters] = useFiltersContext();
+  const [flightData, setFlightData] = useFlightsContext();
   const callDataRef = useRef();
   const fetchData = async (callData, skip) => {
     if (!skip) callDataRef.current = { ...callData };
@@ -108,14 +114,16 @@ export default function SearchFlight({ cities }) {
       startDate: showDates[0],
       endDate: showDates[1],
     });
-    const newFlights = [...(data?.flights || []), ...tempData.flights];
-    setData({ ...tempData, flights: [...newFlights], fetched: true });
+    const newFlights = [...(!skip ? [] : data?.flights || []), ...tempData.flights];
+    const newLogos = { ...(!skip ? {} : data?.logos || {}), ...tempData.logos };
+    setData({ ...tempData, flights: [...newFlights], fetched: true, logos: newLogos });
     setFilters((prev) => ({
       ...prev,
       data: {
         totalCount: tempData.totalCount,
         flights: [...newFlights],
         fetched: true,
+        logos: newLogos,
       },
     }));
   };
@@ -185,6 +193,15 @@ export default function SearchFlight({ cities }) {
                       key={flight.idinventory}
                       {...flight}
                       {...(data.flights.length === i + 1 ? { paginationref: lastBookElementRef } : {})}
+                      onBook={() => {
+                        setFlightData({ ...flight, logo: data.logos[flight.flightcompany] });
+                        router.push('/book-flight');
+                      }}
+                      onItineraryClick={() => {
+                        setShowModal(true);
+                        setFlightData({ ...flight, logo: data.logos[flight.flightcompany] });
+                      }}
+                      logo={data.logos[flight.flightcompany]}
                     />
                   ))}
                   {loading && <Spinner />}
@@ -198,6 +215,17 @@ export default function SearchFlight({ cities }) {
           )}
         </div>
       </main>
+      {showModal && (
+        <ItineraryModal
+          onBook={() => {
+            router.push('/book-flight');
+          }}
+          onClose={() => {
+            setShowModal(false);
+            setFlightData(null);
+          }}
+        />
+      )}
     </div>
   );
 }

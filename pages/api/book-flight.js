@@ -58,7 +58,7 @@ export default function bookflight(req, res) {
             ...(fields.idstaff && { idstaff: +fields.idstaff }),
           },
         });
-        return res.status(200).json({});
+        return res.status(200).json({ message: 'Booking Successful' });
       } catch (e) {
         console.log(e);
         res.status(401);

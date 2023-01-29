@@ -85,6 +85,8 @@ export default function BookFlight() {
       agencyemail: userData.user.email,
       agencyphone: userData.user.agentPhone,
       baggagedetailsp: flightData.baggage,
+      arrivalterminal: flightData.arrivalterminal,
+      departureterminal: flightData.departureterminal,
       sector: flightData.sector,
       inventoryid: flightData.idinventory,
       createdat: new Date().toLocaleDateString('en-CA'),

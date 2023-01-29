@@ -22,60 +22,62 @@ model airpot {
 }
 
 model booknow {
-  idbooknow         Int        @id @default(autoincrement())
-  pnr               String?    @db.VarChar(45)
-  cabinp            String?    @db.VarChar(45)
-  refnummberp       String?    @db.VarChar(45)
-  lastnamep         String?    @db.VarChar(45)
-  genderp           String?    @db.VarChar(45)
-  typep             String?    @db.VarChar(45)
-  emailp            String?    @db.VarChar(45)
-  dobp              String?    @db.VarChar(45)
-  mobilep           String?    @db.VarChar(45)
-  baggagedetailsp   String?    @db.VarChar(45)
-  farerulesp        String?    @db.VarChar(250)
-  passportnop       String?    @db.VarChar(45)
-  passportexpiryp   String?    @db.VarChar(45)
+  idbooknow         Int       @id @default(autoincrement())
+  pnr               String?   @db.VarChar(45)
+  cabinp            String?   @db.VarChar(45)
+  refnummberp       String?   @db.VarChar(45)
+  lastnamep         String?   @db.VarChar(45)
+  genderp           String?   @db.VarChar(45)
+  typep             String?   @db.VarChar(45)
+  emailp            String?   @db.VarChar(45)
+  dobp              String?   @db.VarChar(45)
+  mobilep           String?   @db.VarChar(45)
+  baggagedetailsp   String?   @db.VarChar(45)
+  farerulesp        String?   @db.VarChar(250)
+  passportnop       String?   @db.VarChar(45)
+  passportexpiryp   String?   @db.VarChar(45)
   passportpicfrontp Bytes?
   passportpicbackp  Bytes?
-  agencyname        String?    @db.VarChar(45)
-  agencyaddress     String?    @db.VarChar(45)
-  agencyemail       String?    @db.VarChar(45)
-  agencyphone       String?    @db.VarChar(45)
-  dateoftravel      String?    @db.VarChar(45)
-  airline           String?    @db.VarChar(45)
-  flightnumber      String?    @db.VarChar(45)
-  aircraft          String?    @db.VarChar(45)
-  departureterminal String?    @db.VarChar(45)
-  arrivalterminal   String?    @db.VarChar(45)
-  departure         String?    @db.VarChar(45)
-  arrival           String?    @db.VarChar(45)
-  duration          String?    @db.VarChar(45)
+  agencyname        String?   @db.VarChar(45)
+  agencyaddress     String?   @db.VarChar(45)
+  agencyemail       String?   @db.VarChar(45)
+  agencyphone       String?   @db.VarChar(45)
+  dateoftravel      String?   @db.VarChar(45)
+  airline           String?   @db.VarChar(45)
+  flightnumber      String?   @db.VarChar(45)
+  aircraft          String?   @db.VarChar(45)
+  departureterminal String?   @db.VarChar(45)
+  arrivalterminal   String?   @db.VarChar(45)
+  departure         String?   @db.VarChar(45)
+  arrival           String?   @db.VarChar(45)
+  duration          String?   @db.VarChar(45)
   basicfare         Int?
   tax               Int?
   totalfare         Int?
   discount          Int?
   discountcoupon    Int?
   netfare           Int?
-  hiddenshow        String?    @db.VarChar(45)
-  status            String?    @db.VarChar(45)
-  ssravml           String?    @db.VarChar(45)
-  ssrhnml           String?    @db.VarChar(45)
-  ssrvgml           String?    @db.VarChar(45)
-  ssrwchr           String?    @db.VarChar(45)
+  hiddenshow        String?   @db.VarChar(45)
+  status            String?   @db.VarChar(45)
+  ssravml           String?   @db.VarChar(45)
+  ssrhnml           String?   @db.VarChar(45)
+  ssrvgml           String?   @db.VarChar(45)
+  ssrwchr           String?   @db.VarChar(45)
   inventoryid       Int
-  firstnamep        String?    @db.VarChar(45)
-  title             String?    @db.VarChar(45)
+  firstnamep        String?   @db.VarChar(45)
+  title             String?   @db.VarChar(45)
   pancard           Bytes?
   visa              Bytes?
-  passportplace     String?    @db.VarChar(45)
-  sector            String?    @db.VarChar(45)
-  nationality       String?    @db.VarChar(45)
+  passportplace     String?   @db.VarChar(45)
+  sector            String?   @db.VarChar(45)
+  nationality       String?   @db.VarChar(45)
   idagent           Int?
   idstaff           Int?
-  createdat         String?    @db.VarChar(45)
-  updatedat         String?    @db.VarChar(45)
-  inventory         inventory? @relation(fields: [inventoryid], references: [idinventory])
+  createdat         String?   @db.VarChar(45)
+  updatedat         String?   @db.VarChar(45)
+  inventory         inventory @relation(fields: [inventoryid], references: [idinventory], onDelete: NoAction)
+
+  @@index([inventoryid], map: "booknow_inventoryid_fkey")
 }
 
 model city {
@@ -140,6 +142,8 @@ model inventory {
   hiddenshow                  String?   @db.VarChar(45)
   referencenumber             String?   @db.VarChar(45)
   aircraft                    String?   @db.VarChar(45)
+  arrivalterminal             String?   @db.VarChar(45)
+  departureterminal           String?   @db.VarChar(45)
   booknow                     booknow[]
 }
 
@@ -216,7 +220,6 @@ model weeklyspecial {
   trip            String? @db.VarChar(45)
   hiddenshow      String? @db.VarChar(45)
 }
-
 
 model enquiry {
   id        Int     @id @default(autoincrement())

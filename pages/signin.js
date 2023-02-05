@@ -120,7 +120,7 @@ export default function SignIn() {
               Remember me
             </label>
           </div> */}
-          <div className='flex items-center'>
+          <div className='flex flex-col justify-center items-start'>
             <button
               onClick={handleLogin}
               className='
@@ -136,15 +136,21 @@ export default function SignIn() {
             >
               Sign In
             </button>
-            <p className='text-gray-800 text-center ml-4'>
-              Not a member?{' '}
-              <a
-                href={'/signup'}
-                className='cursor-pointer text-blue-600 hover:text-blue-700 focus:text-blue-700 transition duration-200 ease-in-out'
-              >
-                Register
-              </a>
-            </p>
+            <div className='flex mt-4'>
+              <p className='text-gray-800 text-center mr-4'>
+                Not a member?{' '}
+                <Link href={'/signup'}>
+                  <span className='cursor-pointer text-blue-600 hover:text-blue-700 focus:text-blue-700 transition duration-200 ease-in-out'>
+                    Register
+                  </span>
+                </Link>
+              </p>
+              <Link href={'/forgot-password'}>
+                <span className='cursor-pointer text-blue-600 hover:text-blue-700 focus:text-blue-700 transition duration-200 ease-in-out'>
+                  Forgot Password?
+                </span>
+              </Link>
+            </div>
           </div>
         </form>
       </div>

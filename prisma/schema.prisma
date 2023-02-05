@@ -163,7 +163,7 @@ model signupagent {
   designation         String @db.VarChar(45)
   pangirnumber        Bytes
   adharcardnopassport Bytes
-  gstnumber           Bytes
+  gstnumber           Bytes?
   visitingcard        Bytes
   tannumber           Bytes
   password            String @db.VarChar(1024)
@@ -228,4 +228,11 @@ model enquiry {
   phone     String? @db.VarChar(45)
   message   String  @db.VarChar(350)
   createdat String  @db.VarChar(45)
+}
+
+model otp {
+  id        Int     @id @default(autoincrement())
+  token     String  @db.VarChar(45)
+  email     String  @unique @db.VarChar(45)
+  expiry    String  @db.VarChar(45)
 }

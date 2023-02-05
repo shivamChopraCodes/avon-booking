@@ -165,6 +165,7 @@ export default function SignUp() {
     '1 special character': false,
   });
   const [showPasswordTooltip, setShowPasswordTooltip] = useState(false);
+  const [progress, setProgress] = useState('form');
   const checkGoodPassword = (password) => {
     let temp = {};
     temp['minimum 8 length'] = password.length >= 8;
@@ -187,7 +188,38 @@ export default function SignUp() {
       </p>
     ));
   };
+  const requestOtp = async (e) => {
+    e.preventDefault();
+    if (!formData.email) return;
+    try {
+      setshowSpinner(true);
 
+      const res = await fetch(`/api/generate-otp`, {
+        method: 'POST',
+        body: JSON.stringify({
+          email: formData.email,
+          signup: true,
+          userName: formData.userName,
+        }),
+      });
+      const response = await res.json();
+      if (response.error) {
+        toast.error(response.error, {
+          position: 'top-center',
+          autoClose: 3000,
+        });
+      } else {
+        toast.success(response.message, {
+          position: 'top-center',
+          autoClose: 3000,
+        });
+        setProgress('otp');
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    setshowSpinner(false);
+  };
   const submit = async (e) => {
     e.preventDefault();
     setshowSpinner(true);
@@ -260,56 +292,58 @@ export default function SignUp() {
         </div>
       )}
       <p className='font-bold text-2xl mb-6'>Sign Up</p>
-      <form className='flex flex-col lg:flex-row lg:flex-wrap lg:gap-x-4 gap-4'>
-        {data.map((item) => (
-          <div className='relative my-4 w-full lg:w-[49%]' key={item.key}>
-            <input
-              type={item.type}
-              id={`floating_${item.key}`}
-              onChange={(e) => {
-                if (item.type === 'file') {
-                  if (!fileSizeOneMb(e.target.files[0])) {
-                    toast.warn(`${item.label} file size should not be more than 1 MB`, {
-                      position: 'top-center',
-                      autoClose: 3000,
-                    });
-                    return;
+      {progress === 'form' && (
+        <form className='flex flex-col lg:flex-row lg:flex-wrap lg:gap-x-4 gap-4'>
+          {data.map((item) => (
+            <div className='relative my-4 w-full lg:w-[49%]' key={item.key}>
+              <input
+                type={item.type}
+                id={`floating_${item.key}`}
+                value={formData[item.key]}
+                onChange={(e) => {
+                  if (item.type === 'file') {
+                    if (!fileSizeOneMb(e.target.files[0])) {
+                      toast.warn(`${item.label} file size should not be more than 1 MB`, {
+                        position: 'top-center',
+                        autoClose: 3000,
+                      });
+                      return;
+                    }
+                    setFiles((prev) => ({
+                      ...prev,
+                      [item.key]: e.target.files[0],
+                    }));
+                  } else {
+                    setFormData((prev) => ({
+                      ...prev,
+                      [item.key]: e.target.value.trim(),
+                    }));
+                    item.key === 'password' && checkGoodPassword(e.target.value.trim());
                   }
-                  setFiles((prev) => ({
-                    ...prev,
-                    [item.key]: e.target.files[0],
-                  }));
-                } else {
-                  setFormData((prev) => ({
-                    ...prev,
-                    [item.key]: e.target.value.trim(),
-                  }));
-                  item.key === 'password' && checkGoodPassword(e.target.value.trim());
-                }
-              }}
-              className='block px-2.5 pb-2.5 pt-8 w-full h-full text-sm rounded-lg border border-gray-900 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'
-              placeholder=' '
-              required
-              onFocus={() => item.key === 'password' && setShowPasswordTooltip(true)}
-              onBlur={() => item.key === 'password' && setShowPasswordTooltip(false)}
-            />
-            <label
-              htmlFor={`floating_${item.key}`}
-              className='absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-1 scale-75 top-2 z-10 origin-[0] bg-transparent px-2 peer-focus:px- peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-2 left-1'
-            >
-              {item.label}
-              {item.mandatory ? <span className='text-red-500'>*</span> : null}
-            </label>
-            {warnings[item.key] && (
-              <p className='absolute text-red-500 text-xs md:text-sm top-full'>{warnings[item.key]}</p>
-            )}
-            {item.key === 'password' && showPasswordTooltip && <InputToolTip data={populatePasswordWarnings()} />}
-          </div>
-        ))}
-        <div className='flex items-center w-full'>
-          <button
-            onClick={(e) => btnEnabled && submit(e)}
-            className={` ${btnEnabled ? 'button' : 'bg-gray-400'}
+                }}
+                className='block px-2.5 pb-2.5 pt-8 w-full h-full text-sm rounded-lg border border-gray-900 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+                placeholder=' '
+                required
+                onFocus={() => item.key === 'password' && setShowPasswordTooltip(true)}
+                onBlur={() => item.key === 'password' && setShowPasswordTooltip(false)}
+              />
+              <label
+                htmlFor={`floating_${item.key}`}
+                className='absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-1 scale-75 top-2 z-10 origin-[0] bg-transparent px-2 peer-focus:px- peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-2 left-1'
+              >
+                {item.label}
+                {item.mandatory ? <span className='text-red-500'>*</span> : null}
+              </label>
+              {warnings[item.key] && (
+                <p className='absolute text-red-500 text-xs md:text-sm top-full'>{warnings[item.key]}</p>
+              )}
+              {item.key === 'password' && showPasswordTooltip && <InputToolTip data={populatePasswordWarnings()} />}
+            </div>
+          ))}
+          <div className='flex items-center w-full'>
+            <button
+              onClick={(e) => btnEnabled && requestOtp(e)}
+              className={` ${btnEnabled ? 'button' : 'bg-gray-400'}
       px-8
       py-4
  color-transition  
@@ -319,20 +353,67 @@ export default function SignUp() {
       uppercase
       rounded
       shadow-md`}
-          >
-            Sign Up
-          </button>
-          <p className='text-gray-800 text-center ml-4'>
-            Registered member?{' '}
-            <a
-              href={'/signin'}
-              className='cursor-pointer text-blue-600 hover:text-blue-700 focus:text-blue-700 transition duration-200 ease-in-out'
             >
-              Sign In
-            </a>
-          </p>
+              Proceed
+            </button>
+            <p className='text-gray-800 text-center ml-4'>
+              Registered member?{' '}
+              <a
+                href={'/signin'}
+                className='cursor-pointer text-blue-600 hover:text-blue-700 focus:text-blue-700 transition duration-200 ease-in-out'
+              >
+                Sign In
+              </a>
+            </p>
+          </div>
+        </form>
+      )}
+      {progress === 'otp' && (
+        <div className='flex flex-col'>
+          <p>An OTP is sent to your email address: {formData.email}</p>
+          <div className='relative my-4 w-full lg:w-[49%]'>
+            <input
+              type={'text'}
+              id={`floating_otp`}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  token: e.target.value.replace(/\D/g, '').slice(0, 6),
+                }))
+              }
+              className='block px-2.5 pb-2.5 pt-8 w-full h-full text-sm rounded-lg border border-gray-900 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer'
+              placeholder=' '
+              required
+            />
+            <label
+              htmlFor={`floating_otp`}
+              className='absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-1 scale-75 top-2 z-10 origin-[0] bg-transparent px-2 peer-focus:px- peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-2 left-1'
+            >
+              OTP <span className='text-red-500'>*</span>
+            </label>
+          </div>
+          <div className='flex items-center w-full'>
+            <button
+              onClick={(e) => formData.token && submit(e)}
+              className={` ${formData.token ? 'button' : 'bg-gray-400'}
+      px-8
+      py-4
+ color-transition  
+      font-medium
+      text-xs text-white 
+      leading-tight
+      uppercase
+      rounded
+      shadow-md`}
+            >
+              Sign Up
+            </button>
+            <p onClick={() => setProgress('form')} className='text-primary-blue cursor-pointer text-center ml-4'>
+              Cancel
+            </p>
+          </div>
         </div>
-      </form>
+      )}
     </div>
   );
 }

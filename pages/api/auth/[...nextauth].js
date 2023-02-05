@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 
 const bcrypt = require('bcryptjs');
 
-const confirmPasswordHash = async (plainPassword, hashedPassword) => {
+export const confirmPasswordHash = async (plainPassword, hashedPassword) => {
   return await bcrypt.compareSync(plainPassword, hashedPassword);
 };
 

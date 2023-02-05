@@ -35,6 +35,22 @@ export default function register(req, res) {
     const form = new formidable.IncomingForm();
     form.parse(req, async function (err, fields, files) {
       console.log(fields, files, Object.keys(files));
+      try {
+        const tokenValid = await prisma.otp.findFirst({
+          where: {
+            email: fields.email,
+            token: fields.token,
+          },
+          select: {
+            expiry: true,
+          },
+        });
+        if (!tokenValid) return res.status(401).json({ error: `Invalid OTP.` });
+        const isTokenExpired = new Date().getTime > +tokenValid.expiry;
+        if (isTokenExpired) return res.status(401).json({ error: `OTP has expired.` });
+      } catch (err) {
+        return res.status(405).json({ message: 'Unable to verify OTP', success: false });
+      }
       const filesArray = await Promise.all([
         ...Object.entries(files).map(async ([key, value]) => {
           return {
@@ -63,7 +79,7 @@ export default function register(req, res) {
             designation: fields.designation,
             pangirnumber: filesConverted.pan_gir_number,
             adharcardnopassport: filesConverted.aadhar_passport,
-            gstnumber: filesConverted.gst_number,
+            ...(filesConverted.gst_number && { gstnumber: filesConverted.gst_number }),
             visitingcard: filesConverted.visitingCard,
             tannumber: filesConverted.tanNumber,
             password: bcrypt.hashSync(fields.password, 10),
@@ -72,6 +88,11 @@ export default function register(req, res) {
             adminid: '2',
             datetime: new Date().toISOString().split('T')[0],
             adminstaffagent: 'Agent',
+          },
+        });
+        await prisma.otp.delete({
+          where: {
+            email: fields.email,
           },
         });
         return res.status(200).json({});

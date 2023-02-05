@@ -1,8 +1,8 @@
 import * as AWS from 'aws-sdk';
 import * as nodemailer from 'nodemailer';
 AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  accessKeyId: process.env.emailAccessKey,
+  secretAccessKey: process.env.emailSecretKey,
   region: 'ap-south-1',
 });
 AWS.config.getCredentials(function (error) {

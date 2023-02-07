@@ -124,7 +124,7 @@ const SearchFlights = ({ cities, submit }) => {
   return (
     <div className='w-full bg-slate-400 bg-opacity-50 py-6' data-aos='fade-up' data-aos-anchor-placement='top-bottom'>
       <div className='w-full max-w-screen-xl flex flex-col items-center mx-auto'>
-        <div className='flex items-center self-start ml-2 lg:ml-0 '>
+        {/* <div className='flex items-center self-start ml-2 lg:ml-0 '>
           {radios.map((btn) => (
             <CheckRadioButton
               key={btn}
@@ -136,7 +136,7 @@ const SearchFlights = ({ cities, submit }) => {
               wrapperClasses={'mx-3'}
             />
           ))}
-        </div>
+        </div> */}
         <div className='flex flex-col xl:flex-row lg:flex-wrap w-11/12 lg:w-full rounded bg-white p-2 my-4 mx-2'>
           {inputsData[selectedRadio].map((input) => (
             <input.input

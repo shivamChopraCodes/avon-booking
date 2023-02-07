@@ -217,7 +217,7 @@ export default function SignIn() {
         m-0
         focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
                   id='InputOTP1'
-                  placeholder='Enter Username'
+                  placeholder='Enter OTP'
                 />
               </div>
               <div className='form-group mb-6 relative z-0'>

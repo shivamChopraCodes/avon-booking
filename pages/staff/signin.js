@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { useEffect, useState } from 'react';
+import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Spinner from '../../src/components/spinner';
 import { toast } from 'react-toastify';
@@ -13,6 +13,19 @@ export default function SignIn() {
   });
   const [showSpinner, setshowSpinner] = useState(false);
   const router = useRouter();
+  const { data: userData, status: userStatus } = useSession();
+
+  useEffect(() => {
+    if (userData?.user) {
+      router.push('/search-flights');
+      setshowSpinner(true);
+    }
+    console.log({ userData });
+    return () => {
+      showSpinner && setshowSpinner(false);
+    };
+  }, [userData]);
+
   const handleLogin = async (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -38,10 +51,10 @@ export default function SignIn() {
             autoClose: 5000,
           });
         }
+        setshowSpinner(false);
       } else {
         router.push('/search-flights');
       }
-      setshowSpinner(false);
     });
   };
   return (

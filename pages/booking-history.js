@@ -98,7 +98,7 @@ export default function BookingHistory({ id, bookings }) {
       const json = await res.json();
       console.log({ json });
       if (json.error) {
-        toast.error(response.error, {
+        toast.error(json.error, {
           position: 'top-center',
           autoClose: 3000,
         });

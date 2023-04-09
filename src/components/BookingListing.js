@@ -45,6 +45,7 @@ const BookingListing = ({
   logo,
   paginationref,
   cancelFlight,
+  downloadTicket,
 }) => {
   const [showCancelModal, setShowCancelModal] = useState(false);
   return (
@@ -160,10 +161,29 @@ const BookingListing = ({
           )}
           {status?.toLowerCase() !== 'pending' ? (
             updatedat && (
-              <div className='w-full flex items-center justify-between text-base lg:text-lg'>
-                <span className='text-slate-400 '> {status} Date</span>
-                <span>{dateToIndian(updatedat)}</span>
-              </div>
+              <>
+                <div className='w-full flex items-center justify-between text-base lg:text-lg'>
+                  <span className='text-slate-400 '> {status} Date</span>
+                  <span>{dateToIndian(updatedat)}</span>
+                </div>
+                <div className='w-full flex items-center justify-end text-base lg:text-lg relative'>
+                  {status?.toLowerCase() === 'approved' && (
+                    <button
+                      onClick={() => downloadTicket(idbooknow, `${title} ${firstnamep} ${lastnamep}`)}
+                      className='my-2 flex items-center relative z-0 px-2 py-1 text-center rounded focus:ring-1 border-2 border-primary-blue text-primary-blue '
+                    >
+                      <span className='mr-2'>Download Ticket </span>
+                      <Image
+                        loader={myLoader}
+                        alt='download'
+                        src={'/images/download-blue.svg'}
+                        height={18}
+                        width={18}
+                      />
+                    </button>
+                  )}
+                </div>
+              </>
             )
           ) : (
             <div className='w-full flex items-center justify-end text-base lg:text-lg relative'>

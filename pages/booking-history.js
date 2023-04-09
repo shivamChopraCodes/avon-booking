@@ -7,6 +7,7 @@ import SearchFlights from '../src/components/inputs/searchFlights';
 import Spinner from '../src/components/spinner';
 import styles from '../styles/Home.module.css';
 import { authOptions } from './api/auth/[...nextauth]';
+import { serverbase64 } from '../src/binaryConverter';
 
 export async function getServerSideProps({ req, res }) {
   // Fetch data from external API
@@ -33,6 +34,7 @@ export default function BookingHistory({ id, bookings }) {
     totalCount: bookings.totalCount || 0,
     fetched: true,
   });
+  const [isDownloading, setIsDownloading] = useState(false);
   const [logos, setLogos] = useState({ ...bookings.logos });
   const [loading, setLoading] = useState(false);
   console.log(bookings, id);
@@ -83,6 +85,45 @@ export default function BookingHistory({ id, bookings }) {
     }
   };
 
+  const downloadTicket = async (id, fileName) => {
+    try {
+      setIsDownloading(true);
+      const res = await fetch(`/api/ticket/${id}`, {
+        method: 'GET',
+        responseType: 'arraybuffer',
+        headers: {
+          Accept: 'application/pdf',
+        },
+      });
+      const json = await res.json();
+      console.log({ json });
+      if (json.error) {
+        toast.error(response.error, {
+          position: 'top-center',
+          autoClose: 3000,
+        });
+      } else {
+        // const response = json.pdf;
+        // const blob = new Blob(response.data, { type: 'application/pdf' });
+        // const link = document.createElement('a');
+        // link.href = window.URL.createObjectURL(blob);
+        // link.download = `${fileName || 'ticket'}`;
+        const linkSource = `data:application/pdf;base64,${serverbase64(json.pdf.data)}`;
+        const downloadLink = document.createElement('a');
+        downloadLink.href = linkSource;
+        downloadLink.download = `${fileName || 'ticket'}`;
+        downloadLink.click();
+      }
+    } catch (e) {
+      console.log(e);
+      toast.error(e?.response?.error || 'Unable to download. Please try again later.', {
+        position: 'top-center',
+        autoClose: 3000,
+      });
+    }
+    setIsDownloading(false);
+  };
+
   const observer = useRef(); // (*)
   const lastBookElementRef = useCallback(
     // (*)
@@ -102,6 +143,11 @@ export default function BookingHistory({ id, bookings }) {
   return (
     <div className={styles.container}>
       <main className={`${styles.main} justify-start pt-24 lg:pt-28 `}>
+        {isDownloading && (
+          <div className='w-full h-full fixed top-0 left-0 z-10 flex justify-center items-center bg-slate-400 bg-opacity-50'>
+            <Spinner />
+          </div>
+        )}
         <div className='w-full flex justify-center  my-10'>
           {loading && !data.fetched ? (
             <Spinner />
@@ -121,6 +167,7 @@ export default function BookingHistory({ id, bookings }) {
                     logo={logos[flight.inventory.flightcompany]}
                     {...(data.flightBooked.length === i + 1 ? { paginationref: lastBookElementRef } : {})}
                     cancelFlight={cancelFlight}
+                    downloadTicket={downloadTicket}
                   />
                 ))}
                 {loading && <Spinner />}
@@ -129,7 +176,7 @@ export default function BookingHistory({ id, bookings }) {
               <p className='text-center'>No Data Found.</p>
             )
           ) : (
-            <p className='text-center'>Search Flights Hernowowwowoe.</p>
+            <p className='text-center'>Search Flights Here.</p>
           )}
         </div>
       </main>

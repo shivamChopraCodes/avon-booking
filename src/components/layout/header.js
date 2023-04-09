@@ -54,7 +54,7 @@ const Header = () => {
               <a
                 onMouseEnter={() => setHoverImg(social.hoverImg)}
                 onMouseLeave={() => setHoverImg('')}
-                className={i == 1 && 'mx-4'}
+                className={i == 1 ? 'mx-4' : ''}
                 href={social.link}
                 rel={'noreferrer'}
                 target={'_blank'}

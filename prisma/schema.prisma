@@ -9,8 +9,8 @@ datasource db {
 
 model admin {
   idadmin         Int    @id @default(autoincrement())
-  adminname       String @db.VarChar(45)
-  adminpassword   String @db.VarChar(45)
+  adminname       String @db.VarChar(200)
+  adminpassword   String @db.VarChar(256)
   adminstaffagent String @db.VarChar(45)
 }
 
@@ -231,8 +231,8 @@ model enquiry {
 }
 
 model otp {
-  id        Int     @id @default(autoincrement())
-  token     String  @db.VarChar(45)
-  email     String  @unique @db.VarChar(45)
-  expiry    String  @db.VarChar(45)
+  id     Int    @id @default(autoincrement())
+  token  String @db.VarChar(45)
+  email  String @unique @db.VarChar(45)
+  expiry String @db.VarChar(45)
 }
